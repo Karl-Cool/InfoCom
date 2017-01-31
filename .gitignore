@@ -8,7 +8,7 @@
 *.sln.docstates
 
 # User-specific files (MonoDevelop/Xamarin Studio)
-*.userprefs
+*.userprefsD
 
 # Build results
 [Dd]ebug/
@@ -238,4 +238,3 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-/DataAccess
