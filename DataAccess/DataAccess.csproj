@@ -70,6 +70,7 @@
     <Compile Include="Mappings\MeetingMap.cs" />
     <Compile Include="Mappings\UserMap.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\Invitation.cs" />
     <Compile Include="Models\Meeting.cs" />
