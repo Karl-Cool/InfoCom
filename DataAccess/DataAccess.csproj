@@ -67,8 +67,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Comment.cs" />
-    <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\File.cs" />
+    <Compile Include="Models\Invitation.cs" />
+    <Compile Include="Models\Meeting.cs" />
+    <Compile Include="Models\Time.cs" />
+    <Compile Include="Models\TimeChoice.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
