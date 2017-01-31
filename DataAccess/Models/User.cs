@@ -13,6 +13,11 @@ namespace DataAccess.Models
         public virtual string Email { get; set; }
         public virtual string Name { get; set; }
         public virtual string Password { get; set; }
+        public virtual ISet<Meeting> Meetings { get; set; }
 
+        public User()
+        {
+            Meetings = new HashSet<Meeting>();
+        }
     }
 }

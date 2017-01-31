@@ -67,6 +67,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mappings\MeetingMap.cs" />
+    <Compile Include="Mappings\UserMap.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\Invitation.cs" />
@@ -76,9 +78,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Mappings\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Database\InfoCom.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
