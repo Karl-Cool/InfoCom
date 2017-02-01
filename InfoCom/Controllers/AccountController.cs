@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Web.Mvc;
 using NHibernate.Linq;
 using InfoCom.ViewModels;
+using System.Web;
 
 namespace InfoCom.Controllers
 {
@@ -54,9 +55,13 @@ namespace InfoCom.Controllers
                                     .Select(x => x.Id)
                                     .Single()
                                     .ToString()),
-                            new Claim(ClaimTypes.Name, model.Username),
-                            new Claim(ClaimTypes.Authentication, "Admin")
+                            new Claim(ClaimTypes.Name, model.Username)
                         }, "InfoComCookie");
+
+                        if(model.Username == "Admin")
+                        {
+                            identity.AddClaim(new Claim(ClaimTypes.Authentication, "Admin"));
+                        }
 
                         var authManager = Request.GetOwinContext().Authentication;
                         authManager.SignIn(identity);
