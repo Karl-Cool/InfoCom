@@ -23,32 +23,30 @@ namespace InfoCom.Controllers
         [HttpPost]
         public ActionResult Login(LoginViewModel model)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
+                return View(model);
+            }
+
+            using (var session = DbConnect.SessionFactory.OpenSession())
+            {
+                var usernameCheck = session.Query<User>().FirstOrDefault(x => x.Username == model.Username);
+                if (usernameCheck == null)
                 {
+                    TempData["Message"] = "Invalid username or password";
+                    TempData["Type"] = "alert-danger";
                     return View(model);
                 }
+                var passwordCheck =
+                    session.Query<User>()
+                        .Where(x => x.Username.Equals(model.Username))
+                        .Select(x => x.Password)
+                        .Single();
 
-                using (var session = DbConnect.SessionFactory.OpenSession())
+                if (BCrypt.Net.BCrypt.Verify(model.Password, passwordCheck))
                 {
-                    var usernameCheck = session.Query<User>().FirstOrDefault(x => x.Username == model.Username);
-                    if (usernameCheck == null)
+                    var identity = new ClaimsIdentity(new[]
                     {
-                        TempData["Message"] = "Invalid username or password";
-                        TempData["Type"] = "alert-danger";
-                        return View(model);
-                    }
-                    var passwordCheck =
-                        session.Query<User>()
-                            .Where(x => x.Username.Equals(model.Username))
-                            .Select(x => x.Password)
-                            .Single();
-
-                    if (BCrypt.Net.BCrypt.Verify(model.Password, passwordCheck))
-                    {
-                        var identity = new ClaimsIdentity(new[]
-                        {
                             new Claim(ClaimTypes.NameIdentifier,
                                 session.Query<User>()
                                     .Where(x => x.Username.Equals(model.Username))
@@ -58,22 +56,16 @@ namespace InfoCom.Controllers
                             new Claim(ClaimTypes.Name, model.Username)
                         }, "InfoComCookie");
 
-                        if(model.Username == "Admin")
-                        {
-                            identity.AddClaim(new Claim(ClaimTypes.Authentication, "Admin"));
-                        }
-
-                        var authManager = Request.GetOwinContext().Authentication;
-                        authManager.SignIn(identity);
-
-                        return RedirectToAction("Index", "Home");
+                    if (model.Username == "Admin")
+                    {
+                        identity.AddClaim(new Claim(ClaimTypes.Authentication, "Admin"));
                     }
+
+                    var authManager = Request.GetOwinContext().Authentication;
+                    authManager.SignIn(identity);
+
+                    return RedirectToAction("Index", "Home");
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return RedirectToAction("Index", "Error");
             }
 
             TempData["Message"] = "Invalid username or password";

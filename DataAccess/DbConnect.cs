@@ -25,7 +25,7 @@ namespace DataAccess
         {
             return Fluently.Configure()
                 .Database(MsSqlConfiguration.MsSql2012
-                .ConnectionString("data source=(LocalDB)\\MSSQLLocalDB;attachdbfilename=|DataDirectory|\\InfoCom .mdf;integrated security=True"))
+                .ConnectionString("data source=(LocalDB)\\MSSQLLocalDB;attachdbfilename=|DataDirectory|\\InfoCom.mdf;integrated security=True"))
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<UserMap>())
                 .BuildSessionFactory();
         }
