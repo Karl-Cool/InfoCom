@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using DataAccess;
 using DataAccess.Models;
 using DataAccess.Repositories;
+using InfoCom.ViewModels;
 using NHibernate.Linq;
 
 namespace InfoCom.Controllers
@@ -17,7 +18,7 @@ namespace InfoCom.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(User model)
+        public ActionResult Register(UserViewModel model)
         {
             if (ModelState.IsValid)
             {
