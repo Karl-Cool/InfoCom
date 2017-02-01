@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Models
 {
-    class TimeChoice
+   public class TimeChoice
     {
         public virtual int Id { get; set; }
         public virtual User User { get; set; }
-        public virtual Time Date { get; set; }
+        public virtual Time Time { get; set; }
 
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Models
 {
-    class Invitation
+    public class Invitation
     {
         public virtual int Id { get; set; }
         public virtual User User { get; set; }

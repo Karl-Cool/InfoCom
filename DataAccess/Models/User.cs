@@ -14,10 +14,14 @@ namespace DataAccess.Models
         public virtual string Name { get; set; }
         public virtual string Password { get; set; }
         public virtual ISet<Meeting> Meetings { get; set; }
+        public virtual ISet<Invitation> Invitations { get; set; }
+        public virtual ISet<TimeChoice> TimeChoices { get; set; }
 
         public User()
         {
             Meetings = new HashSet<Meeting>();
+            Invitations = new HashSet<Invitation>();
+            TimeChoices = new HashSet<TimeChoice>();
         }
     }
 }

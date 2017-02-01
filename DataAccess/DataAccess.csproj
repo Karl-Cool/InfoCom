@@ -67,6 +67,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mappings\CategoryMap.cs" />
+    <Compile Include="Mappings\FileMap.cs" />
+    <Compile Include="Mappings\CommentMap.cs" />
+    <Compile Include="Mappings\PostMap.cs" />
+    <Compile Include="Mappings\TimeChoiceMap.cs" />
+    <Compile Include="Mappings\InvitationMap.cs" />
+    <Compile Include="Mappings\TimeMap.cs" />
     <Compile Include="Mappings\MeetingMap.cs" />
     <Compile Include="Mappings\UserMap.cs" />
     <Compile Include="Models\Category.cs" />

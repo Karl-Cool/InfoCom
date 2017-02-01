@@ -23,6 +23,10 @@ namespace DataAccess.Mappings
             HasMany<Meeting>(m => m.Meetings)
                 .Table("Meetings")
                 .KeyColumn("UserId");
+
+            HasMany<Invitation>(m => m.Invitations)
+                .Table("Invitations")
+                .KeyColumn("UserId");
         }
 
     }

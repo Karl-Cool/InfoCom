@@ -11,6 +11,11 @@ namespace DataAccess.Models
         public virtual int Id { get; set; }
         public virtual Meeting Meeting { get; set; }
         public virtual DateTime Date { get; set; }
+        public virtual ISet<TimeChoice> TimeChoices { get; set; }
 
+        public Time()
+        {
+            TimeChoices = new HashSet<TimeChoice>();
+        }
     }
 }
