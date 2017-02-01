@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbConnect.cs" />
     <Compile Include="Mappings\CategoryMap.cs" />
     <Compile Include="Mappings\FileMap.cs" />
     <Compile Include="Mappings\CommentMap.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Models\TimeChoice.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
