@@ -58,7 +58,7 @@ namespace InfoCom.Controllers
 
                     if (model.Username == "Admin")
                     {
-                        identity.AddClaim(new Claim(ClaimTypes.Authentication, "Admin"));
+                        identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
                     }
 
                     var authManager = Request.GetOwinContext().Authentication;
