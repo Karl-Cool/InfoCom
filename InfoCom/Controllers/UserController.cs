@@ -14,6 +14,12 @@ namespace InfoCom.Controllers
 {
     public class UserController : Controller
     {
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+
         // Function to register a new user to the database
         [HttpPost]
         [AllowAnonymous]

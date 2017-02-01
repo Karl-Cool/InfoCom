@@ -58,19 +58,19 @@ namespace DataAccess.Repositories
         {
             var response = false;
 
-            try
-            {
+            
+            
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
                     session.Save(user);
                     response = true;
                 }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
+           
+            //catch (Exception ex)
+            //{
+            //    Debug.WriteLine(ex.Message);
 
-            }
+            //}
             return response;
         }
     }
