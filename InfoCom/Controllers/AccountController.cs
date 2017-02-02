@@ -72,5 +72,13 @@ namespace InfoCom.Controllers
             TempData["Type"] = "alert-danger";
             return View(model);
         }
+
+        [AllowAnonymous]
+        public ActionResult Logout()
+        {
+            var authManager = Request.GetOwinContext().Authentication;
+            authManager.SignOut("InfoComCookie");
+            return RedirectToAction("Login", "Account");
+        }
     }
 }
