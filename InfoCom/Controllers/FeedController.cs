@@ -25,6 +25,14 @@ namespace InfoCom.Controllers
         public ActionResult Index(Post post)
         {
 
+            post = new Post();
+            post.Author.Name = User.Identity.Name; 
+            post.Category.Name = "";
+            
+            post.Content = "";
+            post.CreatedAt = "";
+            post.Formal = false;
+            post.Title = "";
 
             PostRepository.add(post);
             return View();
