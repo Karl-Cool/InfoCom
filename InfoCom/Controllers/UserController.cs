@@ -14,6 +14,7 @@ namespace InfoCom.Controllers
 {
     public class UserController : Controller
     {
+        [Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
             return View();
@@ -22,7 +23,7 @@ namespace InfoCom.Controllers
 
         // Function to register a new user to the database
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Register(UserViewModel model)
         {
@@ -35,13 +36,25 @@ namespace InfoCom.Controllers
                 user.Username = model.Username;
                 user.Name = model.Name;
                 UserRepository.add(user);
+
+                TempData["Message"] = "Profile saved!";
+                TempData["Type"] = "alert-success";
+
+                return RedirectToAction("Register", "User");
             }
-            
-            else
-            {
-                ModelState.AddModelError("InvalidRegistration", @"Please fill out the form correctly.");
-            }
-            return View();
+
+            ModelState.AddModelError("InvalidRegistration", @"Please fill out the form correctly.");
+
+            return View(model);
         }
+
+        //public ActionResult Remove(UserViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        UserRepository.get(model.)
+        //    }
+            
+        //}
     }
 }

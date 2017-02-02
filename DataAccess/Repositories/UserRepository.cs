@@ -12,6 +12,25 @@ namespace DataAccess.Repositories
 {
     public static class UserRepository
     {
+        public static ICollection<User> get()
+        {
+            try
+            {
+                using (var session = DbConnect.SessionFactory.OpenSession())
+                {
+                    var users = session.Query<User>().ToList();
+                    return users;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+
+            }
+            return null;
+
+        }
+
         public static User get(int id)
         {
             try
@@ -58,19 +77,20 @@ namespace DataAccess.Repositories
         {
             var response = false;
 
-            
-            
+
+            try
+            {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
                     session.Save(user);
                     response = true;
                 }
-           
-            //catch (Exception ex)
-            //{
-            //    Debug.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
 
-            //}
+            }
             return response;
         }
     }
