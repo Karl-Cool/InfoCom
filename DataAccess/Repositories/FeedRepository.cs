@@ -17,8 +17,8 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var post = session.Query<Post>().;
-                    return post;
+                    var post = session.Query<Post>();
+                    return null;
                 }
             }
             catch (Exception ex)
