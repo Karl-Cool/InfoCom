@@ -13,6 +13,5 @@ namespace DataAccess.Models
         public virtual Meeting Meeting { get; set; }
         public virtual int Status { get; set; }
         public virtual bool Notified { get; set; }
-
     }
 }
