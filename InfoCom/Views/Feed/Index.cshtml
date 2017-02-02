@@ -7,7 +7,7 @@
     @using (Html.BeginForm())
     {
         @Html.TextArea("Test", null, new { @class = "textarea1" })
-
+        
         <div>
             <input type="submit" class="btn-feedpost" id="glyphicon-plus" name="Add" value="Add" />    <br />
             <input type="submit" class="btn-feedpost" id="glyphicon-plus" name="Add" value="Upload" />    <br />
@@ -34,7 +34,7 @@
            <div class="text-center, border1">
                @Html.DisplayFor(modelItem => item.Title) <br/>
 
-
+               
                @Html.DisplayFor(modelItem => item.Content) <br />
 
                @Html.DisplayFor(modelItem => item.CreatedAt)
