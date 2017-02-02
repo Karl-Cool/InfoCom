@@ -13,7 +13,7 @@ namespace DataAccess.Mappings
         public MeetingMap()
         {
 
-            Table("Meeting");
+            Table("Meetings");
             Id(m => m.Id).Column("Id").GeneratedBy.Identity();
             Map(m => m.Title, "Title");
             Map(m => m.Description, "Description");
