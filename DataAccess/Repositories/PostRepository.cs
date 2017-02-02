@@ -9,16 +9,19 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
 {
-    public static class FeedRepository
+    public static class PostRepository
     {
-        public static Post get()
+        public static List<Post> get()
         {
             try
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var post = session.Query<Post>();
-                    return null;
+
+                   var postList = session.Query<Post>().ToList();
+                    
+                    return postList;
+
                 }
             }
             catch (Exception ex)
@@ -35,7 +38,7 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var post = session.Query<Post>().FirstOrDefault(x => x.Id == id);
+                    var post = session.Query<Post>().FirstOrDefault(x => x.Author.Id == id);
                     return post;
                 }
             }
