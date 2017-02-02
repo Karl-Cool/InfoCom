@@ -15,8 +15,23 @@ namespace InfoCom.Controllers
         // GET: Meeting
         public ActionResult Index()
         {
-            return View();
+            List<Meeting> meetings = MeetingRepository.get();
+            return View(meetings);
         }
+        public ActionResult Info(int? id)
+        {
+            if (id != null)
+            {
+                Meeting meeting = MeetingRepository.get(Convert.ToInt32(id));
+                MeetingViewModel viewModel = new MeetingViewModel();
+                viewModel.Title = meeting.Title;
+                viewModel.Description = meeting.Description;
+                viewModel.Creator = UserRepository.get(meeting.Creator.Id);
+                return View("Info", viewModel);
+            }
+            return RedirectToAction("Index");
+        } 
+        
 
         public ActionResult Create()
         {

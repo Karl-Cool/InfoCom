@@ -240,3 +240,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/InfoCom/Scripts/locales
+/InfoCom/Content
+/InfoCom/Bootstrap Html Helpers
