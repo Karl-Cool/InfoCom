@@ -1,4 +1,7 @@
-﻿using DataAccess.Repositories;
+﻿using DataAccess;
+using DataAccess.Models;
+using DataAccess.Repositories;
+using InfoCom.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +15,18 @@ namespace InfoCom.Controllers
         // GET: Feed
         public ActionResult Index()
         {
-           //var currentFeed = FeedRepository.get(1);
+            var model = new FeedViewModel() {
+                PostList = PostRepository.get()
+            };
+           
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult Index(Post post)
+        {
+
+
+            PostRepository.add(post);
             return View();
         }
     }
