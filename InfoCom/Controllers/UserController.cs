@@ -62,9 +62,6 @@ namespace InfoCom.Controllers
         {
             if (UserRepository.delete(id))
             {
-                TempData["Message"] = "Profile saved!";
-                TempData["Type"] = "alert-success";
-
                 return RedirectToAction("Index", "User");
             }
 

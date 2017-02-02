@@ -26,3 +26,9 @@ textarea {
 {
     float: left;
 }
+.feed 
+{
+    border: 10px solid black;
+    color: deepskyblue;
+    font-family: 'Comic Sans MS';
+}
