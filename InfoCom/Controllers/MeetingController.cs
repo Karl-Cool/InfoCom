@@ -30,8 +30,8 @@ namespace InfoCom.Controllers
                 return View("Info", viewModel);
             }
             return RedirectToAction("Index");
-        } 
-        
+        }
+
 
         public ActionResult Create()
         {
@@ -40,16 +40,39 @@ namespace InfoCom.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create([Bind(Include = "Title,Description")] Meeting meeting)
+        public ActionResult Create(MeetingViewModel model)
         {
-            meeting.Creator = UserRepository.get(Convert.ToInt32(User.Identity.GetUserId()));
-            if (ModelState.IsValid)
+          if (ModelState.IsValid)
             {
-                if (MeetingRepository.add(meeting))
+                Meeting meeting = new Meeting();
+                meeting.Creator = UserRepository.get(Convert.ToInt32(User.Identity.GetUserId()));
+                meeting.Description = model.Description;
+                meeting.Title = model.Title;
+                foreach(DateTime date in model.Dates)
                 {
-                    return RedirectToAction("Index");
+                    Time newDate = new Time();
+                    newDate.Date = date;
+                    meeting.Times.Add(newDate);
                 }
-            }
+
+                int id = MeetingRepository.add(meeting);
+                if (id != 0)
+                {
+                    return RedirectToAction("info", id);
+                }
+                    //    {
+                    //        Meeting newMeeting = MeetingRepository.get(id);
+                    //        foreach (Time time in model.Times)
+                    //        {
+                    //            time.Meeting = newMeeting;
+                    //            if (TimeRepository.add(time) != 0)
+                    //            {
+                    //                return RedirectToAction("Info",id);
+                    //            }
+                    //        }
+                    //    }
+                    //}
+                }
             return View();
         }
     }

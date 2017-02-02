@@ -10,16 +10,16 @@ using NHibernate;
 
 namespace DataAccess.Repositories
 {
-    public static class MeetingRepository
+    public static class TimeRepository
     {
-        public static Meeting get(int id)
+        public static Time get(int id)
         {
             try
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var meeting = session.Query<Meeting>().FirstOrDefault(x => x.Id == id);
-                    return meeting;
+                    var time = session.Query<Time>().FirstOrDefault(x => x.Id == id);
+                    return time;
                 }
             }
             catch (Exception ex)
@@ -30,14 +30,14 @@ namespace DataAccess.Repositories
             return null;
         }
 
-        public static List<Meeting> get()
+        public static List<Time> get()
         {
             try
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    List<Meeting> meetingList = session.Query<Meeting>().ToList();
-                    return meetingList;
+                    List<Time> timeList = session.Query<Time>().ToList();
+                    return timeList;
                 }
             }
             catch (Exception ex)
@@ -56,9 +56,9 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var meeting = session.Query<Meeting>().FirstOrDefault(x => x.Id == id);
+                    var time = session.Query<Time>().FirstOrDefault(x => x.Id == id);
                     ITransaction transaction = session.BeginTransaction();
-                    session.Delete(meeting);
+                    session.Delete(time);
                     transaction.Commit();
                     response = true;
                 }
@@ -72,7 +72,7 @@ namespace DataAccess.Repositories
 
         }
 
-        public static int add(Meeting meeting)
+        public static int add(Time time)
         {
             int id = 0;
 
@@ -80,7 +80,7 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    id = Convert.ToInt32(session.Save(meeting));
+                    id = Convert.ToInt32(session.Save(time));
                 }
             }
             catch (Exception ex)
