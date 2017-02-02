@@ -11,14 +11,19 @@ namespace InfoCom.ViewModels
         public string Title { get; set; }
         [Required(ErrorMessage = "Enter a description")]
         public string Description { get; set; }
-        public Time Time1 { get; set; }
-        public Time Time2 { get; set; }
-        public Time Time3 { get; set; }
-        public Time Time4 { get; set; }
-        public Time Time5 { get; set; }
-        public virtual ISet<Time> Times { get; set; }
-        public virtual ISet<Invitation> Invitations { get; set; }
+        public virtual List<DateTime> Dates { get; set; }
+        public virtual List<Invitation> Invitations { get; set; }
         public User Creator { get; set; }
 
+        public MeetingViewModel()
+        {
+            Dates = new List<DateTime>();
+            for (int i = 0; i < 5; i++)
+            {
+                DateTime newDate = new DateTime();
+                Dates.Add(newDate);
+            }
+            Invitations = new List<Invitation>();
+        }
     }
 }
