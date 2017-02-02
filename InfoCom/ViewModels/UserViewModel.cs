@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DataAccess.Models;
 
 namespace InfoCom.ViewModels
 {
@@ -37,5 +38,10 @@ namespace InfoCom.ViewModels
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         public string PasswordConfirm { get; set; }
+    }
+
+    public class UserIndexViewmodel
+    {
+        public ICollection<User> Users { get; set; }
     }
 }

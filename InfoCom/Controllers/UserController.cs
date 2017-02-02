@@ -15,6 +15,15 @@ namespace InfoCom.Controllers
     public class UserController : Controller
     {
         [Authorize(Roles = "Admin")]
+        public ActionResult Index()
+        {
+            var model = new UserIndexViewmodel();
+            model.Users = UserRepository.get();
+
+            return View(model);
+        }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
             return View();
@@ -48,13 +57,20 @@ namespace InfoCom.Controllers
             return View(model);
         }
 
-        //public ActionResult Remove(UserViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        UserRepository.get(model.)
-        //    }
-            
-        //}
+        [Authorize(Roles = "Admin")]
+        public ActionResult Remove(int id)
+        {
+            if (UserRepository.delete(id))
+            {
+                TempData["Message"] = "Profile saved!";
+                TempData["Type"] = "alert-success";
+
+                return RedirectToAction("Index", "User");
+            }
+
+            return RedirectToAction("Index", "Home");
+
+
+        }
     }
 }
