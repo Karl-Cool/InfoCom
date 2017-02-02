@@ -56,7 +56,7 @@ namespace InfoCom.Controllers
                             new Claim(ClaimTypes.Name, model.Username)
                         }, "InfoComCookie");
 
-                    if (model.Username == "Admin")
+                    if (model.Username.ToLower() == "admin")
                     {
                         identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
                     }
