@@ -16,19 +16,33 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
+/* Set width on the form input elements s%ince they're 100% wide by default */
 input,
 select,
-textarea {
-    max-width: 280px;
-}
-.content 
+textarea 
 {
-    float: left;
+    max-width: 200px;
 }
-.feed 
+.textarea1
 {
-    border: 10px solid black;
-    color: deepskyblue;
-    font-family: 'Comic Sans MS';
+    max-width: 90%!important;
+    width: 80%;
+    margin-top: 2%;
+    
+    height: auto;
 }
+.border1 {
+    border: 2px solid black;
+    padding: 10px;
+    margin: 20px;
+}
+.btn-feedpost {
+    width: 10%;
+    height: 10%;
+    float: none;
+    text-align: center;
+}
+.postarea1 {
+    margin-top: 10%;
+}
+

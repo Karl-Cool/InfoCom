@@ -1,0 +1,58 @@
+﻿@model InfoCom.ViewModels.UserIndexViewmodel
+@{
+    ViewBag.Title = "Users";
+}
+
+<h2>Users</h2>
+
+<div class="btn-toolbar">
+    <a href="@Url.Action("Register")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-plus"></i>Create User</a>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+        <tr>
+            <td>@user.Id</td>
+            <td>@user.Username</td>
+            <td>@user.Name</td>
+            <td>@user.Email</td>
+            <td>{todo}</td>
+            <td>
+                <div class="btn-group">
+                    <a href="#" class="btn btn-xs btn-primary">
+                        <i class="glyphicon glyphicon-edit"></i>
+                        Edit
+                    </a>
+                    <a href="#" class="btn btn-xs btn-default">
+                        <i class="glyphicon glyphicon-lock"></i>
+                        Reset Password
+                    </a>
+
+                    @Html.ActionLink("Remove","Remove", "User", new {id = user.Id}, new { @class = "btn btn-xs btn-danger" })
+                        
+                        
+                   
+
+                    @*<a href='@Html.Action("Remove", "User", new {id = user.Id})' class="btn btn-xs btn-danger">
+                        <i class="glyphicon glyphicon-remove"></i>
+                        Delete
+                    </a>*@
+                </div>
+            </td>
+        </tr>
+        }
+    </tbody>
+
+</table>

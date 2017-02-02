@@ -13,7 +13,7 @@ namespace DataAccess.Mappings
         public InvitationMap()
         {
 
-            Table("Invitation");
+            Table("Invitations");
             Id(m => m.Id).Column("Id").GeneratedBy.Identity();
             Map(m => m.Status, "Status");
             Map(m => m.Notified, "Notified");

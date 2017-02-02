@@ -1,29 +1,47 @@
-﻿
+﻿@model IEnumerable<DataAccess.Models.Post>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="postarea1, text-center">
+    @using (Html.BeginForm())
+    {
+        @Html.TextArea("Test", null, new { @class = "textarea1" })
+        
+        <div>
+            <input type="submit" class="btn-feedpost" id="glyphicon-plus" name="Add" value="Add" />    <br />
+            <input type="submit" class="btn-feedpost" id="glyphicon-plus" name="Add" value="Upload" />    <br />
+        </div>
+       
 
-@using (Html.BeginForm())
-{
-    
-    
+    }
+</div>
 
-    <input type="submit" name="Add" value="Add" />    <br />
-    <input type="submit" name="Add" value="Upload" /> <br />
-}
 <div class="postcontainer" padding="30">
-
+    
     <div class="feed">
 
-       
-        @foreach(var post in Model.PostList)
-        {
+       @foreach (var item in Model)
+       {
+        @*@foreach(var post in Model.PostList)
+        {s
             <div class="feed">
                 <p>@post.Title</p>
                 <p>@post.Content</p>
                 <p>@post.CreatedAt</p>
             </div>
-        }
+        }*@
+           <div class="text-center, border1">
+               @Html.DisplayFor(modelItem => item.Title) <br/>
 
+               
+               @Html.DisplayFor(modelItem => item.Content) <br />
+
+               @Html.DisplayFor(modelItem => item.CreatedAt)
+
+
+           </div>
+        
+       }
     </div>
+</div>
