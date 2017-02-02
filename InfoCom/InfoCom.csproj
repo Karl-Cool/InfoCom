@@ -289,6 +289,7 @@
     <Content Include="Views\Meeting\Create.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Meeting\Index.cshtml" />
     <Content Include="Views\Meeting\Info.cshtml" />
     <Content Include="Views\Feed\Index.cshtml" />

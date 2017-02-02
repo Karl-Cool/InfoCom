@@ -15,10 +15,11 @@ namespace InfoCom.Controllers
         // GET: Feed
         public ActionResult Index()
         {
-            var model = new FeedViewModel() {
-                PostList = PostRepository.get()
-            };
-           
+            // var model = new FeedViewModel() {
+            //     PostList = PostRepository.get()
+            //};
+            List<Post> model = PostRepository.get();
+
             return View(model);
         }
         [HttpPost]
