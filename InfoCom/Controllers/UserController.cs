@@ -17,8 +17,7 @@ namespace InfoCom.Controllers
     {
         public ActionResult Index()
         {
-            var model = new UserIndexViewmodel();
-            model.Users = UserRepository.get();
+            var model = new UserIndexViewmodel {Users = UserRepository.get()};
 
             return View(model);
         }
@@ -65,14 +64,9 @@ namespace InfoCom.Controllers
 
         public ActionResult Remove(int id)
         {
-            if (UserRepository.delete(id))
-            {
-                return RedirectToAction("Index", "User");
-            }
+            UserRepository.delete(id);
 
-            return RedirectToAction("Index", "Home");
-
-
+            return RedirectToAction("Index", "User");
         }
 
         //GET
