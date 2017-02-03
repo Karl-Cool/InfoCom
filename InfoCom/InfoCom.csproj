@@ -213,12 +213,14 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Img\sand.jpg" />
     <Content Include="Content\jHtmlArea\jHtmlArea.ColorPickerMenu.css" />
     <Content Include="Content\jHtmlArea\jHtmlArea.css" />
     <Content Include="Content\jHtmlArea\jHtmlArea.Editor.css" />
     <Content Include="Content\jHtmlArea\jHtmlArea.png" />
     <Content Include="Content\jHtmlArea\jHtmlArea_Toolbar_Group_BG.png" />
     <Content Include="Content\jHtmlArea\jHtmlArea_Toolbar_Group__Btn_Select_BG.png" />
+    <Content Include="Content\Sand.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
