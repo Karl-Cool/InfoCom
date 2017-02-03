@@ -32,7 +32,7 @@ namespace InfoCom.Controllers
         // Function to register a new user to the database
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(UserViewModel model)
+        public ActionResult Register(UserRegisterViewModel model)
         {
             if (DbConnect.SessionFactory.OpenSession().Query<User>().Any(u => u.Username == model.Username))
                 ModelState.AddModelError("Username", "Username must be unique");
