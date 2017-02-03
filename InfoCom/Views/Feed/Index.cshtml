@@ -3,19 +3,10 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="postarea1, text-center">
-    @using (Html.BeginForm())
-    {
-        @Html.TextArea("Test", null, new { @class = "textarea1" })
-        
-        <div>
-            <input type="submit" class="btn-feedpost" id="glyphicon-plus" name="Add" value="Add" />    <br />
-            <input type="submit" class="btn-feedpost" id="glyphicon-plus" name="Add" value="Upload" />    <br />
-        </div>
-       
+<head>
+    <link rel="Stylesheet" type="text/css" href="~/Content/jHtmlArea/jHtmlArea.css" />
+</head>
 
-    }
-</div>
 
 <div class="postcontainer" padding="30">
     
@@ -45,3 +36,11 @@
        }
     </div>
 </div>
+<textarea></textarea>
+<script type="text/javascript" src="~/Scripts/jHtmlArea-0.8.js">
+   $(document).ready(function() {
+        $('textarea').htmlarea();
+    });
+    
+</script>
+

@@ -185,6 +185,7 @@
     <Compile Include="ViewModels\InvitationViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MeetingViewModel.cs" />
+    <Compile Include="ViewModels\PostViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +199,12 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jHtmlArea\jHtmlArea.ColorPickerMenu.css" />
+    <Content Include="Content\jHtmlArea\jHtmlArea.css" />
+    <Content Include="Content\jHtmlArea\jHtmlArea.Editor.css" />
+    <Content Include="Content\jHtmlArea\jHtmlArea.png" />
+    <Content Include="Content\jHtmlArea\jHtmlArea_Toolbar_Group_BG.png" />
+    <Content Include="Content\jHtmlArea\jHtmlArea_Toolbar_Group__Btn_Select_BG.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -214,6 +221,10 @@
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jHtmlArea-0.8.js" />
+    <Content Include="Scripts\jHtmlArea-0.8.min.js" />
+    <Content Include="Scripts\jHtmlArea.ColorPickerMenu-0.8.js" />
+    <Content Include="Scripts\jHtmlArea.ColorPickerMenu-0.8.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -305,8 +316,10 @@
     <Content Include="Views\Feed\Index.cshtml" />
     <Content Include="Views\Invitation\Index.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\Feed\Post.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\jHtmlArea\icons\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Notifications\" />
   </ItemGroup>

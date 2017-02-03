@@ -1,0 +1,15 @@
+﻿@model InfoCom.ViewModels.PostViewModel
+@{
+    ViewBag.Title = "Post";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Post</h2>
+@using (Html.BeginForm())
+{ 
+    @Html.AntiForgeryToken()
+
+    @Html.TextAreaFor(model => model.Content)
+    <input type="submit" value="Upload" class="btn-info" />
+}
+
