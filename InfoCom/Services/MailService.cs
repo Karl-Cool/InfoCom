@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using DataAccess.Models;
 
 namespace InfoCom.Services
