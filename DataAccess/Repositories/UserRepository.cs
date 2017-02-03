@@ -35,6 +35,7 @@ namespace DataAccess.Repositories
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
                     var user = session.Query<User>().FirstOrDefault(x => x.Id == id);
+
                     return user;
                 }
             }
@@ -111,6 +112,35 @@ namespace DataAccess.Repositories
                             usr.Name = user.Name;
                             usr.Username = user.Username;
 
+                            session.Update(usr);
+                        }
+                        transaction.Commit();
+                    }
+                    success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            return success;
+        }
+
+        public static bool UpdatePassword(User user)
+        {
+            var success = false;
+
+            try
+            {
+
+                using (var session = DbConnect.SessionFactory.OpenSession())
+                {
+                    var usr = session.Query<User>().FirstOrDefault(x => x.Id == user.Id);
+                    using (var transaction = session.BeginTransaction())
+                    {
+                        if (usr != null)
+                        {
+                            usr.Password = user.Password;
                             session.Update(usr);
                         }
                         transaction.Commit();

@@ -1,8 +1,11 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Security;
 using DataAccess;
 using DataAccess.Models;
 using DataAccess.Repositories;
+using InfoCom.Services;
 using InfoCom.ViewModels;
 using NHibernate.Linq;
 
@@ -40,11 +43,13 @@ namespace InfoCom.Controllers
             {
 
                 var passwordHash = BCrypt.Net.BCrypt.HashPassword(model.Password, 10);
-                var user = new User();
-                user.Password = passwordHash;
-                user.Email = model.Email;
-                user.Username = model.Username;
-                user.Name = model.Name;
+                var user = new User
+                {
+                    Password = passwordHash,
+                    Email = model.Email,
+                    Username = model.Username,
+                    Name = model.Name
+                };
                 UserRepository.Add(user);
 
                 TempData["Message"] = "Profile saved!";
@@ -105,6 +110,29 @@ namespace InfoCom.Controllers
             TempData["Type"] = "alert-success";
 
             return View(model);
+        }
+
+        public async Task<ActionResult> ResetPassword(int id)
+        {
+            var password = Membership.GeneratePassword(8, 1);
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword(password, 10);
+
+            var user = UserRepository.Get(id);
+            user.Password = passwordHash;
+            UserRepository.UpdatePassword(user);
+
+            var email = new Email
+            {
+                Recipient = user.Email,
+                Title = "Your password has been reset.",
+                Text = "Your password on InfoCom has been reset. This is your new password: " + password
+            };
+            await MailService.Mail(email);
+
+            TempData["Message"] = "The password for " + user.Username + " has been successfully reset.";
+            TempData["Type"] = "alert-success";
+
+            return RedirectToAction("Index", "User");
         }
     }
 }
