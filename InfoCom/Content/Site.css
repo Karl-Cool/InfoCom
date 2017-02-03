@@ -81,3 +81,27 @@ textarea
     margin-bottom: 10px;
     
 }
+.text-post2 
+{
+    color:black;
+    font-size: x-large;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.text-title1 
+{
+    font-size:large;
+    font-family:'Times New Roman', Times, serif;
+    font-style:italic;
+    padding-bottom: 10px;
+         
+}
+.title-separ
+{
+    float:left;
+}
+.date-separator
+{
+    margin-top: 10px;
+    font-size:x-small   ;
+    
+}

@@ -27,11 +27,22 @@
             </div>
         }*@
            <div class="text-center, border1">
-               @Html.DisplayFor(modelItem => item.Title) <br/>
-               @Html.DisplayFor(modelItem => item.Author.Name)
-               @Html.DisplayFor(modelItem => item.Content) <br />
-
-               @Html.DisplayFor(modelItem => item.CreatedAt)
+               <span class="text-post2">
+                   @Html.DisplayFor( modelItem => item.Title) <br />
+               </span>
+               <div class="text-title1">
+                   Posted by:  @Html.DisplayFor(modelItem => item.Author.Name)<br />
+               </div>
+               
+               
+               <div>
+                   @Html.DisplayFor(modelItem => item.Content) <br />
+               </div>
+               
+               <div class="date-separator">
+                   @Html.DisplayFor(modelItem => item.CreatedAt)
+               </div>
+               
 
 
            </div>

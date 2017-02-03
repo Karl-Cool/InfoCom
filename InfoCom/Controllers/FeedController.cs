@@ -51,7 +51,7 @@ namespace InfoCom.Controllers
                     post.Content = model.Content;
                     post.CreatedAt = DateTime.Now.ToString();
                     post.Formal = false;
-                    post.Title = "Exempeltitel";
+                    post.Title = model.Title;
 
                     PostRepository.add(post);
                     return RedirectToAction("Index");
