@@ -12,18 +12,16 @@ using NHibernate.Linq;
 
 namespace InfoCom.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
-        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
-            var model = new UserIndexViewmodel();
-            model.Users = UserRepository.get();
+            var model = new UserIndexViewmodel {Users = UserRepository.get()};
 
             return View(model);
         }
 
-        [Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
             return View();
@@ -32,9 +30,8 @@ namespace InfoCom.Controllers
 
         // Function to register a new user to the database
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(UserViewModel model)
+        public ActionResult Register(UserRegisterViewModel model)
         {
             if (DbConnect.SessionFactory.OpenSession().Query<User>().Any(u => u.Username == model.Username))
                 ModelState.AddModelError("Username", "Username must be unique");
@@ -65,21 +62,14 @@ namespace InfoCom.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Admin")]
         public ActionResult Remove(int id)
         {
-            if (UserRepository.delete(id))
-            {
-                return RedirectToAction("Index", "User");
-            }
+            UserRepository.delete(id);
 
-            return RedirectToAction("Index", "Home");
-
-
+            return RedirectToAction("Index", "User");
         }
 
         //GET
-        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             var user = DbConnect.SessionFactory.OpenSession().Load<User>(id);

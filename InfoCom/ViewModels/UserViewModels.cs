@@ -8,7 +8,7 @@ using DataAccess.Models;
 
 namespace InfoCom.ViewModels
 {
-    public class UserViewModel
+    public class UserRegisterViewModel
     {
 
         [RegularExpression("^[a-zA-ZåäöÅÄÖ0-9\\-.]+$", ErrorMessage = "Username can only consist of letters, dashes and dots.")]
