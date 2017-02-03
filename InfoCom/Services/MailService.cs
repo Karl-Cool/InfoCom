@@ -17,7 +17,7 @@ namespace InfoCom.Services
 
             var success = false;
             var message = new MailMessage();
-            message.To.Add(new MailAddress(mail.Recipient));  // replace with valid value 
+            message.To.Add(new MailAddress(mail.Recipient)); 
             message.From = new MailAddress(_sender);
             message.Subject = mail.Title;
             message.Body = string.Format(mail.Text);

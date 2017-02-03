@@ -17,7 +17,7 @@ namespace InfoCom.Controllers
     {
         public ActionResult Index()
         {
-            var model = new UserIndexViewmodel {Users = UserRepository.get()};
+            var model = new UserIndexViewmodel { Users = UserRepository.get() };
 
             return View(model);
         }
@@ -76,38 +76,39 @@ namespace InfoCom.Controllers
             if (user == null)
                 return HttpNotFound();
 
-            return View(new UserEditViewModel
-                {
-                    Username = user.Username,
-                    Email = user.Email,
-                    Name = user.Name
-                });
+            var model = new UserEditViewModel
+            {
+                Id = id,
+                Username = user.Username,
+                Email = user.Email,
+                Name = user.Name
+            };
+
+            return View(model);
         }
 
         //POST
         [HttpPost]
-        public ActionResult Edit(int id, UserEditViewModel model)
+        public ActionResult Edit(UserEditViewModel model)
         {
-            var user = DbConnect.SessionFactory.OpenSession().Load<User>(id);
-            if (user == null)
-                return HttpNotFound();
-
-            if(DbConnect.SessionFactory.OpenSession().Query<User>().Any(u=>u.Username == model.Username && u.Id != id))
-                //om en användare hittas i db som inte är modellen
-                ModelState.AddModelError("Username", "Username must be unique");
 
             if (!ModelState.IsValid)
                 return View(model);
 
-            user.Username = model.Username;
-            user.Email = model.Email;
-            user.Name = model.Name;
+            var user = new User
+            {
+                Id = model.Id,
+                Username = model.Username,
+                Email = model.Email,
+                Name = model.Name
+            };
 
-       
-            //Failar vid update pga 2 öppna sessions. hann inte fixa innan push men allt bygger
-           DbConnect.SessionFactory.OpenSession().Update(user);
+            UserRepository.update(user);
 
-            return RedirectToAction("Index", "User");
+            TempData["Message"] = "Settings saved.";
+            TempData["Type"] = "alert-success";
+
+            return View(model);
         }
     }
 }
