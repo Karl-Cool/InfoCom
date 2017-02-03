@@ -47,6 +47,7 @@ namespace InfoCom.ViewModels
 
     public class UserEditViewModel
     {
+        public int Id { get; set; }
         [RegularExpression("^[a-zA-ZåäöÅÄÖ0-9\\-.]+$", ErrorMessage = "Username can only consist of letters, dashes and dots.")]
         [Required(ErrorMessage = "Username is required.")]
         [StringLength(30, MinimumLength = 3, ErrorMessage = "Username must be between 3 - 30 characters long.")]

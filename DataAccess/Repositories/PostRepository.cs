@@ -18,7 +18,7 @@ namespace DataAccess.Repositories
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
 
-                   var postList = session.Query<Post>().ToList();
+                   var postList = session.Query<Post>().Fetch(x => x.Author).ToList();
                     
                     return postList;
 

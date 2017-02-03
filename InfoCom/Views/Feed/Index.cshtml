@@ -1,18 +1,22 @@
-﻿@model IEnumerable<DataAccess.Models.Post>
+﻿@model InfoCom.ViewModels.PostViewModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
 }
 <head>
     <link rel="Stylesheet" type="text/css" href="~/Content/jHtmlArea/jHtmlArea.css" />
 </head>
 
 
+
 <div class="postcontainer" padding="30">
-    
+    <div class="buttonMenu">
+        <input type="button" value="New post" id="postBtn" class="btn-primary" onclick="@("window.location.href='" + @Url.Action("Post", "Feed") + "'");" />
+    </div>
     <div class="feed">
 
-       @foreach (var item in Model)
+       @foreach (var item in Model.model)
        {
         @*@foreach(var post in Model.PostList)
         {s
@@ -23,12 +27,22 @@
             </div>
         }*@
            <div class="text-center, border1">
-               @Html.DisplayFor(modelItem => item.Title) <br/>
-
+               <span class="text-post2">
+                   @Html.DisplayFor( modelItem => item.Title) <br />
+               </span>
+               <div class="text-title1">
+                   Posted by:  @Html.DisplayFor(modelItem => item.Author.Name)<br />
+               </div>
                
-               @Html.DisplayFor(modelItem => item.Content) <br />
-
-               @Html.DisplayFor(modelItem => item.CreatedAt)
+               
+               <div>
+                   @Html.DisplayFor(modelItem => item.Content) <br />
+               </div>
+               
+               <div class="date-separator">
+                   @Html.DisplayFor(modelItem => item.CreatedAt)
+               </div>
+               
 
 
            </div>
@@ -36,7 +50,7 @@
        }
     </div>
 </div>
-<textarea></textarea>
+
 <script type="text/javascript" src="~/Scripts/jHtmlArea-0.8.js">
    $(document).ready(function() {
         $('textarea').htmlarea();

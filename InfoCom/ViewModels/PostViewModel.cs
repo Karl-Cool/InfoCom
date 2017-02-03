@@ -1,4 +1,5 @@
 ﻿using DataAccess.Models;
+using DataAccess.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,8 @@ namespace InfoCom.ViewModels
         public virtual bool Formal { get; set; }
         public virtual ISet<Comment> Comments { get; set; }
         public virtual ISet<File> Files { get; set; }
+        public virtual List<Post> model {get; set; }
+       
 
-        
     }
 }

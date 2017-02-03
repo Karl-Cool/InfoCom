@@ -5,11 +5,33 @@
 }
 
 <h2>Post</h2>
-@using (Html.BeginForm())
-{ 
-    @Html.AntiForgeryToken()
+<div class="post-area">
 
-    @Html.TextAreaFor(model => model.Content)
-    <input type="submit" value="Upload" class="btn-info" />
-}
+    <div class="post-Text">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <span class="title-separ">
+                @Html.LabelFor(model => model.Title, "Title") <br />
+                @Html.TextBoxFor(model => model.Title)
+
+            </span>
+            
+            @*@Html.TextAreaFor(model => model.Content, new {@class= "textarea1" })*@
+            @Html.TextAreaFor(model => model.Content, new { @class = "postText" })
+            <div class="col-lg-11">
+                <input type="submit" value="Upload" class="btn-info" />
+            </div>
+            
+        }
+
+
+
+
+    </div>
+    
+
+
+</div>
+
 

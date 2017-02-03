@@ -93,6 +93,35 @@ namespace DataAccess.Repositories
             }
             return response;
         }
+
+        public static bool update(User user)
+        {
+            var success = false;
+
+            try
+            {
+
+                using (var session = DbConnect.SessionFactory.OpenSession())
+                {
+                    var usr = session.Query<User>().FirstOrDefault(x => x.Id == user.Id);
+                    using (ITransaction transaction = session.BeginTransaction())
+                    {
+                        usr.Email = user.Email;
+                        usr.Name = user.Name;
+                        usr.Username = user.Username;
+
+                        session.Update(usr);
+                        transaction.Commit();
+                    }
+                    success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            return success;
+        }
     }
 }
 
