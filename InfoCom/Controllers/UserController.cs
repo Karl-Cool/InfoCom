@@ -36,8 +36,16 @@ namespace InfoCom.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(UserViewModel model)
         {
+            if (DbConnect.SessionFactory.OpenSession().Query<User>().Any(u => u.Username == model.Username))
+                ModelState.AddModelError("Username", "Username must be unique");
+            else if (DbConnect.SessionFactory.OpenSession().Query<User>().Any(u => u.Email == model.Email))
+            {
+                ModelState.AddModelError("Email", "Email must be unique");
+            }
+
             if (ModelState.IsValid)
             {
+
                 var passwordHash = BCrypt.Net.BCrypt.HashPassword(model.Password, 10);
                 var user = new User();
                 user.Password = passwordHash;
