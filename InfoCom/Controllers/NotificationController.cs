@@ -3,28 +3,30 @@ using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using DataAccess.Repositories;
 
-namespace Datingsite.Controllers
+namespace InfoCom.Controllers
 {
-    public class NotificationsController : ApiController
+    public class NotificationController : ApiController
     {
         // Function to get the meeting invitation count for dynamic updating notifications
         public IHttpActionResult GetNotifications()
         {
+            int count = 0;
             try
             {
-                var invitations = InvitationRepository.get(Convert.ToInt32(User.Identity.GetUserId())).Count;
-
-                if (invitations == 0)
+                var invitations = InvitationRepository.get(Convert.ToInt32(User.Identity.GetUserId()));
+                foreach (var x in invitations)
                 {
-                    return Json("0");
+                    if (x.Notified == false)
+                    {
+                        count++;
+                    }
                 }
-                return Json(invitations);
             }
             catch (Exception ex)
             {
                 Console.Write(ex.Message);
-                return Json("0");
             }
+            return Json(count);
         }
     }
 }
