@@ -15,11 +15,15 @@ namespace InfoCom.Controllers
         public ActionResult Index()
         {
             int userId = Convert.ToInt32(User.Identity.GetUserId());
+            var invitations = InvitationRepository.get(userId);
             var model = new InvitationViewModel()
             {
-                Invitations = InvitationRepository.get(userId)
+                Invitations = invitations
             };
-
+            if (invitations != null)
+            {
+                InvitationRepository.updateNotified(userId);
+            }
             return View(model);
         }
     }
