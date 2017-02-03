@@ -89,6 +89,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
+    <Compile Include="Repositories\MeetingsRepository.cs" />
     <Compile Include="Repositories\TimeRepository.cs" />
     <Compile Include="Repositories\InvitationRepository.cs" />
     <Compile Include="Repositories\PostRepository.cs" />
