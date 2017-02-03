@@ -12,14 +12,14 @@ namespace InfoCom.Controllers
         public ActionResult Index()
         {
             int userId = Convert.ToInt32(User.Identity.GetUserId());
-            var invitations = InvitationRepository.get(userId);
+            var invitations = InvitationRepository.Get(userId);
             var model = new InvitationViewModel()
             {
                 Invitations = invitations
             };
             if (invitations != null)
             {
-                InvitationRepository.updateNotified(userId);
+                InvitationRepository.UpdateNotified(userId);
             }
             return View(model);
         }

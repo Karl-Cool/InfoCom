@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DataAccess.Models;
 using NHibernate.Linq;
 using System.Diagnostics;
-using NHibernate;
 
 namespace DataAccess.Repositories
 {
     public static class MeetingRepository
     {
-        public static Meeting get(int id)
+        public static Meeting Get(int id)
         {
             try
             {
@@ -30,7 +27,7 @@ namespace DataAccess.Repositories
             return null;
         }
 
-        public static List<Meeting> get()
+        public static List<Meeting> Get()
         {
             try
             {
@@ -48,7 +45,7 @@ namespace DataAccess.Repositories
             return null;
         }
 
-        public static bool delete(int id)
+        public static bool Delete(int id)
         {
             var response = false;
 
@@ -57,10 +54,12 @@ namespace DataAccess.Repositories
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
                     var meeting = session.Query<Meeting>().FirstOrDefault(x => x.Id == id);
-                    ITransaction transaction = session.BeginTransaction();
-                    session.Delete(meeting);
-                    transaction.Commit();
-                    response = true;
+                    using (var transaction = session.BeginTransaction())
+                    {
+                        session.Delete(meeting);
+                        transaction.Commit();
+                        response = true;
+                    }
                 }
             }
             catch (Exception ex)
@@ -72,9 +71,9 @@ namespace DataAccess.Repositories
 
         }
 
-        public static int add(Meeting meeting)
+        public static int Add(Meeting meeting)
         {
-            int id = 0;
+            var id = 0;
 
             try
             {

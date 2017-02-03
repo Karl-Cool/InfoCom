@@ -10,10 +10,10 @@ namespace InfoCom.Controllers
         // Function to get the meeting invitation count for dynamic updating notifications
         public IHttpActionResult GetNotifications()
         {
-            int count = 0;
+            var count = 0;
             try
             {
-                var invitations = InvitationRepository.get(Convert.ToInt32(User.Identity.GetUserId()));
+                var invitations = InvitationRepository.Get(Convert.ToInt32(User.Identity.GetUserId()));
                 foreach (var x in invitations)
                 {
                     if (x.Notified == false)

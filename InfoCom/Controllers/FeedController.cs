@@ -1,14 +1,10 @@
-﻿using DataAccess;
-using DataAccess.Models;
+﻿using DataAccess.Models;
 using DataAccess.Repositories;
 using InfoCom.ViewModels;
 using Microsoft.AspNet.Identity;
-using NHibernate.Linq;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Web;
+using System.Globalization;
 using System.Web.Mvc;
 
 namespace InfoCom.Controllers
@@ -22,7 +18,7 @@ namespace InfoCom.Controllers
             //     PostList = PostRepository.get()
             //};
             PostViewModel model = new PostViewModel();
-             model.model = PostRepository.get();
+             model.model = PostRepository.Get();
             
             return View(model);
         }
@@ -39,21 +35,18 @@ namespace InfoCom.Controllers
 
                 if (ModelState.IsValid)
                 {
-
-                    var session = DbConnect.SessionFactory.OpenSession();
-                    var usercheck = session.Query<User>().FirstOrDefault(x => x.Id == Convert.ToInt32(User.Identity.GetUserId()));
                     var post = new Post();
-                    var currentuser = UserRepository.get(usercheck.Id);
+                    var currentuser = UserRepository.Get(Convert.ToInt32(User.Identity.GetUserId()));
                     // post.Author = User.Identity.Name;
                     post.Author = currentuser;
-                    post.Category = CategoryRepository.get(4);
+                    post.Category = CategoryRepository.Get(4);
 
                     post.Content = model.Content;
-                    post.CreatedAt = DateTime.Now.ToString();
+                    post.CreatedAt = DateTime.Now.ToString(CultureInfo.InvariantCulture);
                     post.Formal = false;
                     post.Title = model.Title;
 
-                    PostRepository.add(post);
+                    PostRepository.Add(post);
                     return RedirectToAction("Index");
 
                 }

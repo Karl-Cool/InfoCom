@@ -5,14 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
 {
     public static class CategoryRepository
     {
-        public static ICollection<Category> get()
+        public static ICollection<Category> Get()
         {
             try
             {
@@ -31,7 +29,7 @@ namespace DataAccess.Repositories
 
         }
 
-        public static Category get(int id)
+        public static Category Get(int id)
         {
             try
             {
@@ -49,7 +47,7 @@ namespace DataAccess.Repositories
             return null;
         }
 
-        public static bool delete(int id)
+        public static bool Delete(int id)
         {
             var response = false;
 
@@ -73,7 +71,7 @@ namespace DataAccess.Repositories
 
         }
 
-        public static bool add(Category cat)
+        public static bool Add(Category cat)
         {
             var response = false;
 

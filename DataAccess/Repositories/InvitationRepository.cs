@@ -1,18 +1,15 @@
 ﻿using DataAccess.Models;
-using NHibernate;
 using NHibernate.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
 {
     public class InvitationRepository
     {
-        public static List<Invitation> get(int id)
+        public static List<Invitation> Get(int id)
         {
             try
             {
@@ -34,7 +31,7 @@ namespace DataAccess.Repositories
             return null;
         }
 
-        public static void updateNotified(int id)
+        public static void UpdateNotified(int id)
         {
             try
             {
@@ -45,12 +42,14 @@ namespace DataAccess.Repositories
                         .Fetch(x => x.Meeting)
                         .Fetch(x => x.User)
                         .ToList();
-                    ITransaction transaction = session.BeginTransaction();
-                    invitations.ForEach(x =>
+                    using (var transaction = session.BeginTransaction())
                     {
-                        x.Notified = true;
-                    });
-                    transaction.Commit();
+                        invitations.ForEach(x =>
+                        {
+                            x.Notified = true;
+                        });
+                        transaction.Commit();
+                    }
                 }
             }
             catch (Exception ex)

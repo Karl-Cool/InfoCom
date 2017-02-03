@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using DataAccess;
 using DataAccess.Models;
@@ -17,7 +13,7 @@ namespace InfoCom.Controllers
     {
         public ActionResult Index()
         {
-            var model = new UserIndexViewmodel { Users = UserRepository.get() };
+            var model = new UserIndexViewmodel { Users = UserRepository.Get() };
 
             return View(model);
         }
@@ -49,7 +45,7 @@ namespace InfoCom.Controllers
                 user.Email = model.Email;
                 user.Username = model.Username;
                 user.Name = model.Name;
-                UserRepository.add(user);
+                UserRepository.Add(user);
 
                 TempData["Message"] = "Profile saved!";
                 TempData["Type"] = "alert-success";
@@ -64,7 +60,7 @@ namespace InfoCom.Controllers
 
         public ActionResult Remove(int id)
         {
-            UserRepository.delete(id);
+            UserRepository.Delete(id);
 
             return RedirectToAction("Index", "User");
         }
@@ -103,7 +99,7 @@ namespace InfoCom.Controllers
                 Name = model.Name
             };
 
-            UserRepository.update(user);
+            UserRepository.Update(user);
 
             TempData["Message"] = "Settings saved.";
             TempData["Type"] = "alert-success";

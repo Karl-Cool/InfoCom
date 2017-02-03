@@ -2,9 +2,6 @@
 using InfoCom.ViewModels;
 using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace InfoCom.Controllers
@@ -15,8 +12,8 @@ namespace InfoCom.Controllers
         public ActionResult Index()
         {
             int userId = Convert.ToInt32(User.Identity.GetUserId());
-            var meetings = MeetingsRepository.getMeetingsByUserId(userId);
-            var invitations = InvitationRepository.get(userId);
+            var meetings = MeetingsRepository.Get(userId);
+            var invitations = InvitationRepository.Get(userId);
             var model = new MeetingsViewModel()
             {
                 Meetings = meetings,
@@ -28,7 +25,7 @@ namespace InfoCom.Controllers
 
         public ActionResult Delete(int id)
         {
-            MeetingsRepository.delete(id);
+            MeetingsRepository.Delete(id);
 
             return RedirectToAction("Index", "Meetings");
         }
