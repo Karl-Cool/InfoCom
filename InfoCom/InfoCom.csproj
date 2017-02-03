@@ -191,7 +191,7 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MeetingViewModel.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />
-    <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\InfoCom.mdf" />
