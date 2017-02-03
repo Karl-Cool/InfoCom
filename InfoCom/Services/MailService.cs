@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 using DataAccess.Models;
 
 namespace InfoCom.Services
@@ -9,29 +12,40 @@ namespace InfoCom.Services
     {
         private static string _sender = "oru.it.notis@outlook.com";
         private static string _password = "sand12345";
-        public static void Mail(Email mail)
+        public static async Task<bool> Mail(Email mail)
         {
+
+            var success = false;
             var message = new MailMessage();
             message.To.Add(new MailAddress(mail.Recipient));  // replace with valid value 
-            message.From = new MailAddress(_sender); 
+            message.From = new MailAddress(_sender);
             message.Subject = mail.Title;
             message.Body = string.Format(mail.Text);
             message.IsBodyHtml = true;
 
-            using (var smtp = new SmtpClient())
+            try
             {
-                var credential = new NetworkCredential
+                using (var smtp = new SmtpClient())
                 {
-                    UserName = _sender,
-                    Password = _password
-                };
+                    var credential = new NetworkCredential
+                    {
+                        UserName = _sender,
+                        Password = _password
+                    };
 
-                smtp.Credentials = credential;
-                smtp.Host = "smtp-mail.outlook.com";
-                smtp.Port = 587;
-                smtp.EnableSsl = true;
-                smtp.SendMailAsync(message);
+                    smtp.Credentials = credential;
+                    smtp.Host = "smtp-mail.outlook.com";
+                    smtp.Port = 587;
+                    smtp.EnableSsl = true;
+                    await smtp.SendMailAsync(message);
+                    success = true;
+                }
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            return success;
         }
     }
 }
