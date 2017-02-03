@@ -15,8 +15,15 @@
                 @Html.LabelFor(model => model.Title, "Title") <br />
                 @Html.TextBoxFor(model => model.Title)
 
+            </span>        <br />
+            <span class="radio-bottom-style">
+                @Html.Label("Formal post")
+                @Html.RadioButtonFor(model => model.Formal, true) <br />
+                @Html.Label("Informal post")
+                @Html.RadioButtonFor(model => model.Formal, false)  <br />
+
             </span>
-            
+           
             @*@Html.TextAreaFor(model => model.Content, new {@class= "textarea1" })*@
             @Html.TextAreaFor(model => model.Content, new { @class = "postText" })
             <div class="col-lg-11">

@@ -32,9 +32,10 @@ textarea
     height: 40%;
 }
 .border1 {
-    border: 2px solid black;
+    
     padding: 10px;
     margin: 20px;
+    color: black;
 }
 .btn-feedpost {
     width: 10%;
@@ -97,11 +98,27 @@ textarea
 }
 .title-separ
 {
-    float:left;
+    
 }
 .date-separator
 {
     margin-top: 10px;
     font-size:x-small   ;
     
+}
+.radio-bottom-style
+{
+    padding: 5px;
+}
+.Formal
+{
+    border: 2px solid black;
+    background-color:lightgrey;
+    margin: 5px;
+}
+.Informal{
+    border: 2px solid black;
+    margin: 5px;    
+    background-color:Highlight;
+    opacity: 0.9;
 }

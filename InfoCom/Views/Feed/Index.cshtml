@@ -26,27 +26,65 @@
                 <p>@post.CreatedAt</p>
             </div>
         }*@
-           <div class="text-center, border1">
-               <span class="text-post2">
-                   @Html.DisplayFor( modelItem => item.Title) <br />
-               </span>
-               <div class="text-title1">
-                   Posted by:  @Html.DisplayFor(modelItem => item.Author.Name)<br />
-               </div>
-               
-               
-               <div>
-                   @Html.DisplayFor(modelItem => item.Content) <br />
-               </div>
-               
-               <div class="date-separator">
-                   @Html.DisplayFor(modelItem => item.CreatedAt)
-               </div>
-               
+        if (item.Formal == true)
+        {
+            <div class="Formal">
+                <div class="text-center, border1">
+                    <span class="text-post2">
+                        @Html.DisplayFor(modelItem => item.Title) <br />
+                    </span>
+                    <div class="text-title1">
+                        Posted by:  @Html.DisplayFor(modelItem => item.Author.Name)<br />
+                    </div>
 
 
-           </div>
-        
+                    <div>
+                        @Html.DisplayFor(modelItem => item.Content) <br />
+                    </div>
+
+                    <div class="date-separator">
+                        @Html.DisplayFor(modelItem => item.CreatedAt)
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div class="Informal">
+                <div class="text-center, border1">
+                    <span class="text-post2">
+                        @Html.DisplayFor(modelItem => item.Title) <br />
+                    </span>
+                    <div class="text-title1">
+                        Posted by:  @Html.DisplayFor(modelItem => item.Author.Name)<br />
+                    </div>
+
+
+                    <div>
+                        @Html.DisplayFor(modelItem => item.Content) <br />
+                    </div>
+
+                    <div class="date-separator">
+                        @Html.DisplayFor(modelItem => item.CreatedAt)
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+            
+        }
+
+
+
        }
     </div>
 </div>
