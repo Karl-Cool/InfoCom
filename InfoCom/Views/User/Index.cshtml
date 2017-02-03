@@ -31,24 +31,28 @@
             <td>{todo}</td>
             <td class="text-right">
                 <div class="btn-group">
-                    <a href="#" class="btn btn-xs btn-primary">
+
+                    
+                    @Html.ActionLink("Edit", "Edit", "User", new { id = user.Id }, new { @class = "btn btn-xs btn-primary" })
+                    
+                    @*<a href="#" class="btn btn-xs btn-primary">
                         <i class="glyphicon glyphicon-edit"></i>
                         Edit
-                    </a>
+                    </a>*@
                     <a href="#" class="btn btn-xs btn-default">
                         <i class="glyphicon glyphicon-lock"></i>
                         Reset Password
                     </a>
 
-                    @Html.ActionLink("Remove","Remove", "User", new {id = user.Id}, new { @class = "btn btn-xs btn-danger" })
-                        
-                        
-                   
+                    @Html.ActionLink("Remove", "Remove", "User", new { id = user.Id }, new { @class = "btn btn-xs btn-danger" })
+
+
+
 
                     @*<a href='@Html.Action("Remove", "User", new {id = user.Id})' class="btn btn-xs btn-danger">
-                        <i class="glyphicon glyphicon-remove"></i>
-                        Delete
-                    </a>*@
+                    <i class="glyphicon glyphicon-remove"></i>
+                    Delete
+                </a>*@
                 </div>
             </td>
         </tr>

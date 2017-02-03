@@ -44,4 +44,24 @@ namespace InfoCom.ViewModels
     {
         public ICollection<User> Users { get; set; }
     }
+
+    public class UserEditViewModel
+    {
+        [RegularExpression("^[a-zA-ZåäöÅÄÖ0-9\\-.]+$", ErrorMessage = "Username can only consist of letters, dashes and dots.")]
+        [Required(ErrorMessage = "Username is required.")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Username must be between 3 - 30 characters long.")]
+        //[Remote("ValidateUsername", "User", HttpMethod = "POST", ErrorMessage = "Username already exists. Please enter a different username.")]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Required(ErrorMessage = "Name is required.")]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "Email is required.")]
+        //[Remote("ValidateEmail", "User", HttpMethod = "POST", ErrorMessage = "Email already exists. Please enter a different email.")]
+        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Email is not valid.")]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+    }
 }

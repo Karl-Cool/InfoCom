@@ -77,5 +77,47 @@ namespace InfoCom.Controllers
 
 
         }
+
+        //GET
+        [Authorize(Roles = "Admin")]
+        public ActionResult Edit(int id)
+        {
+            var user = DbConnect.SessionFactory.OpenSession().Load<User>(id);
+            if (user == null)
+                return HttpNotFound();
+
+            return View(new UserEditViewModel
+                {
+                    Username = user.Username,
+                    Email = user.Email,
+                    Name = user.Name
+                });
+        }
+
+        //POST
+        [HttpPost]
+        public ActionResult Edit(int id, UserEditViewModel model)
+        {
+            var user = DbConnect.SessionFactory.OpenSession().Load<User>(id);
+            if (user == null)
+                return HttpNotFound();
+
+            if(DbConnect.SessionFactory.OpenSession().Query<User>().Any(u=>u.Username == model.Username && u.Id != id))
+                //om en användare hittas i db som inte är modellen
+                ModelState.AddModelError("Username", "Username must be unique");
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            user.Username = model.Username;
+            user.Email = model.Email;
+            user.Name = model.Name;
+
+       
+            //Failar vid update pga 2 öppna sessions. hann inte fixa innan push men allt bygger
+           DbConnect.SessionFactory.OpenSession().Update(user);
+
+            return RedirectToAction("Index", "User");
+        }
     }
 }

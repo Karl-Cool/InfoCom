@@ -304,6 +304,7 @@
     <Content Include="Views\Meeting\Info.cshtml" />
     <Content Include="Views\Feed\Index.cshtml" />
     <Content Include="Views\Invitation\Index.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
