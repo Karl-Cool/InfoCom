@@ -96,10 +96,7 @@ textarea
     padding-bottom: 10px;
          
 }
-.title-separ
-{
-    
-}
+
 .date-separator
 {
     margin-top: 10px;
@@ -116,9 +113,23 @@ textarea
     background-color:lightgrey;
     margin: 5px;
 }
-.Informal{
+.Informal {
     border: 2px solid black;
     margin: 5px;    
     background-color:Highlight;
+    -ms-opacity: 0.9;
     opacity: 0.9;
+}
+
+.sandbg {
+    background: url('./Img/sand.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+    -ms-background-size: cover;
+    background-size: cover;
+}
+
+.panel-heading {
+    opacity: 0.7;
 }

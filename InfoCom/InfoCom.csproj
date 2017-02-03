@@ -220,7 +220,6 @@
     <Content Include="Content\jHtmlArea\jHtmlArea.png" />
     <Content Include="Content\jHtmlArea\jHtmlArea_Toolbar_Group_BG.png" />
     <Content Include="Content\jHtmlArea\jHtmlArea_Toolbar_Group__Btn_Select_BG.png" />
-    <Content Include="Content\Sand.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
