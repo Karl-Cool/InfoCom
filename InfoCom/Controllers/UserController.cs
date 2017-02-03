@@ -12,9 +12,9 @@ using NHibernate.Linq;
 
 namespace InfoCom.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
-        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var model = new UserIndexViewmodel();
@@ -23,7 +23,6 @@ namespace InfoCom.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
             return View();
@@ -32,7 +31,6 @@ namespace InfoCom.Controllers
 
         // Function to register a new user to the database
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Register(UserViewModel model)
         {
@@ -65,7 +63,6 @@ namespace InfoCom.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Admin")]
         public ActionResult Remove(int id)
         {
             if (UserRepository.delete(id))
@@ -79,7 +76,6 @@ namespace InfoCom.Controllers
         }
 
         //GET
-        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             var user = DbConnect.SessionFactory.OpenSession().Load<User>(id);
