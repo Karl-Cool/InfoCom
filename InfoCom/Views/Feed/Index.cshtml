@@ -24,9 +24,6 @@
                 <p class="lead">
                     by @item.Author.Username
                 </p>
-
-                <hr>
-
                 <p><span class="glyphicon glyphicon-time"></span> Posted on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Month, @item.CreatedAt.Year at @item.CreatedAt.ToString("HH:mm tt")</p>
 
                 <hr>
@@ -45,6 +42,7 @@
                 {
                     <button class="btn btn-danger">Hide this post</button>
                 }
+                <hr />
             </div>
         </div>
     </div>
