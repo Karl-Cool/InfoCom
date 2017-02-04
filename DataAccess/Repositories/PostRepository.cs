@@ -17,7 +17,7 @@ namespace DataAccess.Repositories
                 {
 
                     var postList = session.Query<Post>()
-                        .Fetch(x => x.Author).ToList();
+                        .Fetch(x => x.Author).OrderByDescending(x => x.CreatedAt).ToList();
                     
                     return postList;
 

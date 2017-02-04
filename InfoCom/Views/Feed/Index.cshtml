@@ -1,4 +1,5 @@
-﻿@model InfoCom.ViewModels.PostViewModel
+﻿@using Microsoft.AspNet.Identity
+@model InfoCom.ViewModels.PostViewModel
 @{
     ViewBag.Title = "Feed";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -21,12 +22,12 @@
                 }
 
                 <p class="lead">
-                    by @item.Author.Name
+                    by @item.Author.Username
                 </p>
 
                 <hr>
 
-                <p><span class="glyphicon glyphicon-time"></span> Posted on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Month, @item.CreatedAt.Year at @item.CreatedAt.ToString("hh:mm") @item.CreatedAt.ToString("tt")</p>
+                <p><span class="glyphicon glyphicon-time"></span> Posted on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Month, @item.CreatedAt.Year at @item.CreatedAt.ToString("HH:mm tt")</p>
 
                 <hr>
 
@@ -35,11 +36,15 @@
                 <hr>
 
                 <p>
-                    @(item.Content.Length > 200 ? item.Content.Substring(0, 200) : item.Content)
+                    @(item.Content.Length > 200 ? item.Content.Substring(0, 300) + "..." : item.Content)
                 </p>
 
                 <hr>
                 <button class="btn btn-primary">Read more</button>
+                @if (item.Author.Id == Convert.ToInt32(User.Identity.GetUserId()) || User.IsInRole("Admin"))
+                {
+                    <button class="btn btn-danger">Hide this post</button>
+                }
             </div>
         </div>
     </div>
