@@ -29,11 +29,22 @@
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - InfoCom </p>
-        </footer>
+        <div class="row">
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
+            <div class="col-md-3">
+                <div class="well">
+                    Calendar body
+                </div>
+                <div class="well">
+                    Second widget
+                </div>
+                <div class="well">
+                    Yet another widget
+                </div>
+            </div>
+        </div>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
