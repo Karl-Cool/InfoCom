@@ -1,98 +1,126 @@
 ﻿@model InfoCom.ViewModels.PostViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Feed";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    
+
 }
-<head>
-    <link rel="Stylesheet" type="text/css" href="~/Content/jHtmlArea/jHtmlArea.css" />
-</head>
+@foreach (var item in Model.PostList)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
 
 
+                @if (item.Formal)
+                {
+                    <h1>@item.Title</h1>
+                }
+                else
+                {
+                    <h1>@item.Title (Informal)</h1>
+                }
 
-<div class="postcontainer" padding="30">
-    <div class="buttonMenu">
-        <input type="button" value="New post" id="postBtn" class="btn-primary" onclick="@("window.location.href='" + @Url.Action("Post", "Feed") + "'");" />
+                <p class="lead">
+                    by @item.Author.Name
+                </p>
+
+                <hr>
+
+                <p><span class="glyphicon glyphicon-time"></span> Posted on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Month, @item.CreatedAt.Year at @item.CreatedAt.ToString("hh:mm") @item.CreatedAt.ToString("tt")</p>
+
+                <hr>
+
+                <img class="img-responsive" src="~/Content/img/sand.jpg" alt="">
+
+                <hr>
+
+                <p>
+                    @(item.Content.Length > 200 ? item.Content.Substring(0, 200) : item.Content)
+                </p>
+
+                <hr>
+                <button class="btn btn-primary">Read more</button>
+            </div>
+        </div>
     </div>
-    <div class="feed">
+}
+@*<div class="postcontainer" padding="30">
+        <div class="buttonMenu">
+            <input type="button" value="New post" id="postBtn" class="btn-primary" onclick="@("window.location.href='" + @Url.Action("Post", "Feed") + "'");" />
+        </div>
+        <div class="feed">
 
-       @foreach (var item in Model.model)
-       {
-        @*@foreach(var post in Model.PostList)
-        {s
-            <div class="feed">
-                <p>@post.Title</p>
-                <p>@post.Content</p>
-                <p>@post.CreatedAt</p>
-            </div>
-        }*@
-        if (item.Formal == true)
-        {
-            <div class="Formal">
-                <div class="text-center, border1">
-                    <span class="text-post2">
-                        @Html.DisplayFor(modelItem => item.Title) <br />
-                    </span>
-                    <div class="text-title1">
-                        Posted by:  @Html.DisplayFor(modelItem => item.Author.Name)<br />
+            @foreach (var item in Model.PostList)
+            {
+
+            if (item.Formal == true)
+            {
+                <div class="Formal">
+                    <div class="text-center, border1">
+                        <span class="text-post2">
+                            @Html.DisplayFor(modelItem => item.Title) <br />
+                        </span>
+                        <div class="text-title1">
+                            Posted by:  @Html.DisplayFor(modelItem => item.Author.Name)<br />
+                        </div>
+
+
+                        <div>
+                            @Html.DisplayFor(modelItem => item.Content) <br />
+                        </div>
+
+                        <div class="date-separator">
+                            @Html.DisplayFor(modelItem => item.CreatedAt)
+                        </div>
+
+
+
+
+
                     </div>
-
-
-                    <div>
-                        @Html.DisplayFor(modelItem => item.Content) <br />
-                    </div>
-
-                    <div class="date-separator">
-                        @Html.DisplayFor(modelItem => item.CreatedAt)
-                    </div>
-
-
-
-
-
                 </div>
-            </div>
 
-        }
-        else
-        {
-            <div class="Informal">
-                <div class="text-center, border1">
-                    <span class="text-post2">
-                        @Html.DisplayFor(modelItem => item.Title) <br />
-                    </span>
-                    <div class="text-title1">
-                        Posted by:  @Html.DisplayFor(modelItem => item.Author.Name)<br />
+            }
+            else
+            {
+                <div class="Informal">
+                    <div class="text-center, border1">
+                        <span class="text-post2">
+                            @Html.DisplayFor(modelItem => item.Title) <br />
+                        </span>
+                        <div class="text-title1">
+                            Posted by:  @Html.DisplayFor(modelItem => item.Author.Name)<br />
+                        </div>
+
+
+                        <div>
+                            @Html.DisplayFor(modelItem => item.Content) <br />
+                        </div>
+
+                        <div class="date-separator">
+                            @Html.DisplayFor(modelItem => item.CreatedAt)
+                        </div>
+
+
+
+
+
                     </div>
-
-
-                    <div>
-                        @Html.DisplayFor(modelItem => item.Content) <br />
-                    </div>
-
-                    <div class="date-separator">
-                        @Html.DisplayFor(modelItem => item.CreatedAt)
-                    </div>
-
-
-
-
-
                 </div>
-            </div>
-            
-        }
+
+                }
 
 
 
-       }
+            }
+        </div>
     </div>
-</div>
 
-<script type="text/javascript" src="~/Scripts/jHtmlArea-0.8.js">
-   $(document).ready(function() {
-        $('textarea').htmlarea();
-    });
-    
-</script>
+    <script type="text/javascript" src="~/Scripts/jHtmlArea-0.8.js">
+        $(document).ready(function () {
+            $('textarea').htmlarea();
+        });
 
+    </script>
+
+            }*@

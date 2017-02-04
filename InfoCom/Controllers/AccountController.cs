@@ -17,7 +17,7 @@ namespace InfoCom.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Feed");
             }
             return View();
         }
@@ -66,7 +66,7 @@ namespace InfoCom.Controllers
                     var authManager = Request.GetOwinContext().Authentication;
                     authManager.SignIn(identity);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Feed");
                 }
             }
 

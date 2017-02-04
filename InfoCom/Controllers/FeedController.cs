@@ -18,15 +18,17 @@ namespace InfoCom.Controllers
             //     PostList = PostRepository.get()
             //};
             PostViewModel model = new PostViewModel();
-             model.model = PostRepository.Get();
+             model.PostList = PostRepository.Get();
             
             return View(model);
         }
+
         public ActionResult Post()
         {
             var model = new PostViewModel();
             return View(model);
         }
+
         [HttpPost]
         public ActionResult Post(PostViewModel model)
         {
@@ -42,7 +44,7 @@ namespace InfoCom.Controllers
                     post.Category = CategoryRepository.Get(4);
 
                     post.Content = model.Content;
-                    post.CreatedAt = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+                    post.CreatedAt = DateTime.Now;
                     post.Formal = false;
                     post.Title = model.Title;
 
