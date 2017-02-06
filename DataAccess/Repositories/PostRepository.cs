@@ -31,6 +31,28 @@ namespace DataAccess.Repositories
             }
             return null;
         }
+        public static List<Post> GetCat(int id)
+        {
+            try
+            {
+                using (var session = DbConnect.SessionFactory.OpenSession())
+                {
+                    var post = session.Query<Post>()
+                        .Where(x => x.Category.Id == id)
+                        .Fetch(x => x.Author)
+                        
+                        .OrderByDescending(x => x.CreatedAt).ToList();
+                    return post;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
+
+            }
+            return null;
+        }
         public static Post Get(int id)
         {
             try
