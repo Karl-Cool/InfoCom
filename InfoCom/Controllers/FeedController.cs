@@ -18,11 +18,12 @@ namespace InfoCom.Controllers
             //     PostList = PostRepository.get()
             //};
             PostViewModel model = new PostViewModel();
-             model.PostList = PostRepository.Get();
-            
+            model.PostList = PostRepository.Get();
+            ViewBag.Categories = CategoryRepository.Get();
+
             return View(model);
         }
-
+       
         public ActionResult Post()
         {
             var model = new PostViewModel();
