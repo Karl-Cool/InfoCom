@@ -3,9 +3,7 @@ using DataAccess.Repositories;
 using InfoCom.ViewModels;
 using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -20,7 +18,7 @@ namespace InfoCom.Controllers
             //     PostList = PostRepository.get()
             //};
 
-            FeedViewModel model = new FeedViewModel();
+            var model = new PostViewModel();
             model.PostList = PostRepository.Get();
             model.Categories = CategoryRepository.Get().Select(x => new SelectListItem
             {
@@ -31,7 +29,7 @@ namespace InfoCom.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult Index(FeedViewModel model)
+        public ActionResult Index(PostViewModel model)
         {
             var category = model.CategoryId;
             model.PostList = PostRepository.GetCat(category);
