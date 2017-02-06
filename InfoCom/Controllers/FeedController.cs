@@ -60,7 +60,6 @@ namespace InfoCom.Controllers
                 {
                     var post = new Post();
                     var currentuser = UserRepository.Get(Convert.ToInt32(User.Identity.GetUserId()));
-                    // post.Author = User.Identity.Name;
                     post.Author = currentuser;
                     post.Category = CategoryRepository.Get(4);
 

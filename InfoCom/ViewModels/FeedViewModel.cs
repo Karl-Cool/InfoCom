@@ -1,9 +1,6 @@
 ﻿using DataAccess.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace InfoCom.ViewModels
 {
@@ -15,7 +12,7 @@ namespace InfoCom.ViewModels
         public string Title { get; set; }
         public string Content { get; set; }
         public DateTime CreatedAt { get; set; }
-        public bool Formal { get; set; }
+        public string Formal { get; set; }
        
         public FeedViewModel()
         {
