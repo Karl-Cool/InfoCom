@@ -15,14 +15,16 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var meeting = session.Query<Meeting>().Fetch(x => x.Creator).FirstOrDefault(x => x.Id == id);
+                    var meeting = session.Query<Meeting>()
+                        .Fetch(x => x.Creator)
+                        .Fetch(x => x.Times)
+                        .Single(x => x.Id == id);
                     return meeting;
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-
             }
             return null;
         }
@@ -88,6 +90,30 @@ namespace DataAccess.Repositories
 
             }
             return id;
+        }
+
+        public static ICollection<Time> GetTime(int id)
+        {
+            try
+            {
+                using (var session = DbConnect.SessionFactory.OpenSession())
+                {
+                    var timechoice =
+                        session.Query<TimeChoice>()
+                            .Where(x => x.Meeting.Id == id)
+                            .GroupBy(x => x.Time)
+                            .OrderByDescending(x => x.Count());
+                    var time = timechoice.Take(1).Select(x => x.Key).ToList();
+                            
+                    return time;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
         }
     }
 }

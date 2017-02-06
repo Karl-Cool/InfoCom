@@ -11,5 +11,6 @@ namespace DataAccess.Models
         public virtual int Id { get; set; }
         public virtual User User { get; set; }
         public virtual Time Time { get; set; }
+        public virtual Meeting Meeting { get; set; }
     }
 }
