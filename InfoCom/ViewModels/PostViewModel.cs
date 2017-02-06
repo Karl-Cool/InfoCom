@@ -1,12 +1,13 @@
-﻿using System;
+﻿using DataAccess.Models;
+using DataAccess.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace DataAccess.Models
+namespace InfoCom.ViewModels
 {
-    public class Post
+    public class PostViewModel
     {
         public virtual int Id { get; set; }
         public virtual User Author { get; set; }
@@ -17,12 +18,8 @@ namespace DataAccess.Models
         public virtual bool Formal { get; set; }
         public virtual ISet<Comment> Comments { get; set; }
         public virtual ISet<File> Files { get; set; }
-        public Post()
-        {
-            Comments = new HashSet<Comment>();
-            Files = new HashSet<File>();
-        }
+        public virtual List<Post> PostList {get; set; }
+       
+
     }
-
-
 }

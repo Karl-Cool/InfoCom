@@ -1,22 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DataAccess.Models;
+﻿using DataAccess.Models;
+using NHibernate;
 using NHibernate.Linq;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace DataAccess.Repositories
 {
-    public static class MeetingRepository
+    public static class CategoryRepository
     {
-        public static Meeting Get(int id)
+        public static ICollection<Category> Get()
         {
             try
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var meeting = session.Query<Meeting>().Fetch(x => x.Creator).FirstOrDefault(x => x.Id == id);
-                    return meeting;
+                    var users = session.Query<Category>().ToList();
+                    return users;
                 }
             }
             catch (Exception ex)
@@ -25,16 +26,17 @@ namespace DataAccess.Repositories
 
             }
             return null;
+
         }
 
-        public static List<Meeting> Get()
+        public static Category Get(int id)
         {
             try
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    List<Meeting> meetingList = session.Query<Meeting>().ToList();
-                    return meetingList;
+                    var user = session.Query<Category>().FirstOrDefault(x => x.Id == id);
+                    return user;
                 }
             }
             catch (Exception ex)
@@ -53,13 +55,11 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var meeting = session.Query<Meeting>().FirstOrDefault(x => x.Id == id);
-                    using (var transaction = session.BeginTransaction())
-                    {
-                        session.Delete(meeting);
-                        transaction.Commit();
-                        response = true;
-                    }
+                    var user = session.Query<Category>().FirstOrDefault(x => x.Id == id);
+                    ITransaction transaction = session.BeginTransaction();
+                    session.Delete(user);
+                    transaction.Commit();
+                    response = true;
                 }
             }
             catch (Exception ex)
@@ -71,15 +71,17 @@ namespace DataAccess.Repositories
 
         }
 
-        public static int Add(Meeting meeting)
+        public static bool Add(Category cat)
         {
-            var id = 0;
+            var response = false;
+
 
             try
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    id = Convert.ToInt32(session.Save(meeting));
+                    session.Save(cat);
+                    response = true;
                 }
             }
             catch (Exception ex)
@@ -87,7 +89,7 @@ namespace DataAccess.Repositories
                 Debug.WriteLine(ex.Message);
 
             }
-            return id;
+            return response;
         }
     }
 }

@@ -6,22 +6,28 @@ using System.Web.Mvc;
 
 namespace InfoCom.Controllers
 {
-    public class InvitationController : Controller
+    public class MeetingsController : Controller
     {
-        // GET: Invitation
+        // GET: Meetings
         public ActionResult Index()
         {
             int userId = Convert.ToInt32(User.Identity.GetUserId());
+            var meetings = MeetingsRepository.Get(userId);
             var invitations = InvitationRepository.Get(userId);
-            var model = new InvitationViewModel()
+            var model = new MeetingsViewModel()
             {
+                Meetings = meetings,
                 Invitations = invitations
             };
-            if (invitations != null)
-            {
-                InvitationRepository.UpdateNotified(userId);
-            }
+
             return View(model);
+        }
+
+        public ActionResult Delete(int id)
+        {
+            MeetingsRepository.Delete(id);
+
+            return RedirectToAction("Index", "Meetings");
         }
     }
 }

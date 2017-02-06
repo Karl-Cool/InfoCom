@@ -1,29 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Web;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Security;
 using DataAccess;
 using DataAccess.Models;
 using DataAccess.Repositories;
+using InfoCom.Services;
 using InfoCom.ViewModels;
 using NHibernate.Linq;
 
 namespace InfoCom.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
-        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
-            var model = new UserIndexViewmodel();
-            model.Users = UserRepository.get();
+            var model = new UserIndexViewmodel { Users = UserRepository.Get() };
 
             return View(model);
         }
 
-        [Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
             return View();
@@ -32,9 +29,8 @@ namespace InfoCom.Controllers
 
         // Function to register a new user to the database
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(UserViewModel model)
+        public ActionResult Register(UserRegisterViewModel model)
         {
             if (DbConnect.SessionFactory.OpenSession().Query<User>().Any(u => u.Username == model.Username))
                 ModelState.AddModelError("Username", "Username must be unique");
@@ -47,12 +43,14 @@ namespace InfoCom.Controllers
             {
 
                 var passwordHash = BCrypt.Net.BCrypt.HashPassword(model.Password, 10);
-                var user = new User();
-                user.Password = passwordHash;
-                user.Email = model.Email;
-                user.Username = model.Username;
-                user.Name = model.Name;
-                UserRepository.add(user);
+                var user = new User
+                {
+                    Password = passwordHash,
+                    Email = model.Email,
+                    Username = model.Username,
+                    Name = model.Name
+                };
+                UserRepository.Add(user);
 
                 TempData["Message"] = "Profile saved!";
                 TempData["Type"] = "alert-success";
@@ -65,57 +63,74 @@ namespace InfoCom.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Admin")]
         public ActionResult Remove(int id)
         {
-            if (UserRepository.delete(id))
-            {
-                return RedirectToAction("Index", "User");
-            }
+            UserRepository.Delete(id);
 
-            return RedirectToAction("Index", "Home");
-
-
+            return RedirectToAction("Index", "User");
         }
 
         //GET
-        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             var user = DbConnect.SessionFactory.OpenSession().Load<User>(id);
             if (user == null)
                 return HttpNotFound();
 
-            return View(new UserEditViewModel
-                {
-                    Username = user.Username,
-                    Email = user.Email,
-                    Name = user.Name
-                });
+            var model = new UserEditViewModel
+            {
+                Id = id,
+                Username = user.Username,
+                Email = user.Email,
+                Name = user.Name
+            };
+
+            return View(model);
         }
 
         //POST
         [HttpPost]
-        public ActionResult Edit(int id, UserEditViewModel model)
+        public ActionResult Edit(UserEditViewModel model)
         {
-            var user = DbConnect.SessionFactory.OpenSession().Load<User>(id);
-            if (user == null)
-                return HttpNotFound();
-
-            if(DbConnect.SessionFactory.OpenSession().Query<User>().Any(u=>u.Username == model.Username && u.Id != id))
-                //om en användare hittas i db som inte är modellen
-                ModelState.AddModelError("Username", "Username must be unique");
 
             if (!ModelState.IsValid)
                 return View(model);
 
-            user.Username = model.Username;
-            user.Email = model.Email;
-            user.Name = model.Name;
+            var user = new User
+            {
+                Id = model.Id,
+                Username = model.Username,
+                Email = model.Email,
+                Name = model.Name
+            };
 
-       
-            //Failar vid update pga 2 öppna sessions. hann inte fixa innan push men allt bygger
-           DbConnect.SessionFactory.OpenSession().Update(user);
+            UserRepository.Update(user);
+
+            TempData["Message"] = "Settings saved.";
+            TempData["Type"] = "alert-success";
+
+            return View(model);
+        }
+
+        public async Task<ActionResult> ResetPassword(int id)
+        {
+            var password = Membership.GeneratePassword(8, 1);
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword(password, 10);
+
+            var user = UserRepository.Get(id);
+            user.Password = passwordHash;
+            UserRepository.UpdatePassword(user);
+
+            var email = new Email
+            {
+                Recipient = user.Email,
+                Title = "Your password has been reset.",
+                Text = "Your password on InfoCom has been reset. This is your new password: " + password
+            };
+            await MailService.Mail(email);
+
+            TempData["Message"] = "The password for " + user.Username + " has been successfully reset.";
+            TempData["Type"] = "alert-success";
 
             return RedirectToAction("Index", "User");
         }

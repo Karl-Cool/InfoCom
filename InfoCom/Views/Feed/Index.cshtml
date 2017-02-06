@@ -1,47 +1,158 @@
-﻿@model IEnumerable<DataAccess.Models.Post>
+﻿@using Microsoft.AspNet.Identity
+@model InfoCom.ViewModels.PostViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Feed";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
-<div class="postarea1, text-center">
-    @using (Html.BeginForm())
-    {
-        @Html.TextArea("Test", null, new { @class = "textarea1" })
-        
-        <div>
-            <input type="submit" class="btn-feedpost" id="glyphicon-plus" name="Add" value="Add" />    <br />
-            <input type="submit" class="btn-feedpost" id="glyphicon-plus" name="Add" value="Upload" />    <br />
-        </div>
-       
-
-    }
-</div>
-
-<div class="postcontainer" padding="30">
-    
-    <div class="feed">
-
-       @foreach (var item in Model)
-       {
-        @*@foreach(var post in Model.PostList)
-        {s
-            <div class="feed">
-                <p>@post.Title</p>
-                <p>@post.Content</p>
-                <p>@post.CreatedAt</p>
+<div class="col-lg-4 pull-right">
+    <div class="well" id ="feed-settings-well">
+        <h4>Feed settings</h4>
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "feed-settings" }))
+        {
+            <div class="form-group">
+                <label class="radio-inline"><input type="radio" name="optradio" checked="checked">All</label>
+                <label class="radio-inline"><input type="radio" name="optradio">Formal</label>
+                <label class="radio-inline"><input type="radio" name="optradio">Informal</label>
             </div>
-        }*@
-           <div class="text-center, border1">
-               @Html.DisplayFor(modelItem => item.Title) <br/>
-
-               
-               @Html.DisplayFor(modelItem => item.Content) <br />
-
-               @Html.DisplayFor(modelItem => item.CreatedAt)
-
-
-           </div>
-        
-       }
+            <div class="form-group">
+                <label for="sel1">Category</label>
+                <select class="form-control" id="sel1">
+                    <option selected="">All</option>
+                    <option>Meetings</option>
+                    <option>Science</option>
+                    <option>Travels</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            if(User.IsInRole("Admin"))
+             {
+                 <div class="checkbox">
+                     <label><input type="checkbox" value="" checked="checked">Show hidden posts</label>
+                 </div>
+             }
+            <input class="btn btn-block btn-primary" type="submit" value="Save"/>
+        }
     </div>
 </div>
+
+@foreach (var item in Model.PostList)
+            {
+    <div class="col-lg-8">
+        @if (item.Formal)
+                {
+            <h1>@item.Title</h1>
+        }
+        else
+        {
+            <h1>@item.Title (Informal)</h1>
+        }
+
+        <p class="lead">
+            by @item.Author.Username
+        </p>
+        <p><span class="glyphicon glyphicon-time"></span> Posted on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Month, @item.CreatedAt.Year at @item.CreatedAt.ToString("HH:mm tt")</p>
+
+        <hr>
+
+        <img class="img-responsive" src="~/Content/img/sand.jpg" alt="">
+
+        <hr>
+
+        <p>
+            @(item.Content.Length > 200 ? item.Content.Substring(0, 300) + "..." : item.Content)
+        </p>
+
+        <hr>
+        <button class="btn btn-primary">Read more</button>
+        @if (item.Author.Id == Convert.ToInt32(User.Identity.GetUserId()) || User.IsInRole("Admin"))
+                {
+            <button class="btn btn-danger">Hide this post</button>
+        }
+        <hr />
+    </div>
+}
+@section scripts {
+    @Scripts.Render("~/Scripts/feedScripts.js")
+}
+
+@*<div class="postcontainer" padding="30">
+        <div class="buttonMenu">
+            <input type="button" value="New post" id="postBtn" class="btn-primary" onclick="@("window.location.href='" + @Url.Action("Post", "Feed") + "'");" />
+        </div>
+        <div class="feed">
+
+            @foreach (var item in Model.PostList)
+            {
+
+            if (item.Formal == true)
+            {
+                <div class="Formal">
+                    <div class="text-center, border1">
+                        <span class="text-post2">
+                            @Html.DisplayFor(modelItem => item.Title) <br />
+                        </span>
+                        <div class="text-title1">
+                            Posted by:  @Html.DisplayFor(modelItem => item.Author.Name)<br />
+                        </div>
+
+
+                        <div>
+                            @Html.DisplayFor(modelItem => item.Content) <br />
+                        </div>
+
+                        <div class="date-separator">
+                            @Html.DisplayFor(modelItem => item.CreatedAt)
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+
+            }
+            else
+            {
+                <div class="Informal">
+                    <div class="text-center, border1">
+                        <span class="text-post2">
+                            @Html.DisplayFor(modelItem => item.Title) <br />
+                        </span>
+                        <div class="text-title1">
+                            Posted by:  @Html.DisplayFor(modelItem => item.Author.Name)<br />
+                        </div>
+
+
+                        <div>
+                            @Html.DisplayFor(modelItem => item.Content) <br />
+                        </div>
+
+                        <div class="date-separator">
+                            @Html.DisplayFor(modelItem => item.CreatedAt)
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+
+                }
+
+
+
+            }
+        </div>
+    </div>
+
+    <script type="text/javascript" src="~/Scripts/jHtmlArea-0.8.js">
+        $(document).ready(function () {
+            $('textarea').htmlarea();
+        });
+
+    </script>
+
+            }*@

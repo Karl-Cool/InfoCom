@@ -1,0 +1,44 @@
+﻿@model InfoCom.ViewModels.PostViewModel
+@{
+    ViewBag.Title = "Post";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Post</h2>
+<div class="post-area">
+
+    <div class="post-Text">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <span class="title-separ">
+                @Html.LabelFor(model => model.Title, "Title") <br />
+                @Html.TextBoxFor(model => model.Title)
+
+            </span>        <br />
+            <span class="radio-bottom-style">
+                @Html.Label("Formal post")
+                @Html.RadioButtonFor(model => model.Formal, true) <br />
+                @Html.Label("Informal post")
+                @Html.RadioButtonFor(model => model.Formal, false)  <br />
+
+            </span>
+           
+            @*@Html.TextAreaFor(model => model.Content, new {@class= "textarea1" })*@
+            @Html.TextAreaFor(model => model.Content, new { @class = "postText" })
+            <div class="col-lg-11">
+                <input type="submit" value="Upload" class="btn-info" />
+            </div>
+            
+        }
+
+
+
+
+    </div>
+    
+
+
+</div>
+
+

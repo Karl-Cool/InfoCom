@@ -1,6 +1,5 @@
 ﻿using DataAccess;
 using DataAccess.Models;
-using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Web.Mvc;
@@ -16,7 +15,10 @@ namespace InfoCom.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Feed");
+            }
             return View();
         }
         [AllowAnonymous]
@@ -64,7 +66,7 @@ namespace InfoCom.Controllers
                     var authManager = Request.GetOwinContext().Authentication;
                     authManager.SignIn(identity);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Feed");
                 }
             }
 

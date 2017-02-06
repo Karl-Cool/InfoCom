@@ -1,18 +1,15 @@
 ﻿using DataAccess.Models;
-using NHibernate;
 using NHibernate.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
 {
     public static class UserRepository
     {
-        public static ICollection<User> get()
+        public static ICollection<User> Get()
         {
             try
             {
@@ -31,13 +28,14 @@ namespace DataAccess.Repositories
 
         }
 
-        public static User get(int id)
+        public static User Get(int id)
         {
             try
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
                     var user = session.Query<User>().FirstOrDefault(x => x.Id == id);
+
                     return user;
                 }
             }
@@ -49,7 +47,7 @@ namespace DataAccess.Repositories
             return null;
         }
 
-        public static bool delete(int id)
+        public static bool Delete(int id)
         {
             var response = false;
 
@@ -58,10 +56,12 @@ namespace DataAccess.Repositories
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
                     var user = session.Query<User>().FirstOrDefault(x => x.Id == id);
-                    ITransaction transaction = session.BeginTransaction();
-                    session.Delete(user);
-                    transaction.Commit();
-                    response = true;
+                    using (var transaction = session.BeginTransaction())
+                    {
+                        session.Delete(user);
+                        transaction.Commit();
+                        response = true;
+                    }
                 }
             }
             catch (Exception ex)
@@ -73,7 +73,7 @@ namespace DataAccess.Repositories
 
         }
 
-        public static bool add(User user)
+        public static bool Add(User user)
         {
             var response = false;
 
@@ -92,6 +92,67 @@ namespace DataAccess.Repositories
 
             }
             return response;
+        }
+
+        public static bool Update(User user)
+        {
+            var success = false;
+
+            try
+            {
+
+                using (var session = DbConnect.SessionFactory.OpenSession())
+                {
+                    var usr = session.Query<User>().FirstOrDefault(x => x.Id == user.Id);
+                    using (var transaction = session.BeginTransaction())
+                    {
+                        if (usr != null)
+                        {
+                            usr.Email = user.Email;
+                            usr.Name = user.Name;
+                            usr.Username = user.Username;
+
+                            session.Update(usr);
+                        }
+                        transaction.Commit();
+                    }
+                    success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            return success;
+        }
+
+        public static bool UpdatePassword(User user)
+        {
+            var success = false;
+
+            try
+            {
+
+                using (var session = DbConnect.SessionFactory.OpenSession())
+                {
+                    var usr = session.Query<User>().FirstOrDefault(x => x.Id == user.Id);
+                    using (var transaction = session.BeginTransaction())
+                    {
+                        if (usr != null)
+                        {
+                            usr.Password = user.Password;
+                            session.Update(usr);
+                        }
+                        transaction.Commit();
+                    }
+                    success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            return success;
         }
     }
 }

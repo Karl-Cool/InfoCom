@@ -3,8 +3,6 @@ using DataAccess.Repositories;
 using InfoCom.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 
@@ -15,18 +13,18 @@ namespace InfoCom.Controllers
         // GET: Meeting
         public ActionResult Index()
         {
-            List<Meeting> meetings = MeetingRepository.get();
+            List<Meeting> meetings = MeetingRepository.Get();
             return View(meetings);
         }
         public ActionResult Info(int? id)
         {
             if (id != null)
             {
-                Meeting meeting = MeetingRepository.get(Convert.ToInt32(id));
+                Meeting meeting = MeetingRepository.Get(Convert.ToInt32(id));
                 MeetingViewModel viewModel = new MeetingViewModel();
                 viewModel.Title = meeting.Title;
                 viewModel.Description = meeting.Description;
-                viewModel.Creator = UserRepository.get(meeting.Creator.Id);
+                viewModel.Creator = UserRepository.Get(meeting.Creator.Id);
                 return View("Info", viewModel);
             }
             return RedirectToAction("Index");
@@ -45,7 +43,7 @@ namespace InfoCom.Controllers
           if (ModelState.IsValid)
             {
                 Meeting meeting = new Meeting();
-                meeting.Creator = UserRepository.get(Convert.ToInt32(User.Identity.GetUserId()));
+                meeting.Creator = UserRepository.Get(Convert.ToInt32(User.Identity.GetUserId()));
                 meeting.Description = model.Description;
                 meeting.Title = model.Title;
                 foreach(DateTime date in model.Dates)
@@ -55,7 +53,7 @@ namespace InfoCom.Controllers
                     meeting.Times.Add(newDate);
                 }
 
-                int id = MeetingRepository.add(meeting);
+                int id = MeetingRepository.Add(meeting);
                 if (id != 0)
                 {
                     return RedirectToAction("info", id);

@@ -4,21 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
 {
     public static class PostRepository
     {
-        public static List<Post> get()
+        public static List<Post> Get()
         {
             try
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
 
-                   var postList = session.Query<Post>().ToList();
+                    var postList = session.Query<Post>()
+                        .Fetch(x => x.Author).OrderByDescending(x => x.CreatedAt).ToList();
                     
                     return postList;
 
@@ -32,7 +31,7 @@ namespace DataAccess.Repositories
             }
             return null;
         }
-        public static Post get(int id)
+        public static Post Get(int id)
         {
             try
             {
@@ -50,7 +49,7 @@ namespace DataAccess.Repositories
             }
             return null;
         }
-        public static bool add(Post post)
+        public static bool Add(Post post)
         {
             var response = false;
 

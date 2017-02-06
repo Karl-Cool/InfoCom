@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DataAccess.Models;
 using NHibernate.Linq;
 using System.Diagnostics;
@@ -12,7 +10,7 @@ namespace DataAccess.Repositories
 {
     public static class TimeRepository
     {
-        public static Time get(int id)
+        public static Time Get(int id)
         {
             try
             {
@@ -30,7 +28,7 @@ namespace DataAccess.Repositories
             return null;
         }
 
-        public static List<Time> get()
+        public static List<Time> Get()
         {
             try
             {
@@ -48,7 +46,7 @@ namespace DataAccess.Repositories
             return null;
         }
 
-        public static bool delete(int id)
+        public static bool Delete(int id)
         {
             var response = false;
 

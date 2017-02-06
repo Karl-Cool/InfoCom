@@ -1,12 +1,10 @@
-﻿using DataAccess;
-using DataAccess.Models;
+﻿using DataAccess.Models;
 using DataAccess.Repositories;
 using InfoCom.ViewModels;
 using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Diagnostics;
+using System.Globalization;
 using System.Web.Mvc;
 
 namespace InfoCom.Controllers
@@ -19,25 +17,55 @@ namespace InfoCom.Controllers
             // var model = new FeedViewModel() {
             //     PostList = PostRepository.get()
             //};
-            List<Post> model = PostRepository.get();
-
+            PostViewModel model = new PostViewModel();
+             model.PostList = PostRepository.Get();
+            
             return View(model);
         }
-        [HttpPost]
-        public ActionResult Index(Post post)
+
+        public ActionResult Post()
         {
-            var currentuser = UserRepository.get(11);
-            // post.Author = User.Identity.Name;
-            post.Author = currentuser;
+            var model = new PostViewModel();
+            return View(model);
+        }
 
+        [HttpPost]
+        public ActionResult Post(PostViewModel model)
+        {
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+                    var post = new Post();
+                    var currentuser = UserRepository.Get(Convert.ToInt32(User.Identity.GetUserId()));
+                    // post.Author = User.Identity.Name;
+                    post.Author = currentuser;
+                    post.Category = CategoryRepository.Get(4);
+
+                    post.Content = model.Content;
+                    post.CreatedAt = DateTime.Now;
+                    post.Formal = false;
+                    post.Title = model.Title;
+
+                    PostRepository.Add(post);
+                    return RedirectToAction("Index");
+
+                }
+                else
+                {
+                    return View(model);
+                }
+
+
+
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return HttpNotFound();
+            }
             
-            post.Content = "LOL";
-            post.CreatedAt = "20/20/20";
-            post.Formal = false;
-            post.Title = "Småbarn";
-
-            PostRepository.add(post);
-            return View();
         }
     }
 }

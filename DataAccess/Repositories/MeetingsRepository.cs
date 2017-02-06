@@ -1,40 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using DataAccess.Models;
 using NHibernate.Linq;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace DataAccess.Repositories
 {
-    public static class MeetingRepository
+    public static class MeetingsRepository
     {
-        public static Meeting Get(int id)
+        public static List<Meeting> Get(int id)
         {
             try
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var meeting = session.Query<Meeting>().Fetch(x => x.Creator).FirstOrDefault(x => x.Id == id);
-                    return meeting;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-
-            }
-            return null;
-        }
-
-        public static List<Meeting> Get()
-        {
-            try
-            {
-                using (var session = DbConnect.SessionFactory.OpenSession())
-                {
-                    List<Meeting> meetingList = session.Query<Meeting>().ToList();
-                    return meetingList;
+                    var meetings = session.Query<Meeting>().Where(x => x.Creator.Id == id).ToList();
+                    return meetings;
                 }
             }
             catch (Exception ex)
@@ -68,26 +50,6 @@ namespace DataAccess.Repositories
 
             }
             return response;
-
-        }
-
-        public static int Add(Meeting meeting)
-        {
-            var id = 0;
-
-            try
-            {
-                using (var session = DbConnect.SessionFactory.OpenSession())
-                {
-                    id = Convert.ToInt32(session.Save(meeting));
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-
-            }
-            return id;
         }
     }
 }
