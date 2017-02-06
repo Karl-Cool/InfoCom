@@ -10,30 +10,62 @@ namespace InfoCom.Controllers
 {
     public class MeetingController : Controller
     {
-        // GET: Meeting
         public ActionResult Index(int? id)
         {
-            if (id != null)
+            int id2 = Convert.ToInt32(id);
+            Meeting meeting = MeetingRepository.Get(id2);
+            var model = new MeetingViewModel();
+            foreach (var time in meeting.Times)
             {
-                Meeting meeting = MeetingRepository.Get(Convert.ToInt32(id));
-                MeetingViewModel viewModel = new MeetingViewModel();
-                viewModel.Title = meeting.Title;
-                viewModel.Description = meeting.Description;
-                viewModel.Creator = UserRepository.Get(meeting.Creator.Id);
-                return View("Index", viewModel);
+                model.Dates.Add(time.Date);
             }
-            return RedirectToAction("Index");
+
+            List<int> alreadyInvitedUserIds = new List<int>();
+            List<Invitation> invitations = InvitationRepository.GetMeeting(id2);
+            foreach (Invitation invitation in invitations)
+            {
+                model.Invitations.Add(invitation);
+                alreadyInvitedUserIds.Add(invitation.User.Id);
+            }
+            ICollection<User> allUsers = UserRepository.Get();
+            foreach (User user in allUsers)
+            {
+                if (!alreadyInvitedUserIds.Contains(user.Id))
+                {
+                    model.NotInvitedUsers.Add(new SelectListItem
+                    {
+                        Text = user.Name,
+                        Value = user.Id.ToString()
+                    });
+                }
+            }
+            model.MeetingId = meeting.Id;
+            model.Creator = meeting.Creator;
+            model.Title = meeting.Title;
+            model.Description = meeting.Description;
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult AddNewInvitation(MeetingViewModel model)
+        {
+                Invitation newInvitation = new Invitation();
+                newInvitation.Meeting = MeetingRepository.Get(model.MeetingId);
+                newInvitation.Notified = false;
+                newInvitation.User = UserRepository.Get(model.UserId);
+                newInvitation.Status = 0;
+                InvitationRepository.Add(newInvitation);
+                return RedirectToAction("Index", new { id = model.MeetingId });
         }
 
 
         public ActionResult Create()
         {
-            MeetingViewModel meetingViewModel = new MeetingViewModel();
-            return View(meetingViewModel);
+            var model = new MeetingCreateViewModel();
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult Create(MeetingViewModel model)
+        public ActionResult Create(MeetingCreateViewModel model)
         {
             model.Creator = UserRepository.Get(Convert.ToInt32(User.Identity.GetUserId()));
             if (ModelState.IsValid)
@@ -52,7 +84,7 @@ namespace InfoCom.Controllers
                     {
                         Time newDate = new Time();
                         DateTime dateAndTime = new DateTime();
-                        if(DateTime.TryParse(stringDate, out dateAndTime))
+                        if (DateTime.TryParse(stringDate, out dateAndTime))
                         {
                             newDate.Date = dateAndTime;
                             newDate.Meeting = MeetingRepository.Get(id);
@@ -61,12 +93,13 @@ namespace InfoCom.Controllers
                                 timesAdded = true;
                             }
                         }
-                       
+
                     }
-                    if (timesAdded) {
-                        return RedirectToAction("index", id);
+                    if (timesAdded)
+                    {
+                        return RedirectToAction("index", new { id = id });
                     }
-                   
+
                 }
 
             }

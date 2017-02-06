@@ -188,7 +188,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\MailService.cs" />
     <Compile Include="ViewModels\FeedViewModel.cs" />
-    <Compile Include="ViewModels\MeetingsViewModel.cs" />
     <Compile Include="ViewModels\InvitationViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MeetingViewModel.cs" />

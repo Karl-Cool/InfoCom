@@ -1,4 +1,5 @@
 ﻿@model InfoCom.ViewModels.MeetingViewModel
+@using DataAccess.Models;
 
 @{
     ViewBag.Title = "Index";
@@ -10,7 +11,7 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Creator.Name)
+            @Html.DisplayNameFor(model => model.Creator)
         </dt>
 
         <dd>
@@ -32,6 +33,35 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Dates)
+        </dt>
+        @foreach (DateTime date in Model.Dates)
+        {
+            <dd>
+                @Html.Label(date.ToString())
+            </dd>
+        }
+        <dt>
+            @Html.Label("Invited:")
+        </dt>
+        @foreach (Invitation invitation in Model.Invitations)
+        {
+            <dd>
+                @Html.Label(invitation.User.Name)
+            </dd>
+        }
+        <dd>
+            @using (Html.BeginForm("AddNewInvitation","Meeting"))
+            {
+                @Html.HiddenFor(model => model.MeetingId)
+                @Html.Label("Invite colleagues to your meeting")
+                @Html.DropDownListFor(model => model.UserId, Model.NotInvitedUsers, htmlAttributes: null)
+                <input id="Submit" type="submit" value="Invite" />
+            }
+
+            
+        </dd>
     </dl>
 </div>
 <p>

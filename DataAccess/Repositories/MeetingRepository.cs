@@ -15,14 +15,16 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var meeting = session.Query<Meeting>().Fetch(x => x.Creator).FirstOrDefault(x => x.Id == id);
+                    var meeting = session.Query<Meeting>()
+                        .Fetch(x => x.Creator)
+                        .Fetch(x => x.Times)
+                        .Single(x => x.Id == id);
                     return meeting;
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-
             }
             return null;
         }
