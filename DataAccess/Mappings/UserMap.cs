@@ -27,7 +27,14 @@ namespace DataAccess.Mappings
             HasMany<Invitation>(m => m.Invitations)
                 .Table("Invitations")
                 .KeyColumn("UserId");
-        }
 
+            HasMany<Post>(m => m.Posts)
+                .Table("Posts")
+                .KeyColumn("UserId");
+
+            HasMany<Comment>(m => m.Comments)
+                .Table("Comments")
+                .KeyColumn("UserId");
+        }
     }
 }

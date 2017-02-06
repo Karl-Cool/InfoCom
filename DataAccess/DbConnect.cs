@@ -1,4 +1,5 @@
 ﻿using DataAccess.Mappings;
+using DataAccess.Models;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;

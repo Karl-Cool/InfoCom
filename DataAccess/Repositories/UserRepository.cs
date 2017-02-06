@@ -42,7 +42,7 @@ namespace DataAccess.Repositories
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                
+
             }
             return null;
         }
@@ -51,24 +51,30 @@ namespace DataAccess.Repositories
         {
             var response = false;
 
-            try
+            //try
+            //{
+            using (var session = DbConnect.SessionFactory.OpenSession())
             {
-                using (var session = DbConnect.SessionFactory.OpenSession())
+                var user = session.Query<User>()
+                .Fetch(x => x.Meetings)
+                .Fetch(x => x.Posts)
+                .Fetch(x => x.Comments)
+                .Fetch(x => x.Invitations)
+                .Single(x => x.Id == id);
+
+                using (var transaction = session.BeginTransaction())
                 {
-                    var user = session.Query<User>().FirstOrDefault(x => x.Id == id);
-                    using (var transaction = session.BeginTransaction())
-                    {
-                        session.Delete(user);
-                        transaction.Commit();
-                        response = true;
-                    }
+                    session.Delete(user);
+                    transaction.Commit();
+                    response = true;
                 }
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Debug.WriteLine(ex.Message);
 
-            }
+            //}
             return response;
 
         }
