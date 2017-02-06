@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace InfoCom.ViewModels
 {
@@ -12,6 +13,7 @@ namespace InfoCom.ViewModels
         public virtual int Id { get; set; }
         public virtual User Author { get; set; }
         public virtual Category Category { get; set; }
+        public int CategoryId { get; set; }
         public virtual string Title { get; set; }
         public virtual string Content { get; set; }
         public virtual DateTime CreatedAt { get; set; }
@@ -19,7 +21,12 @@ namespace InfoCom.ViewModels
         public virtual ISet<Comment> Comments { get; set; }
         public virtual ISet<File> Files { get; set; }
         public virtual List<Post> PostList {get; set; }
-       
+        public virtual ICollection<Category> CategoryList { get; set; }
+        public virtual IEnumerable<SelectListItem> Categories { get; set; }
+        public PostViewModel()
+        {
+            Categories = new List<SelectListItem>();
+        }
 
     }
 }
