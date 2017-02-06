@@ -89,5 +89,29 @@ namespace DataAccess.Repositories
             }
             return id;
         }
+
+        public static ICollection<Time> GetTime(int id)
+        {
+            try
+            {
+                using (var session = DbConnect.SessionFactory.OpenSession())
+                {
+                    var timechoice =
+                        session.Query<TimeChoice>()
+                            .Where(x => x.Meeting.Id == id)
+                            .GroupBy(x => x.Time)
+                            .OrderByDescending(x => x.Count());
+                    var time = timechoice.Take(1).Select(x => x.Key).ToList();
+                            
+                    return time;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
+        }
     }
 }

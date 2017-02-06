@@ -28,6 +28,11 @@ namespace DataAccess.Mappings
                  .KeyColumn("MeetingId")
                  .Cascade.All();
 
+            HasMany<TimeChoice>(m => m.TimeChoices)
+                 .Table("TimeChoices")
+                 .KeyColumn("MeetingId")
+                 .Cascade.All();
+
             References(x => x.Creator).Class<User>().Columns("UserId");
         }
     }
