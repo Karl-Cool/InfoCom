@@ -35,12 +35,16 @@ namespace InfoCom.Controllers
         [HttpPost]
         public ActionResult Create(MeetingViewModel model)
         {
+            model.Creator = UserRepository.Get(Convert.ToInt32(User.Identity.GetUserId()));
             if (ModelState.IsValid)
             {
+                bool timesAdded = false;
                 Meeting meeting = new Meeting();
-                meeting.Creator = UserRepository.Get(Convert.ToInt32(User.Identity.GetUserId()));
+                meeting.Creator = model.Creator;
                 meeting.Description = model.Description;
                 meeting.Title = model.Title;
+                meeting.Invitations = new HashSet<Invitation>();
+                meeting.Times = new HashSet<Time>();
                 int id = MeetingRepository.Add(meeting);
                 if (id != 0)
                 {
@@ -48,13 +52,21 @@ namespace InfoCom.Controllers
                     {
                         Time newDate = new Time();
                         DateTime dateAndTime = new DateTime();
-                        DateTime.TryParse(stringDate, out dateAndTime);
-                        newDate.Date = dateAndTime;
-                        newDate.Meeting = MeetingRepository.Get(id);
-                        meeting.Times.Add(newDate);
+                        if(DateTime.TryParse(stringDate, out dateAndTime))
+                        {
+                            newDate.Date = dateAndTime;
+                            newDate.Meeting = MeetingRepository.Get(id);
+                            if (TimeRepository.add(newDate) != 0)
+                            {
+                                timesAdded = true;
+                            }
+                        }
+                       
                     }
-
-                    return RedirectToAction("info", id);
+                    if (timesAdded) {
+                        return RedirectToAction("index", id);
+                    }
+                   
                 }
 
             }
