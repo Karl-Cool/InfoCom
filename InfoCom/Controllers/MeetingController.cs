@@ -64,7 +64,7 @@ namespace InfoCom.Controllers
                        
                     }
                     if (timesAdded) {
-                        return RedirectToAction("info", id);
+                        return RedirectToAction("index", id);
                     }
                    
                 }
