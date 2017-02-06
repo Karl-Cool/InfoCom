@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Feed";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
+    
 }
 <div class="col-lg-4 pull-right">
     <div class="well" id ="feed-settings-well">
@@ -18,11 +18,13 @@
             <div class="form-group">
                 <label for="sel1">Category</label>
                 <select class="form-control" id="sel1">
-                    <option selected="">All</option>
-                    <option>Meetings</option>
-                    <option>Science</option>
-                    <option>Travels</option>
-                    <option>Other</option>
+                    @foreach (var item in ViewBag.Categories)
+                    {
+                        <option>@item.Name</option>
+                    }
+
+                   
+                    
                 </select>
             </div>
             if(User.IsInRole("Admin"))
@@ -72,9 +74,7 @@
         <hr />
     </div>
 }
-@section scripts {
-    @Scripts.Render("~/Scripts/feedScripts.js")
-}
+
 
 @*<div class="postcontainer" padding="30">
         <div class="buttonMenu">
