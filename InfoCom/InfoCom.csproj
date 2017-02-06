@@ -174,7 +174,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Bootstrap Html Helpers\HelperMethods.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FeedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
