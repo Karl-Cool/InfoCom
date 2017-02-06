@@ -20,11 +20,13 @@ namespace DataAccess.Mappings
 
             HasMany<Time>(m => m.Times)
                 .Table("Times")
-                .KeyColumn("MeetingId");
+                .KeyColumn("MeetingId")
+                .Cascade.All();
 
             HasMany<Invitation>(m => m.Invitations)
                  .Table("Invitations")
-                 .KeyColumn("MeetingId");
+                 .KeyColumn("MeetingId")
+                 .Cascade.All();
 
             References(x => x.Creator).Class<User>().Columns("UserId");
         }

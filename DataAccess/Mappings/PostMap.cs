@@ -25,11 +25,13 @@ namespace DataAccess.Mappings
 
             HasMany<Comment>(m => m.Comments)
               .Table("Comments")
-              .KeyColumn("PostId");
+              .KeyColumn("PostId")
+              .Cascade.All();
 
             HasMany<File>(m => m.Files)
                .Table("Files")
-               .KeyColumn("PostId");
+               .KeyColumn("PostId")
+               .Cascade.All();
         }
     }
 }
