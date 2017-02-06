@@ -1,37 +1,40 @@
-﻿@model IEnumerable<DataAccess.Models.Meeting>
+﻿@model InfoCom.ViewModels.MeetingViewModel
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Meeting info</h2>
 
-<p>
-    @Html.ActionLink("Create a new meeting", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Creator.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Creator.Name)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th></th>
-    </tr>
+        </dt>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.ActionLink("See more information", "info", new { id=item.Id }) 
-        </td>
-    </tr>
-}
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
 
-</table>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index", "Meetings")
+</p>

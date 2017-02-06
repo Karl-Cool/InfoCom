@@ -11,12 +11,7 @@ namespace InfoCom.Controllers
     public class MeetingController : Controller
     {
         // GET: Meeting
-        public ActionResult Index()
-        {
-            List<Meeting> meetings = MeetingRepository.Get();
-            return View(meetings);
-        }
-        public ActionResult Info(int? id)
+        public ActionResult Index(int? id)
         {
             if (id != null)
             {
@@ -25,7 +20,7 @@ namespace InfoCom.Controllers
                 viewModel.Title = meeting.Title;
                 viewModel.Description = meeting.Description;
                 viewModel.Creator = UserRepository.Get(meeting.Creator.Id);
-                return View("Info", viewModel);
+                return View("Index", viewModel);
             }
             return RedirectToAction("Index");
         }
@@ -40,37 +35,29 @@ namespace InfoCom.Controllers
         [HttpPost]
         public ActionResult Create(MeetingViewModel model)
         {
-          if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 Meeting meeting = new Meeting();
                 meeting.Creator = UserRepository.Get(Convert.ToInt32(User.Identity.GetUserId()));
                 meeting.Description = model.Description;
                 meeting.Title = model.Title;
-                foreach(DateTime date in model.Dates)
-                {
-                    Time newDate = new Time();
-                    newDate.Date = date;
-                    meeting.Times.Add(newDate);
-                }
-
                 int id = MeetingRepository.Add(meeting);
                 if (id != 0)
                 {
+                    foreach (string stringDate in model.Dates)
+                    {
+                        Time newDate = new Time();
+                        DateTime dateAndTime = new DateTime();
+                        DateTime.TryParse(stringDate, out dateAndTime);
+                        newDate.Date = dateAndTime;
+                        newDate.Meeting = MeetingRepository.Get(id);
+                        meeting.Times.Add(newDate);
+                    }
+
                     return RedirectToAction("info", id);
                 }
-                    //    {
-                    //        Meeting newMeeting = MeetingRepository.get(id);
-                    //        foreach (Time time in model.Times)
-                    //        {
-                    //            time.Meeting = newMeeting;
-                    //            if (TimeRepository.add(time) != 0)
-                    //            {
-                    //                return RedirectToAction("Info",id);
-                    //            }
-                    //        }
-                    //    }
-                    //}
-                }
+
+            }
             return View();
         }
     }
