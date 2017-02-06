@@ -20,7 +20,7 @@ namespace InfoCom.Controllers
             //     PostList = PostRepository.get()
             //};
 
-            PostViewModel model = new PostViewModel();
+            FeedViewModel model = new FeedViewModel();
             model.PostList = PostRepository.Get();
             model.Categories = CategoryRepository.Get().Select(x => new SelectListItem
             {
@@ -31,7 +31,7 @@ namespace InfoCom.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult Index(PostViewModel model)
+        public ActionResult Index(FeedViewModel model)
         {
             var category = model.CategoryId;
             model.PostList = PostRepository.GetCat(category);
