@@ -28,18 +28,36 @@
         <div id="div1">
             @Html.TextBoxFor(model => model.Dates, new { id = "a_Date", Value = "hej" })
         </div>
+        <div id="div2" style="display:none">
+            @Html.TextBoxFor(model => model.Dates, new { id = "b_Date", Value = "hej" })
+        </div>
+        <div id="div3" style="display:none"> 
+            @Html.TextBoxFor(model => model.Dates, new { id = "c_Date", Value = "hej" })
+        </div>
+        <div id="div4" style="display:none">
+            @Html.TextBoxFor(model => model.Dates, new { id = "d_Date", Value = "hej" })
+        </div>
+        <div id="div5"style="display:none">
+            @Html.TextBoxFor(model => model.Dates, new { id = "e_Date", Value = "hej" })
+        </div>
     </div>
-
+    <input type="button" value="Add time" class="btn btn-default" id="addNewTimeBtn"/>
     <script>
-        $('#a_Date').datetimepicker({
-                    controlType: 'select',
-                    oneLine: true,
-                    timeFormat: 'HH:mm'
-                });
+        $("[id$='Date']").each(function () {
+            $(this).datetimepicker({
+            controlType: 'select',
+                oneLine: true,
+                timeFormat: 'HH:mm'
+            });
+    });
     </script>
-
-        @Html.HiddenFor(model => model.Invitations)
-        @Html.HiddenFor(model => model.Creator)
+    <script>
+        var i = 2;
+        $("#addNewTimeBtn").click(function () {
+            $("#div" + i).toggle();
+            i++;
+        });
+    </script>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
