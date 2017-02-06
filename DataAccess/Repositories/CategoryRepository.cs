@@ -16,8 +16,8 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var users = session.Query<Category>().ToList();
-                    return users;
+                    var categories = session.Query<Category>().ToList();
+                    return categories;
                 }
             }
             catch (Exception ex)

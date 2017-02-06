@@ -22,23 +22,19 @@ namespace DataAccess.Mappings
 
             HasMany<Meeting>(m => m.Meetings)
                 .Table("Meetings")
-                .KeyColumn("UserId")
-                .Cascade.All();
+                .KeyColumn("UserId");
 
             HasMany<Invitation>(m => m.Invitations)
                 .Table("Invitations")
-                .KeyColumn("UserId")
-                .Cascade.All();
+                .KeyColumn("UserId");
 
             HasMany<Post>(m => m.Posts)
                 .Table("Posts")
-                .KeyColumn("UserId")
-                .Cascade.All();
+                .KeyColumn("UserId");
 
             HasMany<Comment>(m => m.Comments)
                 .Table("Comments")
-                .KeyColumn("UserId")
-                .Cascade.All();
+                .KeyColumn("UserId");
         }
     }
 }

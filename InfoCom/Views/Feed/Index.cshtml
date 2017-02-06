@@ -5,10 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     
 }
-<div class="col-lg-4 pull-right">
+@using (Html.BeginForm("Index", "Feed", FormMethod.Post))
+{
+    
+    @Html.DropDownListFor(model => model.CategoryId, Model.Categories, htmlAttributes: new { @class = "form-control", @id = "selected-category" })
+    <input type="submit" value="Submit" />
+}
+
+@*<div class="col-lg-4 pull-right">
     <div class="well" id ="feed-settings-well">
         <h4>Feed settings</h4>
-        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "feed-settings" }))
+        @using (Html.BeginForm("Index", "Feed", FormMethod.Post, new { id = "feed-settings" }))
         {
             <div class="form-group">
                 <label class="radio-inline"><input type="radio" name="optradio" checked="checked">All</label>
@@ -18,17 +25,15 @@
             <div class="form-group">
                 <label for="sel1">Category</label>
                 <select class="form-control" id="sel1">
-                    @foreach (var item in ViewBag.Categories)
-                    {
-                        <option>@item.Name</option>
-                    }
-
                    
-                    
+                    @Html.LabelFor(m=> m.Category.Id)
+                    @Html.DropDownListFor(m => m.Category.Id, Model.Categories)
+
                 </select>
             </div>
-            if(User.IsInRole("Admin"))
-             {
+           
+            if (User.IsInRole("Admin"))
+            {
                  <div class="checkbox">
                      <label><input type="checkbox" value="" checked="checked">Show hidden posts</label>
                  </div>
@@ -36,7 +41,7 @@
             <input class="btn btn-block btn-primary" type="submit" value="Save"/>
         }
     </div>
-</div>
+</div>*@
 
 @foreach (var item in Model.PostList)
             {

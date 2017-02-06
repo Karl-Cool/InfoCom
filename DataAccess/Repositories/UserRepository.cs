@@ -55,11 +55,12 @@ namespace DataAccess.Repositories
             //{
             using (var session = DbConnect.SessionFactory.OpenSession())
             {
-                var user = session.Query<User>().Where(x => x.Id == id)
+                var user = session.Query<User>()
                 .Fetch(x => x.Meetings)
                 .Fetch(x => x.Posts)
                 .Fetch(x => x.Comments)
-                .Fetch(x => x.Invitations);
+                .Fetch(x => x.Invitations)
+                .Single(x => x.Id == id);
 
                 using (var transaction = session.BeginTransaction())
                 {

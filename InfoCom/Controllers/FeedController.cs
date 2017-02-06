@@ -3,8 +3,10 @@ using DataAccess.Repositories;
 using InfoCom.ViewModels;
 using Microsoft.AspNet.Identity;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace InfoCom.Controllers
@@ -17,13 +19,31 @@ namespace InfoCom.Controllers
             // var model = new FeedViewModel() {
             //     PostList = PostRepository.get()
             //};
+
             PostViewModel model = new PostViewModel();
             model.PostList = PostRepository.Get();
-            ViewBag.Categories = CategoryRepository.Get();
+            model.Categories = CategoryRepository.Get().Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
 
             return View(model);
         }
-       
+        [HttpPost]
+        public ActionResult Index(PostViewModel model)
+        {
+            var category = model.CategoryId;
+            model.PostList = PostRepository.GetCat(category);
+            model.Categories = CategoryRepository.Get().Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
+            return View(model);
+        }
+      
+
         public ActionResult Post()
         {
             var model = new PostViewModel();
