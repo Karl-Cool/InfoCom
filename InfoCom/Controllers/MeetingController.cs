@@ -11,12 +11,7 @@ namespace InfoCom.Controllers
     public class MeetingController : Controller
     {
         // GET: Meeting
-        public ActionResult Index()
-        {
-            List<Meeting> meetings = MeetingRepository.Get();
-            return View(meetings);
-        }
-        public ActionResult Info(int? id)
+        public ActionResult Index(int? id)
         {
             if (id != null)
             {
@@ -25,7 +20,7 @@ namespace InfoCom.Controllers
                 viewModel.Title = meeting.Title;
                 viewModel.Description = meeting.Description;
                 viewModel.Creator = UserRepository.Get(meeting.Creator.Id);
-                return View("Info", viewModel);
+                return View("Index", viewModel);
             }
             return RedirectToAction("Index");
         }
@@ -56,7 +51,7 @@ namespace InfoCom.Controllers
                 int id = MeetingRepository.Add(meeting);
                 if (id != 0)
                 {
-                    return RedirectToAction("info", id);
+                    return RedirectToAction("Index", id);
                 }
                     //    {
                     //        Meeting newMeeting = MeetingRepository.get(id);
