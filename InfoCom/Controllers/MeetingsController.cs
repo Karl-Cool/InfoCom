@@ -14,6 +14,10 @@ namespace InfoCom.Controllers
             int userId = Convert.ToInt32(User.Identity.GetUserId());
             var meetings = MeetingsRepository.Get(userId);
             var invitations = InvitationRepository.Get(userId);
+            if (invitations != null)
+            {
+                InvitationRepository.UpdateNotified(userId);
+            }
             var model = new MeetingsViewModel()
             {
                 Meetings = meetings,
