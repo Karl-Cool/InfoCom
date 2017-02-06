@@ -98,8 +98,7 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var timechoice =
-                        session.Query<TimeChoice>()
+                    var timechoice = session.Query<TimeChoice>()
                             .Where(x => x.Meeting.Id == id)
                             .GroupBy(x => x.Time)
                             .OrderByDescending(x => x.Count());

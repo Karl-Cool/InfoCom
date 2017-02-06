@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace InfoCom.Controllers
 {
+    [Authorize]
     public class FeedController : Controller
     {
         // GET: Feed
