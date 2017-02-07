@@ -148,3 +148,6 @@ textarea
 .innermeetingdiv{
     padding-left:20px;
 }
+#votelabel{
+    color:crimson;
+}

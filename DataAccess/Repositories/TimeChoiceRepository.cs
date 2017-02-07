@@ -48,6 +48,24 @@ namespace DataAccess.Repositories
             return null;
         }
 
+        public static int GetCount(int id)
+        {
+            try
+            {
+                using (var session = DbConnect.SessionFactory.OpenSession())
+                {
+                    int count = session.Query<TimeChoice>().Where(x => x.Time.Id == id).ToList().Count;
+                    return count;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+
+            }
+            return 0;
+        }
+
         public static bool Delete(int id)
         {
             var response = false;
