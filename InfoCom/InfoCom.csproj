@@ -490,6 +490,7 @@
     <Content Include="Views\Meetings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\uploads\" />
     <Folder Include="Views\CalendarApi\" />
   </ItemGroup>
   <ItemGroup>

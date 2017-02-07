@@ -1,43 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DataAccess.Models;
-using NHibernate.Linq;
-using System.Diagnostics;
+﻿using DataAccess.Models;
 using NHibernate;
+using NHibernate.Linq;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace DataAccess.Repositories
 {
-    public static class TimeChoiceRepository
+    public static class FileRepository
     {
-        public static TimeChoice Get(int id)
+        public static List<PostFile> Get()
         {
             try
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var timeChoice = session.Query<TimeChoice>().FirstOrDefault(x => x.Id == id);
-                    return timeChoice;
+
+                    List<PostFile> postList = session.Query<PostFile>().ToList();
+
+                    return postList;
+
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
 
             }
             return null;
         }
 
-        public static List<TimeChoice> Get()
+        public static List<PostFile> Get(int id)
         {
             try
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    List<TimeChoice> timeChoiceList = session.Query<TimeChoice>()
-                        .Where(x => x.User.Inactive == false)
+                    List<PostFile> listOfPostFile = session.Query<PostFile>().Where(x => x.Post.Id == id)
                         .ToList();
-                    return timeChoiceList;
+
+                    return listOfPostFile;
                 }
             }
             catch (Exception ex)
@@ -46,24 +50,6 @@ namespace DataAccess.Repositories
 
             }
             return null;
-        }
-
-        public static int GetCount(int id)
-        {
-            try
-            {
-                using (var session = DbConnect.SessionFactory.OpenSession())
-                {
-                    int count = session.Query<TimeChoice>().Where(x => x.Time.Id == id).ToList().Count;
-                    return count;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-
-            }
-            return 0;
         }
 
         public static bool Delete(int id)
@@ -74,9 +60,9 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var time = session.Query<TimeChoice>().FirstOrDefault(x => x.Id == id);
+                    var user = session.Query<PostFile>().FirstOrDefault(x => x.Id == id);
                     ITransaction transaction = session.BeginTransaction();
-                    session.Delete(time);
+                    session.Delete(user);
                     transaction.Commit();
                     response = true;
                 }
@@ -90,15 +76,17 @@ namespace DataAccess.Repositories
 
         }
 
-        public static int Add(TimeChoice timeChoice)
+        public static bool Add(PostFile fil)
         {
-            int id = 0;
+            var response = false;
+
 
             try
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    id = Convert.ToInt32(session.Save(timeChoice));
+                    session.Save(fil);
+                    response = true;
                 }
             }
             catch (Exception ex)
@@ -106,7 +94,7 @@ namespace DataAccess.Repositories
                 Debug.WriteLine(ex.Message);
 
             }
-            return id;
+            return response;
         }
     }
 }

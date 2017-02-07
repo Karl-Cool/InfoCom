@@ -8,14 +8,19 @@
 <div class="post-area">
 
     <div class="post-Text">
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Post", "Feed", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             <span class="title-separ">
                 @Html.LabelFor(model => model.Title, "Title") <br />
                 @Html.TextBoxFor(model => model.Title)
-
-            </span>        <br />
+                @Html.DropDownListFor(model => model.CategoryId, Model.Categories, htmlAttributes: new { @class = "form-control", @id = "selected-category" })
+                @Html.TextBoxFor(model => model.Category.Name)
+            </span>
+                <div class="col-lg-11">
+                    <input type="submit" value="Add category" class="btn-info" />
+                </div>
+                   <br />
             <span class="radio-bottom-style">
                 @Html.Label("Formal post")
                 @Html.RadioButtonFor(model => model.Formal, true) <br />
@@ -23,13 +28,22 @@
                 @Html.RadioButtonFor(model => model.Formal, false)  <br />
 
             </span>
-           
-            @*@Html.TextAreaFor(model => model.Content, new {@class= "textarea1" })*@
-            @Html.TextAreaFor(model => model.Content, new { @class = "postText" })
+            <div class="file-btn">
+                <input type="file" name="file" />
+               
+
+
+            </div>
+                
             <div class="col-lg-11">
                 <input type="submit" value="Upload" class="btn-info" />
             </div>
-            
+           
+
+            @*@Html.TextAreaFor(model => model.Content, new {@class= "textarea1" })*@
+            @Html.TextAreaFor(model => model.Content, new { @class = "postText" })
+          
+           
         }
 
 

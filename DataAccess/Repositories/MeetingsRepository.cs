@@ -15,7 +15,7 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var meetings = session.Query<Meeting>().Where(x => x.Creator.Id == id).ToList();
+                    var meetings = session.Query<Meeting>().Where(x => x.Creator.Id == id && x.Inactive == false).ToList();
                     return meetings;
                 }
             }

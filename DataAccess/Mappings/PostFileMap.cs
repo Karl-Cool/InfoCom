@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Mappings
 {
-    public class FileMap : ClassMap<File>
+    public class PostFileMap : ClassMap<PostFile>
     {
-        public FileMap()
+        public PostFileMap()
         {
 
             Table("Files");
             Id(m => m.Id).Column("Id").GeneratedBy.Identity();
             Map(m => m.FilePath, "FilePath");
 
-            References(x => x.Post).Class<File>().Columns("PostId");
+            References(x => x.Post).Class<Post>().Columns("PostId");
         }
     }
 }

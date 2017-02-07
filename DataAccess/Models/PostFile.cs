@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Models
 {
-    public class File
+    public class PostFile
     {
         public virtual int Id { get; set; }
         public virtual Post Post { get; set; }
