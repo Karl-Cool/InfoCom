@@ -13,7 +13,7 @@ namespace DataAccess.Models
         public virtual string Title { get; set; }
         public virtual string Description { get; set; }
         public virtual bool Inactive { get; set; }
-        public virtual DateTime ConfirmedTime { get; set; }
+        public virtual DateTime? ConfirmedTime { get; set; }
         public virtual ISet<Time> Times { get; set; }
         public virtual ISet<Invitation> Invitations { get; set; }
         public virtual ISet<TimeChoice> TimeChoices { get; set; }
