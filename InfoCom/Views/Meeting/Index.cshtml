@@ -43,7 +43,7 @@
             </dd>
         }
         <dt>
-            @Html.Label("Invited:")
+            @Html.Label("Invited")
         </dt>
         @foreach (Invitation invitation in Model.Invitations)
         {
@@ -51,20 +51,31 @@
                 @Html.Label(invitation.User.Name)
             </dd>
         }
-        <dd>
-            @using (Html.BeginForm("AddNewInvitation","Meeting"))
+        @if (Model.NotInvitedUsers.Count > 0)
+        {
+        <dt>
+            @Html.Label("Invite colleagues")
+        </dt>
+        }
+    </dl>
+    <div class="meetingdiv">
+        @if (Model.Creator.Id == Model.CurrentUserId)
+        {
+            using (Html.BeginForm("AddNewInvitation", "Meeting"))
             {
                 @Html.HiddenFor(model => model.MeetingId)
-                @Html.Label("Invite colleagues to your meeting")
-                @Html.DropDownListFor(model => model.UserId, Model.NotInvitedUsers, htmlAttributes: null)
-                <input id="Submit" type="submit" value="Invite" />
+                if (Model.NotInvitedUsers.Count > 0)
+                {
+                    <div class="innermeetingdiv">
+                    @Html.DropDownListFor(model => model.UserId, Model.NotInvitedUsers, htmlAttributes: null)
+                    <br />
+                    <input id="Submit" type="submit" value="Invite" />
+                    </div>
+                }
+
             }
 
-            
-        </dd>
-    </dl>
+        }
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index", "Meetings")
-</p>
+

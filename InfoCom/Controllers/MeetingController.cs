@@ -30,7 +30,7 @@ namespace InfoCom.Controllers
             ICollection<User> allUsers = UserRepository.Get();
             foreach (User user in allUsers)
             {
-                if (!alreadyInvitedUserIds.Contains(user.Id))
+                if (!alreadyInvitedUserIds.Contains(user.Id) && user.Id != meeting.Creator.Id)
                 {
                     model.NotInvitedUsers.Add(new SelectListItem
                     {
@@ -39,6 +39,7 @@ namespace InfoCom.Controllers
                     });
                 }
             }
+            model.CurrentUserId = Convert.ToInt32(User.Identity.GetUserId());
             model.MeetingId = meeting.Id;
             model.Creator = meeting.Creator;
             model.Title = meeting.Title;

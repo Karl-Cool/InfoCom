@@ -141,3 +141,10 @@ textarea
 .body-content {
     margin-top: 20px;
 }
+.meetingdiv{
+    width:500px; 
+    float:left; 
+}
+.innermeetingdiv{
+    padding-left:20px;
+}

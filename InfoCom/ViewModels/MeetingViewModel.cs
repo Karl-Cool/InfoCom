@@ -18,6 +18,7 @@ namespace InfoCom.ViewModels
         public virtual User Creator { get; set; }
         public virtual int UserId { get; set; }
         public virtual int MeetingId { get; set; }
+        public virtual int CurrentUserId { get;set;}
         public MeetingViewModel()
         {
             Dates = new List<DateTime>();
