@@ -15,7 +15,9 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var users = session.Query<User>().ToList();
+                    var users = session.Query<User>()
+                        .Where(x => x.Inactive == false)
+                        .ToList();
                     return users;
                 }
             }

@@ -34,7 +34,9 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    List<TimeChoice> timeChoiceList = session.Query<TimeChoice>().ToList();
+                    List<TimeChoice> timeChoiceList = session.Query<TimeChoice>()
+                        .Where(x => x.User.Inactive == false)
+                        .ToList();
                     return timeChoiceList;
                 }
             }

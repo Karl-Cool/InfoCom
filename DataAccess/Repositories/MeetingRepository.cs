@@ -38,7 +38,10 @@ namespace DataAccess.Repositories
                     List<Meeting> meetingList = session.Query<Meeting>()
                         .Fetch(x => x.Times)
                         .Fetch(x => x.TimeChoices)
-                        .Fetch(x => x.Creator).ToList();
+                        .Fetch(x => x.Creator)
+                        .Where(x => x.Inactive == false)
+                        .ToList();
+                        
                     return meetingList;
                 }
             }
@@ -130,8 +133,8 @@ namespace DataAccess.Repositories
         {
             {
                 var response = false;
-                //try
-                //{
+                try
+                {
                     using (var session = DbConnect.SessionFactory.OpenSession())
                     {
                         var meeting = session.Query<Meeting>().Single(x => x.Id == id);
@@ -143,11 +146,11 @@ namespace DataAccess.Repositories
                             response = true;
                         }
                     }
-                //}
-                //catch (Exception ex)
-                //{
-                //    Debug.WriteLine(ex.Message);
-                //}
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
                 return response;
             }
         }
