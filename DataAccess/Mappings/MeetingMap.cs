@@ -17,6 +17,8 @@ namespace DataAccess.Mappings
             Id(m => m.Id).Column("Id").GeneratedBy.Identity();
             Map(m => m.Title, "Title");
             Map(m => m.Description, "Description");
+            Map(m => m.Inactive, "Inactive");
+            Map(m => m.ConfirmedTime, "ConfirmedTime");
 
             HasMany<Time>(m => m.Times)
                 .Table("Times")

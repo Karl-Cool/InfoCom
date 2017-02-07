@@ -13,6 +13,7 @@ namespace DataAccess.Models
         public virtual string Email { get; set; }
         public virtual string Name { get; set; }
         public virtual string Password { get; set; }
+        public virtual bool Inactive { get; set; }
         public virtual ISet<Meeting> Meetings { get; set; }
         public virtual ISet<Invitation> Invitations { get; set; }
         public virtual ISet<Comment> Comments { get; set; }

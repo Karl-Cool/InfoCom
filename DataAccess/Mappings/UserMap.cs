@@ -19,6 +19,7 @@ namespace DataAccess.Mappings
             Map(m => m.Email, "Email");
             Map(m => m.Name, "Name");
             Map(m => m.Password, "Password");
+            Map(m => m.Inactive, "Inactive");
 
             HasMany<Meeting>(m => m.Meetings)
                 .Table("Meetings")
