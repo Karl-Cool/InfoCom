@@ -47,36 +47,35 @@ namespace DataAccess.Repositories
             return null;
         }
 
-        public static bool Delete(int id)
+        public static bool Deactivate(int id)
         {
-            var response = false;
-
-            //try
-            //{
-            using (var session = DbConnect.SessionFactory.OpenSession())
             {
-                var user = session.Query<User>()
-                .Fetch(x => x.Meetings)
-                .Fetch(x => x.Posts)
-                .Fetch(x => x.Comments)
-                .Fetch(x => x.Invitations)
-                .Single(x => x.Id == id);
+                var success = false;
 
-                using (var transaction = session.BeginTransaction())
+                try
                 {
-                    session.Delete(user);
-                    transaction.Commit();
-                    response = true;
+
+                    using (var session = DbConnect.SessionFactory.OpenSession())
+                    {
+                        var user = session.Query<User>().FirstOrDefault(x => x.Id == id);
+                        using (var transaction = session.BeginTransaction())
+                        {
+                            if (user != null)
+                            {
+                                user.Inactive = false;
+                                session.Update(user);
+                            }
+                            transaction.Commit();
+                        }
+                        success = true;
+                    }
                 }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+                return success;
             }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Debug.WriteLine(ex.Message);
-
-            //}
-            return response;
-
         }
 
         public static bool Add(User user)
