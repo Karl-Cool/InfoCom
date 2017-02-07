@@ -47,7 +47,7 @@
     <div class="col-lg-8">
         @if (item.Formal)
                 {
-            <h1>@item.Title</h1>
+            <h1>@item.Title (Formal)</h1>
         }
         else
         {
@@ -58,10 +58,21 @@
             by @item.Author.Username
         </p>
         <p><span class="glyphicon glyphicon-time"></span> Posted on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Month, @item.CreatedAt.Year at @item.CreatedAt.ToString("HH:mm tt")</p>
-
+       
         <hr>
+        @if (Model.FileList != null)
+        {
+            foreach (var item2 in item.Files)
+            {
+                if (item2.Post.Id == item.Id)
+                {
+                    <img class="img-responsive" src="@item2.FilePath" alt="">
+                }
 
-        <img class="img-responsive" src="~/Content/img/sand.jpg" alt="">
+            }
+        }
+        
+        
 
         <hr>
 

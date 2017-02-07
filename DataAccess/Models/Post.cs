@@ -16,11 +16,11 @@ namespace DataAccess.Models
         public virtual DateTime CreatedAt { get; set; }
         public virtual bool Formal { get; set; }
         public virtual ISet<Comment> Comments { get; set; }
-        public virtual ISet<File> Files { get; set; }
+        public virtual ISet<PostFile> Files { get; set; }
         public Post()
         {
             Comments = new HashSet<Comment>();
-            Files = new HashSet<File>();
+            Files = new HashSet<PostFile>();
         }
     }
 

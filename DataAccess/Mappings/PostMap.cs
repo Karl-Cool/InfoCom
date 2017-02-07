@@ -27,7 +27,7 @@ namespace DataAccess.Mappings
               .Table("Comments")
               .KeyColumn("PostId");
 
-            HasMany<File>(m => m.Files)
+            HasMany<PostFile>(m => m.Files)
                .Table("Files")
                .KeyColumn("PostId");
         }
