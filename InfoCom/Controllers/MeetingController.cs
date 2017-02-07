@@ -155,5 +155,11 @@ namespace InfoCom.Controllers
             }
             return View();
         }
+
+        public ActionResult Deactivate(int id)
+        {
+            MeetingRepository.Deactivate(id);
+            return RedirectToAction("Index", "Meetings");
+        }
     }
 }
