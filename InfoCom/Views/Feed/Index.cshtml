@@ -40,6 +40,7 @@
             <input class="btn btn-block btn-primary" type="submit" value="Save" />
         }
     </div>
+        <div id="calendar"></div>
 </div>
 
 @foreach (var item in Model.PostList)
@@ -89,7 +90,10 @@
         <hr />
     </div>
 }
-
+@section Scripts {
+    @Scripts.Render("~/Scripts/jquery-ui-1.12.1.js")
+    @Scripts.Render("~/Scripts/calendarScripts.js")
+}
 
 @*<div class="postcontainer" padding="30">
         <div class="buttonMenu">

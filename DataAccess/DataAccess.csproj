@@ -92,6 +92,7 @@
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\FileRepository.cs" />
     <Compile Include="Repositories\MeetingsRepository.cs" />
+    <Compile Include="Repositories\TimeChoiceRepository.cs" />
     <Compile Include="Repositories\TimeRepository.cs" />
     <Compile Include="Repositories\InvitationRepository.cs" />
     <Compile Include="Repositories\PostRepository.cs" />

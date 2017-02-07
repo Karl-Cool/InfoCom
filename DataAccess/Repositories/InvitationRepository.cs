@@ -16,7 +16,7 @@ namespace DataAccess.Repositories
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
                     var invitations = session.Query<Invitation>()
-                        .Where(x => x.User.Id == id)
+                        .Where(x => x.User.Id == id && x.Meeting.Inactive == false)
                         .Fetch(x => x.Meeting)
                         .Fetch(x => x.User)
                         .ToList();

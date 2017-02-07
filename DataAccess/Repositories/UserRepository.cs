@@ -15,7 +15,9 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var users = session.Query<User>().ToList();
+                    var users = session.Query<User>()
+                        .Where(x => x.Inactive == false)
+                        .ToList();
                     return users;
                 }
             }
@@ -47,36 +49,30 @@ namespace DataAccess.Repositories
             return null;
         }
 
-        public static bool Delete(int id)
+        public static bool Deactivate(int id)
         {
-            var response = false;
-
-            //try
-            //{
-            using (var session = DbConnect.SessionFactory.OpenSession())
             {
-                var user = session.Query<User>()
-                .Fetch(x => x.Meetings)
-                .Fetch(x => x.Posts)
-                .Fetch(x => x.Comments)
-                .Fetch(x => x.Invitations)
-                .Single(x => x.Id == id);
-
-                using (var transaction = session.BeginTransaction())
+                var success = false;
+                try
                 {
-                    session.Delete(user);
-                    transaction.Commit();
-                    response = true;
+                    using (var session = DbConnect.SessionFactory.OpenSession())
+                    {
+                        var user = session.Query<User>().Single(x => x.Id == id);
+                        using (var transaction = session.BeginTransaction())
+                        {
+                            user.Inactive = true;
+                            session.Update(user);
+                            transaction.Commit();
+                        }
+                        success = true;
+                    }
                 }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+                return success;
             }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Debug.WriteLine(ex.Message);
-
-            //}
-            return response;
-
         }
 
         public static bool Add(User user)

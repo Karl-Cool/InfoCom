@@ -15,7 +15,7 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var meetings = session.Query<Meeting>().Where(x => x.Creator.Id == id).ToList();
+                    var meetings = session.Query<Meeting>().Where(x => x.Creator.Id == id && x.Inactive == false).ToList();
                     return meetings;
                 }
             }
@@ -25,31 +25,6 @@ namespace DataAccess.Repositories
 
             }
             return null;
-        }
-
-        public static bool Delete(int id)
-        {
-            var response = false;
-
-            try
-            {
-                using (var session = DbConnect.SessionFactory.OpenSession())
-                {
-                    var meeting = session.Query<Meeting>().FirstOrDefault(x => x.Id == id);
-                    using (var transaction = session.BeginTransaction())
-                    {
-                        session.Delete(meeting);
-                        transaction.Commit();
-                        response = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-
-            }
-            return response;
         }
     }
 }

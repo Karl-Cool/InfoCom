@@ -5,46 +5,88 @@ using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using System.Diagnostics;
 
 namespace InfoCom.Controllers
 {
+    [Authorize]
     public class MeetingController : Controller
     {
         public ActionResult Index(int? id)
         {
-            int id2 = Convert.ToInt32(id);
-            Meeting meeting = MeetingRepository.Get(id2);
-            var model = new MeetingViewModel();
-            foreach (var time in meeting.Times)
+            try
             {
-                model.Dates.Add(time.Date);
-            }
-
-            List<int> alreadyInvitedUserIds = new List<int>();
-            List<Invitation> invitations = InvitationRepository.GetMeeting(id2);
-            foreach (Invitation invitation in invitations)
-            {
-                model.Invitations.Add(invitation);
-                alreadyInvitedUserIds.Add(invitation.User.Id);
-            }
-            ICollection<User> allUsers = UserRepository.Get();
-            foreach (User user in allUsers)
-            {
-                if (!alreadyInvitedUserIds.Contains(user.Id) && user.Id != meeting.Creator.Id)
+                int id2 = Convert.ToInt32(id);
+                Meeting meeting = MeetingRepository.Get(id2);
+                var model = new MeetingViewModel();
+                if (meeting.Times.Count > 0)
                 {
-                    model.NotInvitedUsers.Add(new SelectListItem
+                    foreach (var time in meeting.Times)
                     {
-                        Text = user.Name,
-                        Value = user.Id.ToString()
-                    });
+                        model.Times.Add(time);
+                    }
                 }
+                List<int> alreadyInvitedUserIds = new List<int>();
+                List<Invitation> invitations = InvitationRepository.GetMeeting(id2);
+                if (invitations.Count > 0)
+                {
+                    foreach (Invitation invitation in invitations)
+                    {
+                        model.Invitations.Add(invitation);
+                        alreadyInvitedUserIds.Add(invitation.User.Id);
+                    }
+                }
+                ICollection<User> allUsers = UserRepository.Get();
+                foreach (User user in allUsers)
+                {
+                    if (!alreadyInvitedUserIds.Contains(user.Id) && user.Id != meeting.Creator.Id && allUsers.Count > 0)
+                    {
+                        model.NotInvitedUsers.Add(new SelectListItem
+                        {
+                            Text = user.Name,
+                            Value = user.Id.ToString()
+                        });
+                    }
+                }
+                var allTimeChoices = TimeChoiceRepository.Get();
+                var currentUsersCoices = new List<int>();
+
+                foreach(var choice in allTimeChoices)
+                {
+                    if(choice.User.Id == Convert.ToInt32(User.Identity.GetUserId()))
+                    {
+                        currentUsersCoices.Add(choice.Time.Id);
+                    }
+                }
+                if (alreadyInvitedUserIds.Contains(Convert.ToInt32(User.Identity.GetUserId())))
+                {
+                    model.Invited = true;
+                }
+                else
+                {
+                    model.Invited = false;
+                }
+                var voteList = new List<int>();
+                foreach(var time in meeting.Times)
+                {
+                    voteList.Add(TimeChoiceRepository.GetCount(time.Id));
+                }
+                model.VoteArray = voteList.ToArray();
+                model.Inactive = meeting.Inactive;
+                model.ConfirmedTime = meeting.ConfirmedTime;
+                model.AlreadySelectedTimes = currentUsersCoices;
+                model.CurrentUserId = Convert.ToInt32(User.Identity.GetUserId());
+                model.MeetingId = meeting.Id;
+                model.Creator = meeting.Creator;
+                model.Title = meeting.Title;
+                model.Description = meeting.Description;
+                return View(model);
             }
-            model.CurrentUserId = Convert.ToInt32(User.Identity.GetUserId());
-            model.MeetingId = meeting.Id;
-            model.Creator = meeting.Creator;
-            model.Title = meeting.Title;
-            model.Description = meeting.Description;
-            return View(model);
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return RedirectToAction("Login", "Account");
+            }
         }
         [HttpPost]
         public ActionResult AddNewInvitation(MeetingViewModel model)
@@ -57,8 +99,25 @@ namespace InfoCom.Controllers
                 InvitationRepository.Add(newInvitation);
                 return RedirectToAction("Index", new { id = model.MeetingId });
         }
-
-
+        public ActionResult AddNewTimeChoice(int id)
+        {
+            User currentUser = UserRepository.Get(Convert.ToInt32(User.Identity.GetUserId()));
+            Time timeChosen = TimeRepository.Get(id);
+            TimeChoice newTimeChoice = new TimeChoice();
+            newTimeChoice.Time = timeChosen;
+            newTimeChoice.User = currentUser;
+            newTimeChoice.Meeting = timeChosen.Meeting;
+            TimeChoiceRepository.Add(newTimeChoice);
+            return RedirectToAction("Index", new { id = newTimeChoice.Meeting.Id });
+        }
+        public ActionResult AddConfirmedTime(int id)
+        {
+            Time timeChosen = TimeRepository.Get(id);
+            Meeting meeting = MeetingRepository.Get(timeChosen.Meeting.Id);
+            meeting.ConfirmedTime = timeChosen.Date;
+            MeetingRepository.Update(meeting);
+            return RedirectToAction("Index", new { id = meeting.Id });
+        }
         public ActionResult Create()
         {
             var model = new MeetingCreateViewModel();
@@ -94,17 +153,20 @@ namespace InfoCom.Controllers
                                 timesAdded = true;
                             }
                         }
-
                     }
                     if (timesAdded)
                     {
                         return RedirectToAction("index", new { id = id });
                     }
-
                 }
-
             }
             return View();
+        }
+
+        public ActionResult Deactivate(int id)
+        {
+            MeetingRepository.Deactivate(id);
+            return RedirectToAction("Index", "Meetings");
         }
     }
 }
