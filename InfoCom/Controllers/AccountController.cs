@@ -32,7 +32,7 @@ namespace InfoCom.Controllers
 
             using (var session = DbConnect.SessionFactory.OpenSession())
             {
-                var usernameCheck = session.Query<User>().FirstOrDefault(x => x.Username == model.Username);
+                var usernameCheck = session.Query<User>().FirstOrDefault(x => x.Username == model.Username && x.Inactive == false);
                 if (usernameCheck == null)
                 {
                     TempData["Message"] = "Invalid username or password";
