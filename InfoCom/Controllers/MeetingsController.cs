@@ -26,12 +26,5 @@ namespace InfoCom.Controllers
 
             return View(model);
         }
-
-        public ActionResult Delete(int id)
-        {
-            MeetingsRepository.Delete(id);
-
-            return RedirectToAction("Index", "Meetings");
-        }
     }
 }

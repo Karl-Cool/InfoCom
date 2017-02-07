@@ -51,20 +51,15 @@ namespace DataAccess.Repositories
         {
             {
                 var success = false;
-
                 try
                 {
-
                     using (var session = DbConnect.SessionFactory.OpenSession())
                     {
-                        var user = session.Query<User>().FirstOrDefault(x => x.Id == id);
+                        var user = session.Query<User>().Single(x => x.Id == id);
                         using (var transaction = session.BeginTransaction())
                         {
-                            if (user != null)
-                            {
-                                user.Inactive = false;
-                                session.Update(user);
-                            }
+                            user.Inactive = true;
+                            session.Update(user);
                             transaction.Commit();
                         }
                         success = true;

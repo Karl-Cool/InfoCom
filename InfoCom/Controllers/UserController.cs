@@ -66,6 +66,7 @@ namespace InfoCom.Controllers
         public ActionResult Deactivate(int id)
         {
             UserRepository.Deactivate(id);
+            MeetingRepository.DeactivateAll(id);
 
             return RedirectToAction("Index", "User");
         }

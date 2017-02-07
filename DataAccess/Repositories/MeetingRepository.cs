@@ -50,32 +50,6 @@ namespace DataAccess.Repositories
             return null;
         }
 
-        public static bool Delete(int id)
-        {
-            var response = false;
-
-            try
-            {
-                using (var session = DbConnect.SessionFactory.OpenSession())
-                {
-                    var meeting = session.Query<Meeting>().FirstOrDefault(x => x.Id == id);
-                    using (var transaction = session.BeginTransaction())
-                    {
-                        session.Delete(meeting);
-                        transaction.Commit();
-                        response = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-
-            }
-            return response;
-
-        }
-
         public static int Add(Meeting meeting)
         {
             var id = 0;
@@ -94,7 +68,41 @@ namespace DataAccess.Repositories
             }
             return id;
         }
+        public static bool Update(Meeting meeting)
+        {
+            var success = false;
 
+            try
+            {
+
+                using (var session = DbConnect.SessionFactory.OpenSession())
+                {
+                    var mtn = session.Query<Meeting>().FirstOrDefault(x => x.Id == meeting.Id);
+                    using (var transaction = session.BeginTransaction())
+                    {
+                        if (mtn != null)
+                        {
+                            mtn.ConfirmedTime = meeting.ConfirmedTime;
+                            mtn.Creator = meeting.Creator;
+                            mtn.Description = meeting.Description;
+                            mtn.Inactive = meeting.Inactive;
+                            mtn.Invitations = meeting.Invitations;
+                            mtn.TimeChoices = meeting.TimeChoices;
+                            mtn.Times = meeting.Times;
+                            mtn.Title = meeting.Title;
+                            session.Update(mtn);
+                        }
+                        transaction.Commit();
+                    }
+                    success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            return success;
+        }
         public static ICollection<Time> GetTime(int id)
         {
             try
@@ -106,7 +114,7 @@ namespace DataAccess.Repositories
                             .GroupBy(x => x.Time)
                             .OrderByDescending(x => x.Count());
                     var time = timechoice.Take(1).Select(x => x.Key).ToList();
-                            
+
                     return time;
 
                 }
@@ -115,6 +123,56 @@ namespace DataAccess.Repositories
             {
                 Debug.WriteLine(ex.Message);
                 return null;
+            }
+        }
+
+        public static bool Deactivate(int id)
+        {
+            {
+                var response = false;
+                //try
+                //{
+                    using (var session = DbConnect.SessionFactory.OpenSession())
+                    {
+                        var meeting = session.Query<Meeting>().Single(x => x.Id == id);
+                        using (var transaction = session.BeginTransaction())
+                        {
+                            meeting.Inactive = true;
+                            session.Update(meeting);
+                            transaction.Commit();
+                            response = true;
+                        }
+                    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    Debug.WriteLine(ex.Message);
+                //}
+                return response;
+            }
+        }
+        public static bool DeactivateAll(int id)
+        {
+            {
+                var success = false;
+                try
+                {
+                    using (var session = DbConnect.SessionFactory.OpenSession())
+                    {
+                        var meetings = session.Query<Meeting>().Where(x => x.Creator.Id == id);
+                        using (var transaction = session.BeginTransaction())
+                        {
+                            meetings.ToList().ForEach(x => { x.Inactive = true; });
+                            transaction.Commit();
+                        }
+                        success = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+                return success;
             }
         }
     }
