@@ -35,7 +35,10 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    List<Meeting> meetingList = session.Query<Meeting>().ToList();
+                    List<Meeting> meetingList = session.Query<Meeting>()
+                        .Fetch(x => x.Times)
+                        .Fetch(x => x.TimeChoices)
+                        .Fetch(x => x.Creator).ToList();
                     return meetingList;
                 }
             }

@@ -18,6 +18,7 @@ namespace DataAccess.Mappings
             
 
             References(x => x.Time).Class<Time>().Columns("TimeId");
+            References(x => x.Meeting).Class<Meeting>().Columns("MeetingId");
             References(x => x.User).Class<User>().Columns("UserId");
         }
     }
