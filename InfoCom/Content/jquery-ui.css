@@ -405,8 +405,10 @@ button.ui-button::-moz-focus-inner {
 	display: none;
 }
 .ui-datepicker-calendar tbody td.highlight > a {
-	background-color: red;
+	background-color: #337ab7;
+    color: white;
 }
+
 .ui-datepicker .ui-datepicker-header {
 	position: relative;
 	padding: .2em 0;
