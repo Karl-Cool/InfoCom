@@ -3,50 +3,64 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    
+        <div class="form-horizontal">
+            <h4>Create meeting</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-horizontal">
-        <h4>Create meeting</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-5">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Dates, "Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div id="div1" class="col-md-5">
+                        @Html.TextBoxFor(model => model.Dates, new { id = "1Date", Value = "Select date and time", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group" id="div2" style="display:none">
+                    @Html.LabelFor(model => model.Dates, "Date 2", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(model => model.Dates, new { id = "2Date", Value = "Select date and time", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group" id="div3" style="display:none">
+                    @Html.LabelFor(model => model.Dates, "Date 3", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(model => model.Dates, new { id = "3Date", Value = "Select date and time", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group" id="div4" style="display:none">
+                    @Html.LabelFor(model => model.Dates, "Date 4", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(model => model.Dates, new { id = "4Date", Value = "Select date and time", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group" id="div5" style="display:none" >
+                    @Html.LabelFor(model => model.Dates, "Date 5", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(model => model.Dates, new { id = "5Date", Value = "Select date and time", @class = "form-control" })
+                    </div>
+                </div>
             </div>
-        </div>
-        <br />
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-5">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <div id="div1" class="col-md-5">
-                @Html.LabelFor(model => model.Dates, "Date", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.TextBoxFor(model => model.Dates, new { id = "1Date", Value = "Select date and time", @class = "form-control" })
-            </div>
-            <div id="div2" style="display:none" class="col-md-5">
-                @Html.LabelFor(model => model.Dates, "Date 2", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.TextBoxFor(model => model.Dates, new { id = "2Date", Value = "Select date and time", @class = "form-control" })
-            </div>
-            <div id="div3" style="display:none" class="col-md-5">
-                @Html.LabelFor(model => model.Dates, "Date 3", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.TextBoxFor(model => model.Dates, new { id = "3Date", Value = "Select date and time", @class = "form-control" })
-            </div>
-            <div id="div4" style="display:none" class="col-md-5">
-                @Html.LabelFor(model => model.Dates, "Date 4", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.TextBoxFor(model => model.Dates, new { id = "4Date", Value = "Select date and time", @class = "form-control" })
-            </div>
-            <div id="div5" style="display:none" class="col-md-5">
-                @Html.LabelFor(model => model.Dates, "Date 5", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.TextBoxFor(model => model.Dates, new { id = "5Date", Value = "Select date and time", @class = "form-control" })
-            </div>
-        </div>
+
+
         <hr />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -55,9 +69,12 @@
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
+
+
     </div>
 }
 <script>
+    $("#removeTimeBtn").hide();
     $("[id$='Date']").each(function () {
         $(this).datetimepicker({
             controlType: 'select',
@@ -71,6 +88,10 @@
         $("#div" + i).show();
         if (i < 6) {
             i++;
+            $("#removeTimeBtn").show();
+        }
+        if (i > 5) {
+            $("#addNewTimeBtn").hide();
         }
     });
 
@@ -78,6 +99,10 @@
         if (i > 2) {
             i--;
         }
+        if (i <= 2) {
+            $("#removeTimeBtn").hide();
+        }
+        $("#addNewTimeBtn").show();
         $("#div" + i).hide();
         $("#" + i + "Date").val("Select date and time");
     });
