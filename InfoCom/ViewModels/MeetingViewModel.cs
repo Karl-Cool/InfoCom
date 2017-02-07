@@ -22,6 +22,8 @@ namespace InfoCom.ViewModels
         public virtual int MeetingId { get; set; }
         public virtual int CurrentUserId { get; set; }
         public virtual bool Invited { get; set; }
+        public virtual bool Inactive { get; set; }
+        public virtual DateTime ConfirmedTime { get; set;}
         public MeetingViewModel()
         {
             Times = new List<Time>();

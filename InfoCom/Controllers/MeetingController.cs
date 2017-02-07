@@ -65,6 +65,8 @@ namespace InfoCom.Controllers
                 {
                     model.Invited = false;
                 }
+                model.Inactive = meeting.Inactive;
+                model.ConfirmedTime = meeting.ConfirmedTime;
                 model.AlreadySelectedTimes = currentUsersCoices;
                 model.CurrentUserId = Convert.ToInt32(User.Identity.GetUserId());
                 model.MeetingId = meeting.Id;
@@ -101,7 +103,14 @@ namespace InfoCom.Controllers
             TimeChoiceRepository.Add(newTimeChoice);
             return RedirectToAction("Index", new { id = newTimeChoice.Meeting.Id });
         }
-
+        public ActionResult AddConfirmedTime(int id)
+        {
+            Time timeChosen = TimeRepository.Get(id);
+            Meeting meeting = timeChosen.Meeting;
+            meeting.ConfirmedTime = timeChosen.Date;
+            MeetingRepository.Update(meeting);
+            return RedirectToAction("Index", new { id = meeting.Id });
+        }
         public ActionResult Create()
         {
             var model = new MeetingCreateViewModel();

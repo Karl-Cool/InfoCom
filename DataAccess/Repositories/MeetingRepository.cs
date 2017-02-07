@@ -94,7 +94,41 @@ namespace DataAccess.Repositories
             }
             return id;
         }
+        public static bool Update(Meeting meeting)
+        {
+            var success = false;
 
+            try
+            {
+
+                using (var session = DbConnect.SessionFactory.OpenSession())
+                {
+                    var mtn = session.Query<Meeting>().FirstOrDefault(x => x.Id == meeting.Id);
+                    using (var transaction = session.BeginTransaction())
+                    {
+                        if (mtn != null)
+                        {
+                            mtn.ConfirmedTime = meeting.ConfirmedTime;
+                            mtn.Creator = meeting.Creator;
+                            mtn.Description = meeting.Description;
+                            mtn.Inactive = meeting.Inactive;
+                            mtn.Invitations = meeting.Invitations;
+                            mtn.TimeChoices = meeting.TimeChoices;
+                            mtn.Times = meeting.Times;
+                            mtn.Title = meeting.Title;
+                            session.Update(mtn);
+                        }
+                        transaction.Commit();
+                    }
+                    success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            return success;
+        }
         public static ICollection<Time> GetTime(int id)
         {
             try
