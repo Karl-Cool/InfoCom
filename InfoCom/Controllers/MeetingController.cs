@@ -50,6 +50,7 @@ namespace InfoCom.Controllers
                 }
                 var allTimeChoices = TimeChoiceRepository.Get();
                 var currentUsersCoices = new List<int>();
+
                 foreach(var choice in allTimeChoices)
                 {
                     if(choice.User.Id == Convert.ToInt32(User.Identity.GetUserId()))
@@ -65,6 +66,12 @@ namespace InfoCom.Controllers
                 {
                     model.Invited = false;
                 }
+                var voteList = new List<int>();
+                foreach(var time in meeting.Times)
+                {
+                    voteList.Add(TimeChoiceRepository.GetCount(time.Id));
+                }
+                model.VoteArray = voteList.ToArray();
                 model.Inactive = meeting.Inactive;
                 model.ConfirmedTime = meeting.ConfirmedTime;
                 model.AlreadySelectedTimes = currentUsersCoices;
@@ -106,7 +113,7 @@ namespace InfoCom.Controllers
         public ActionResult AddConfirmedTime(int id)
         {
             Time timeChosen = TimeRepository.Get(id);
-            Meeting meeting = timeChosen.Meeting;
+            Meeting meeting = MeetingRepository.Get(timeChosen.Meeting.Id);
             meeting.ConfirmedTime = timeChosen.Date;
             MeetingRepository.Update(meeting);
             return RedirectToAction("Index", new { id = meeting.Id });

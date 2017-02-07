@@ -16,7 +16,9 @@ namespace InfoCom.Controllers
             var meetingList = MeetingRepository.Get();
             var eventList = meetingList.Select(item => new Event
             {
-                Id = item.Id, Title = item.Title, ConfirmedTime = item.ConfirmedTime
+                Id = item.Id,
+                Title = item.Title,
+                ConfirmedTime = item.ConfirmedTime
             }).ToList();
 
 

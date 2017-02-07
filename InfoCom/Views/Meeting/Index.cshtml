@@ -37,24 +37,27 @@
             <dt>
                 @Html.DisplayName("Possible times")
             </dt>
-
+            int i = 0;
             foreach (Time time in Model.Times)
             {
+
                 <dd>
                     @Html.Label(time.Date.ToString())
                     @if (!Model.AlreadySelectedTimes.Contains(time.Id) && Model.Invited)
                     {
                         @Html.ActionLink("Attend this time", "AddNewTimeChoice", new { id = time.Id })
                     }
-                    else if (Model.Invited)
+                    else if (Model.Invited && Model.Creator.Id != Model.CurrentUserId)
                     {
                         <img src="~/Content/Crystal_Clear_app_clean_dark.png" alt="You've attended this time" height="20" width="20" />
                     }
                     else if (Model.Creator.Id == Model.CurrentUserId)
                     {
-                        @Html.ActionLink("Make definitive time", "AddConfirmedTime", new { id = time.Id })
+                        @Html.ActionLink("Make definitive time ", "AddConfirmedTime", new { id = time.Id }) 
+                        @Html.Label("Votes: "+Model.VoteArray[i].ToString(), new { id = "votelabel" })
                     }
                 </dd>
+                i++;
             }
         }
         else
