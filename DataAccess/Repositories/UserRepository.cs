@@ -52,7 +52,7 @@ namespace DataAccess.Repositories
         public static bool Deactivate(int id)
         {
             {
-                var success = false;
+                var response = false;
                 try
                 {
                     using (var session = DbConnect.SessionFactory.OpenSession())
@@ -64,14 +64,14 @@ namespace DataAccess.Repositories
                             session.Update(user);
                             transaction.Commit();
                         }
-                        success = true;
+                        response = true;
                     }
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
                 }
-                return success;
+                return response;
             }
         }
 
