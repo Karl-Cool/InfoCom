@@ -1,136 +1,88 @@
-﻿@model InfoCom.ViewModels.MeetingViewModel
-@using DataAccess.Models;
+﻿@model InfoCom.ViewModels.MeetingsViewModel
+@using Microsoft.AspNet.Identity
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Meetings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Meeting info</h2>
+<h2>Meetings</h2>
 
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Creator)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Creator.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+@if (TempData["Message"] != null)
+{
+    <div class="alert @TempData["Type"]" role="alert">@TempData["Message"]</div>
+}
+<h3>Received invitations</h3>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        @if (Model.ConfirmedTime == null)
-        {
-            <dt>
-                @Html.DisplayName("Possible times")
-            </dt>
-            int i = 0;
-            foreach (Time time in Model.Times)
-            {
-
-                <dd>
-                    @Html.Label(time.Date.ToString())
-                    @if (!Model.AlreadySelectedTimes.Contains(time.Id) && Model.Invited && Model.CurrentUsersInvitation.Status != 2)
-                    {
-                        @Html.ActionLink("Attend this time", "AddNewTimeChoice", new { id = time.Id })
-                    }
-                    else if (Model.Invited && Model.Creator.Id != Model.CurrentUserId)
-                    {
-                        <img src="~/Content/Crystal_Clear_app_clean_dark.png" alt="You've attended this time" height="20" width="20" />
-                    }
-                    else if (Model.Creator.Id == Model.CurrentUserId)
-                    {
-                        @Html.ActionLink("Finalize time ", "AddConfirmedTime", new { id = time.Id })
-                        @Html.Label("Votes: " + Model.VoteArray[i].ToString(), new { id = "votelabel" })
-                    }
-                </dd>
-                i++;
-            }
-        }
-        else
-        {
-            <dt>@Html.DisplayName("Decided date")</dt>
-            <dd>
-                @Html.Label(Model.ConfirmedTime.ToString())
-                <img src="~/Content/Crystal_Clear_app_clean_dark.png" alt="This is the decided date and time" height="20" width="20" />
-            </dd>
-        }
-        <dt>
-            @Html.Label("No answer")
-        </dt>
-        @foreach (Invitation invitation in Model.Invitations)
-        {
-            if (invitation.Status == 0)
-            {
-                <dd>
-                @Html.Label(invitation.User.Name)
-                </dd>
-            }
-        }
-        <dt>
-        @Html.Label("Attending")
-        </dt>
-        @foreach (Invitation invitation in Model.Invitations)
-        {
-            if(invitation.Status == 1)
-            {
-                <dd>
-                @Html.Label(invitation.User.Name, new { id = "acceptedlabel" })
-                </dd>
-            }
-        }
-        <dt>
-            @Html.Label("Declined")
-        </dt>
-        @foreach (Invitation invitation in Model.Invitations)
-        {
-            if (invitation.Status == 2)
-            {
-                <dd>
-                    @Html.Label(invitation.User.Name, new { id = "declinedlabel" })
-                </dd>
-            }
-        }
-        @if (Model.NotInvitedUsers.Count > 0 && Model.Creator.Id == Model.CurrentUserId)
-        {
-            <dt>
-                @Html.Label("Invite colleagues")
-            </dt>
-        }
-    </dl>
-    <div class="meetingdiv">
-        @if (Model.Creator.Id == Model.CurrentUserId)
-        {
-            using (Html.BeginForm("AddNewInvitation", "Meeting"))
-            {
-                @Html.HiddenFor(model => model.MeetingId)
-                if (Model.NotInvitedUsers.Count > 0)
+@if (Model.Invitations.Count > 0)
+{
+    <div class="container">
+        <div class="col-md-6">
+            <table class="table table-hover">
+                <tbody>
+                    @foreach (var x in Model.Invitations)
                 {
-                    <div class="innermeetingdiv">
-                        @Html.DropDownListFor(model => model.UserId, Model.NotInvitedUsers, htmlAttributes: null)
-
-                        <br />
-                        <input id="Submit" type="submit" value="Invite" />
-                    </div>
-                }
-            }
-        }
-        @if (Model.Creator.Id != Model.CurrentUserId && Model.Invited && Model.CurrentUsersInvitation.Status == 0)
-        {
-            @Html.ActionLink("Decline invite", "DeclineInvitation", new { id = Model.MeetingId })
-        }
+                        <tr>
+                            <td>@x.Meeting.Title</td>
+                            <td class="text-right">
+                                @Html.ActionLink("View", "Index/" + x.Id, "Meeting") 
+                            </td>
+                        </tr>
+                    }
+            </table>
+        </div>
     </div>
+}
+else
+{
+    <p>You have no invitations.</p>
+}
 
+<h3>Created meetings</h3>
+@if (Model.Meetings.Count > 0)
+{
+    <div class="container">
+        <div class="col-md-6">
+            <table class="table table-hover">
+                <tbody>
+                    @foreach (var x in Model.Meetings)
+                    {
+                        <tr>
+                            <td>@x.Title</td>
+                            <td class="text-right">
+                                @Html.ActionLink("View", "Index/" + x.Id, "Meeting") | <a href="#" class="btn btn-xs btn-danger" onClick="deactivateMeetingModal(@x.Id)" data-toggle="modal" data-target="#confirmMeetingModal"><span class="glyphicon glyphicon-remove"></span> Deactivate</a>
+                            </td>
+                        </tr>
+                    }
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <p>You have no created meetings.</p>
+}
+<!-- Modal -->
+<div class="modal fade" id="confirmMeetingModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Deactivate meeting</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to deactivate this meeting?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="confirm-deactivate-meeting-button" class="btn btn-primary">Deactivate</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/deactivateMeeting.js")
+}
+
