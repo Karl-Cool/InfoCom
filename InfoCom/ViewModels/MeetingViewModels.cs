@@ -15,6 +15,9 @@ namespace InfoCom.ViewModels
         public string Description { get; set; }
         public virtual List<Time> Times { get; set; }
         public virtual List<Invitation> Invitations { get; set; }
+        public virtual List<Invitation> StatusZero { get; set; }
+        public virtual List<Invitation> StatusOne { get; set; }
+        public virtual List<Invitation> StatusTwo { get; set; }
         public virtual Invitation CurrentUsersInvitation { get; set; }
         public virtual List<SelectListItem> NotInvitedUsers { get; set; }
         public virtual List<int> AlreadySelectedTimes { get; set; }
@@ -32,6 +35,9 @@ namespace InfoCom.ViewModels
             Times = new List<Time>();
             Invitations = new List<Invitation>();
             NotInvitedUsers = new List<SelectListItem>();
+            StatusZero = new List<Invitation>();
+            StatusOne = new List<Invitation>();
+            StatusTwo = new List<Invitation>();
         }
     }
    
