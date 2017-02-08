@@ -8,9 +8,15 @@
                 $.each(data, function (i, item) {
                     var dateobj = new Date(item.ConfirmedTime);
                     var obj = {
-                        Id: item.Id, Title: item.Title, Date: new Date((dateobj.getMonth() + 1)
-                        + "/" + dateobj.getUTCDate() + "/" + dateobj.getFullYear())
-                    }
+                        Id: item.Id,
+                        Title: item.Title,
+                        Date: new Date((dateobj.getMonth() + 1) +
+                            "/" +
+                            dateobj.getUTCDate() +
+                            "/" +
+                            dateobj.getFullYear()),
+                        Time: formatTime(dateobj.getUTCHours(), dateobj.getUTCMinutes())
+                }
                     events.push(obj);
                 });
                 $("#calendar").datepicker({
@@ -29,18 +35,26 @@
                         var date,
                             selectedDate = new Date(dateText),
                             i = 0,
-                            event = null;
+                            selectedEvents = [];
 
-                        while (i < events.length && !event) {
+                        while (i < events.length) {
                             date = events[i].Date;
 
                             if (selectedDate.valueOf() === date.valueOf()) {
-                                event = events[i];
+                                selectedEvents.push(events[i]);
                             }
                             i++;
                         }
-                        if (event) {
-                            alert(event.Id + " " + event.Title + " " + event.Date);
+                        if (selectedEvents.length > 0) {
+                            i = 0;
+                            var html = "<h4>Scheduled events</h4>";
+                            while (i < selectedEvents.length) {
+                                html += (selectedEvents[i].Time + ' - <a href="/meeting/index/' + selectedEvents[i].Id
+                                    + '">' + selectedEvents[i].Title + '</a> <br />');
+                                i++;
+                            }
+                            $("#event-content").html(html);
+
                         }
                     }
                 });
@@ -48,3 +62,10 @@
     }
 });
 
+function formatTime(hours, mins) {
+    if (hours < 10)
+        hours = "0" + hours;
+    if (mins < 10)
+        mins = "0" + mins;
+    return hours + ":" + mins;
+}
