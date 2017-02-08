@@ -6,31 +6,17 @@
 }
 
 <div class="jumbotron">
-    <div>
-        <h1 style="display:inline-block; padding-right:15px;">@Model.Title</h1><h4 style="display:inline-block">Created by: @Model.Creator.Name</h4>
+    <div style="padding-left:75px">
+        <h1 style="display:inline-block; padding-right:15px; font-family:Helvetica;">@Model.Title <small><h5 style="display:inline-block">Created by:</h5> <h3 style="display:inline-block">@Model.Creator.Name</h3></small></h1>
     </div>
-    <hr style="padding:0px;"/>
+    <hr style="padding:0px;" />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Creator)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Creator.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            <p style="font-size:18px; padding-top:0px;">@Html.DisplayFor(model => model.Description)</p>
         </dd>
         @if (Model.ConfirmedTime == null)
         {
@@ -42,10 +28,11 @@
             {
 
                 <dd>
-                    @Html.Label(time.Date.ToString())
+                    @Html.TextBox("Date", time.Date.ToString(), new { @class = "form-control", @readonly = "readonly", style = "width:175px;"})
+
                     @if (!Model.AlreadySelectedTimes.Contains(time.Id) && Model.Invited && Model.CurrentUsersInvitation.Status != 2)
                     {
-                        @Html.ActionLink("Attend this time", "AddNewTimeChoice", new { id = time.Id })
+                        @Html.ActionLink("Attend this time", "AddNewTimeChoice", new { id = time.Id }, new { @class = "btn btn-primary btn-xs" })
                     }
                     else if (Model.Invited && Model.Creator.Id != Model.CurrentUserId && Model.CurrentUsersInvitation.Status != 2)
                     {
@@ -57,8 +44,8 @@
                     }
                     else if (Model.Creator.Id == Model.CurrentUserId)
                     {
-                        @Html.ActionLink("Finalize time ", "AddConfirmedTime", new { id = time.Id })
-                        @Html.Label("Votes: " + Model.VoteArray[i].ToString(), new { id = "votelabel" })
+                        @Html.ActionLink("Finalize time ", "AddConfirmedTime", new { id = time.Id }, new { @class = "btn btn-primary btn-xs", style="margin-top:2px; margin-bottom:10px;" })
+                        @Html.Label("Votes: " + Model.VoteArray[i].ToString(), new { id = "votelabel", style = "padding-right:10px; padding-left:10px;" })
                     }
                 </dd>
                 i++;
@@ -140,9 +127,9 @@
             {
                 if (Model.NotInvitedUsers.Count > 0)
                 {
-                    <dt>
-                        @Html.Label("Invite colleagues")
-                    </dt>
+                <dt>
+                    @Html.Label("Invite colleagues")
+                </dt>
                 }
                 using (Html.BeginForm("AddNewInvitation", "Meeting"))
                 {
@@ -158,7 +145,7 @@
             }
             @if (Model.Creator.Id != Model.CurrentUserId && Model.Invited && Model.CurrentUsersInvitation.Status == 0)
             {
-                @Html.ActionLink("Decline invite", "DeclineInvitation", new { id = Model.MeetingId })
+                @Html.ActionLink("Decline invite", "DeclineInvitation", new { id = Model.MeetingId }, new { @class = "btn btn-default" })
             }
-    </dl>
-</div>
+        </dl>
+    </div>

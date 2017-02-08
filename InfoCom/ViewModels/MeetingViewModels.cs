@@ -57,6 +57,7 @@ namespace InfoCom.ViewModels
     public class MeetingCreateViewModel
     {
         [Required(ErrorMessage = "Enter a title")]
+        [StringLength(20, MinimumLength = 1, ErrorMessage = "Title can be a maximum of 20 characters")]
         public string Title { get; set; }
         [Required(ErrorMessage = "Enter a description")]
         public string Description { get; set; }
