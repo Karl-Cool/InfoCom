@@ -25,6 +25,7 @@ namespace InfoCom.ViewModels
         public virtual bool Inactive { get; set; }
         public virtual int[] VoteArray { get; set; }
         public virtual DateTime? ConfirmedTime { get; set;}
+
         public MeetingViewModel()
         {
             Times = new List<Time>();
@@ -45,6 +46,7 @@ namespace InfoCom.ViewModels
             Invitations = new List<Invitation>();
         }
     }
+
     public class MeetingCreateViewModel
     {
         [Required(ErrorMessage = "Enter a title")]

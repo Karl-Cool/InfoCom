@@ -63,14 +63,6 @@ namespace InfoCom.Controllers
             return View(model);
         }
 
-        public ActionResult Deactivate(int id)
-        {
-            UserRepository.Deactivate(id);
-            MeetingRepository.DeactivateAll(id);
-
-            return RedirectToAction("Index", "User");
-        }
-
         //GET
         public ActionResult Edit(int id)
         {

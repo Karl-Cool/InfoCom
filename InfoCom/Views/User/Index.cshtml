@@ -42,13 +42,32 @@
                         <a href="@Url.Action("/ResetPassword/" + user.Id)" class="btn btn-xs btn-default">
                             <span class="glyphicon glyphicon-lock"></span> Reset Password
                         </a>
-                        <a href="@Url.Action("/Deactivate/" + user.Id)" class="btn btn-xs btn-danger">
-                            <span class="glyphicon glyphicon-remove"></span> Deactivate
-                        </a>
+                        <a href="#" class="btn btn-xs btn-danger" onClick="deactivateUserModal(@user.Id)" data-toggle="modal" data-target="#confirmUserModal"><span class="glyphicon glyphicon-remove"></span> Deactivate</a>
                     </div>
                 </td>
             </tr>
         }
     </tbody>
-
 </table>
+<!-- Modal -->
+<div class="modal fade" id="confirmUserModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Deactivate user</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to deactivate this user?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="confirm-deactivate-user-button" class="btn btn-primary">Deactivate</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/deactivateUser.js")
+}

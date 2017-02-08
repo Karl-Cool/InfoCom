@@ -12,7 +12,26 @@ namespace InfoCom.Controllers
     [Authorize]
     public class MeetingController : Controller
     {
-        public ActionResult Index(int? id)
+        // GET: Meetings
+        public ActionResult Index()
+        {
+            int userId = Convert.ToInt32(User.Identity.GetUserId());
+            var meetings = MeetingsRepository.Get(userId);
+            var invitations = InvitationRepository.Get(userId);
+            if (invitations != null)
+            {
+                InvitationRepository.UpdateNotified(userId);
+            }
+            var model = new MeetingsViewModel()
+            {
+                Meetings = meetings,
+                Invitations = invitations
+            };
+
+            return View(model);
+        }
+
+        public ActionResult Profile(int? id)
         {
             try
             {
@@ -108,7 +127,7 @@ namespace InfoCom.Controllers
             newTimeChoice.User = currentUser;
             newTimeChoice.Meeting = timeChosen.Meeting;
             TimeChoiceRepository.Add(newTimeChoice);
-            return RedirectToAction("Index", new { id = newTimeChoice.Meeting.Id });
+            return RedirectToAction("Profile", new { id = newTimeChoice.Meeting.Id });
         }
         public ActionResult AddConfirmedTime(int id)
         {
@@ -116,7 +135,7 @@ namespace InfoCom.Controllers
             Meeting meeting = MeetingRepository.Get(timeChosen.Meeting.Id);
             meeting.ConfirmedTime = timeChosen.Date;
             MeetingRepository.Update(meeting);
-            return RedirectToAction("Index", new { id = meeting.Id });
+            return RedirectToAction("Profile", new { id = meeting.Id });
         }
         public ActionResult Create()
         {
@@ -156,17 +175,11 @@ namespace InfoCom.Controllers
                     }
                     if (timesAdded)
                     {
-                        return RedirectToAction("index", new { id = id });
+                        return RedirectToAction("Profile", new { id = id });
                     }
                 }
             }
             return View();
-        }
-
-        public ActionResult Deactivate(int id)
-        {
-            MeetingRepository.Deactivate(id);
-            return RedirectToAction("Index", "Meetings");
         }
     }
 }
