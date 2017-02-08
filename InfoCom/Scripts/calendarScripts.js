@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     var events = [];
+    var html = "";
     getMeetings();
 
     function getMeetings() {
@@ -47,15 +48,19 @@
                         }
                         if (selectedEvents.length > 0) {
                             i = 0;
-                            var html = "<h4>Scheduled events</h4>";
+                            html = "<h4>Scheduled events</h4>";
                             while (i < selectedEvents.length) {
-                                html += (selectedEvents[i].Time + ' - <a href="/meeting/index/' + selectedEvents[i].Id
-                                    + '">' + selectedEvents[i].Title + '</a> <br />');
+                                html += (selectedEvents[i].Time +
+                                    ' - <a href="/meeting/index/' +
+                                    selectedEvents[i].Id +
+                                    '">' +
+                                    selectedEvents[i].Title +
+                                    '</a> <br />');
                                 i++;
                             }
-                            $("#event-content").html(html);
+                        } 
+                        $("#event-content").html(html);
 
-                        }
                     }
                 });
             });
