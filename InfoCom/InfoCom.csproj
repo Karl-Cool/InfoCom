@@ -181,6 +181,7 @@
     <Compile Include="Controllers\InvitationController.cs" />
     <Compile Include="Controllers\MeetingController.cs" />
     <Compile Include="Controllers\MeetingsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -192,7 +193,7 @@
     <Compile Include="ViewModels\FeedViewModel.cs" />
     <Compile Include="ViewModels\InvitationViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
-    <Compile Include="ViewModels\MeetingViewModel.cs" />
+    <Compile Include="ViewModels\MeetingViewModels.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />
     <Compile Include="ViewModels\UserViewModels.cs" />
   </ItemGroup>
@@ -320,6 +321,8 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\calendarScripts.js" />
+    <Content Include="Scripts\deactivateMeeting.js" />
+    <Content Include="Scripts\deactivateUser.js" />
     <Content Include="Scripts\feedScripts.js" />
     <Content Include="Scripts\jHtmlArea-0.8.js" />
     <Content Include="Scripts\jHtmlArea-0.8.min.js" />
@@ -482,15 +485,17 @@
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\Meeting\Index.cshtml" />
+    <Content Include="Views\Meeting\Profile.cshtml" />
     <Content Include="Views\Feed\Index.cshtml" />
     <Content Include="Views\Invitation\Index.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Feed\Post.cshtml" />
-    <Content Include="Views\Meetings\Index.cshtml" />
+    <Content Include="Views\Meeting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\" />
+    <Folder Include="ApiControllers\" />
+    <Folder Include="App_Data\uploads\" />
     <Folder Include="Views\CalendarApi\" />
   </ItemGroup>
   <ItemGroup>

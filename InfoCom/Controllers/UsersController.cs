@@ -8,26 +8,27 @@ using System.Diagnostics;
 
 namespace InfoCom.Controllers
 {
-    public class MeetingsController : ApiController
+    public class UsersController : ApiController
     {
         //Function to deactivate a user
         [HttpDelete]
-        public HttpResponseMessage DeleteMeeting(int id)
+        public HttpResponseMessage DeleteUser(int id)
         {
-            var meetingData = MeetingRepository.Deactivate(id);
+            var userData = UserRepository.Deactivate(id);
+            var meetingData = MeetingRepository.DeactivateAll(id);
 
-            if (meetingData)
+            if (userData && meetingData)
             {
                 var newUrl = Url.Link("Default", new
                 {
-                    Controller = "Meeting",
+                    Controller = "User",
                     Action = "Index"
                 });
                 return Request.CreateResponse(HttpStatusCode.OK, new { Success = true, RedirectUrl = newUrl });
             }
             else
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "Error: Could not deactivate meeting.");
+                return Request.CreateResponse(HttpStatusCode.NotFound, "Error: Could not deactivate user.");
             }
         }
     }

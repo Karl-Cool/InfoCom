@@ -13,7 +13,7 @@ function loadNotifications() {
     $.getJSON(notificationUri)
         .done(function (data) {
             // On success, 'data' contains the number of notifcations (if fail 'data' is always 0).
-            if (data != 0) {
+            if (data !== 0) {
                 $('#notification-badge').html(data);
                 $('#invitations-text').html('Invitations<span class="badge navbar-right">' + data + '</span>');
             }

@@ -157,7 +157,7 @@ namespace DataAccess.Repositories
         public static bool DeactivateAll(int id)
         {
             {
-                var success = false;
+                var response = false;
                 try
                 {
                     using (var session = DbConnect.SessionFactory.OpenSession())
@@ -168,14 +168,14 @@ namespace DataAccess.Repositories
                             meetings.ToList().ForEach(x => { x.Inactive = true; });
                             transaction.Commit();
                         }
-                        success = true;
+                        response = true;
                     }
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
                 }
-                return success;
+                return response;
             }
         }
     }

@@ -12,7 +12,7 @@
     <div class="well" id="feed-settings-well">
         <h4>Feed settings</h4>
         @using (Html.BeginForm("Index", "Feed", FormMethod.Post, new { id = "feed-settings" }))
-            {
+        {
             <div class="form-group">
 
                 <label class="radio-inline">
@@ -40,7 +40,17 @@
             <input class="btn btn-block btn-primary" type="submit" value="Save" />
         }
     </div>
-        <div id="calendar"></div>
+
+    <div class="well">
+        <div id="calendar-container">
+            <div id="calendar-center">
+                <div id="calendar"></div>
+            </div>
+        </div>
+        <div id="event-content"></div>
+    </div>
+
+
 </div>
 
 @foreach (var item in Model.PostList)
