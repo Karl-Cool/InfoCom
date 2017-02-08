@@ -26,7 +26,7 @@
                         <tr>
                             <td>@x.Meeting.Title</td>
                             <td class="text-right">
-                                @Html.ActionLink("View", "Index/" + x.Id, "Meeting") 
+                                @Html.ActionLink("View", "Profile/" + x.Id, "Meeting") 
                             </td>
                         </tr>
                     }
@@ -51,7 +51,7 @@ else
                         <tr>
                             <td>@x.Title</td>
                             <td class="text-right">
-                                @Html.ActionLink("View", "Index/" + x.Id, "Meeting") | <a href="#" class="btn btn-xs btn-danger" onClick="deactivateMeetingModal(@x.Id)" data-toggle="modal" data-target="#confirmMeetingModal"><span class="glyphicon glyphicon-remove"></span> Deactivate</a>
+                                @Html.ActionLink("View", "Profile/" + x.Id, "Meeting") | <a href="#" class="btn btn-xs btn-danger" onClick="deactivateMeetingModal(@x.Id)" data-toggle="modal" data-target="#confirmMeetingModal"><span class="glyphicon glyphicon-remove"></span> Deactivate</a>
                             </td>
                         </tr>
                     }
