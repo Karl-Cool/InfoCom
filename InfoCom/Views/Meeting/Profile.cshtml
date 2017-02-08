@@ -5,31 +5,18 @@
     ViewBag.Title = "Profile";
 }
 
-<h2>Meeting info</h2>
-
-<div>
-    <hr />
+<div class="jumbotron">
+    <div style="padding-left:75px">
+        <h1 style="display:inline-block; padding-right:15px; font-family:Helvetica;">@Model.Title <small><h5 style="display:inline-block">Created by:</h5> <h3 style="display:inline-block">@Model.Creator.Name</h3></small></h1>
+    </div>
+    <hr style="padding:0px;" />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Creator)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Creator.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            <p style="font-size:18px; padding-top:0px;">@Html.DisplayFor(model => model.Description)</p>
         </dd>
         @if (Model.ConfirmedTime == null)
         {
@@ -41,19 +28,24 @@
             {
 
                 <dd>
-                    @Html.Label(time.Date.ToString())
+                    @Html.TextBox("Date", time.Date.ToString(), new { @class = "form-control", @readonly = "readonly", style = "width:175px;"})
+
                     @if (!Model.AlreadySelectedTimes.Contains(time.Id) && Model.Invited && Model.CurrentUsersInvitation.Status != 2)
                     {
-                        @Html.ActionLink("Attend this time", "AddNewTimeChoice", new { id = time.Id })
+                        @Html.ActionLink("Attend this time", "AddNewTimeChoice", new { id = time.Id }, new { @class = "btn btn-primary btn-xs" })
                     }
-                    else if (Model.Invited && Model.Creator.Id != Model.CurrentUserId)
+                    else if (Model.Invited && Model.Creator.Id != Model.CurrentUserId && Model.CurrentUsersInvitation.Status != 2)
                     {
                         <img src="~/Content/Crystal_Clear_app_clean_dark.png" alt="You've attended this time" height="20" width="20" />
                     }
+                    else if (Model.Invited && Model.Creator.Id != Model.CurrentUserId && Model.CurrentUsersInvitation.Status == 2)
+                    {
+                        <img src="~/Content/button_decline.png" alt="You've declined this meeting" height="17" width="17" />
+                    }
                     else if (Model.Creator.Id == Model.CurrentUserId)
                     {
-                        @Html.ActionLink("Finalize time ", "AddConfirmedTime", new { id = time.Id })
-                        @Html.Label("Votes: " + Model.VoteArray[i].ToString(), new { id = "votelabel" })
+                        @Html.ActionLink("Finalize time ", "AddConfirmedTime", new { id = time.Id }, new { @class = "btn btn-primary btn-xs", style="margin-top:2px; margin-bottom:10px;" })
+                        @Html.Label("Votes: " + Model.VoteArray[i].ToString(), new { id = "votelabel", style = "padding-right:10px; padding-left:10px;" })
                     }
                 </dd>
                 i++;
@@ -70,67 +62,90 @@
         <dt>
             @Html.Label("No answer")
         </dt>
-        @foreach (Invitation invitation in Model.Invitations)
+        @if (Model.StatusZero.Count > 0)
         {
-            if (invitation.Status == 0)
+            foreach (Invitation invitation in Model.StatusZero)
             {
-                <dd>
-                    @Html.Label(invitation.User.Name)
-                </dd>
+                {
+                    <dd>
+                        @Html.Label(invitation.User.Name)
+                    </dd>
+                }
             }
+        }
+        else
+        {
+            <dd>
+
+            </dd>
         }
         <dt>
             @Html.Label("Attending")
         </dt>
-        @foreach (Invitation invitation in Model.Invitations)
+        @if (Model.StatusOne.Count > 0)
         {
-            if (invitation.Status == 1)
+            foreach (Invitation invitation in Model.StatusOne)
             {
-                <dd>
-                    @Html.Label(invitation.User.Name, new { id = "acceptedlabel" })
-                </dd>
-            }
-        }
-        <dt>
-            @Html.Label("Declined")
-        </dt>
-        @foreach (Invitation invitation in Model.Invitations)
-        {
-            if (invitation.Status == 2)
-            {
-                <dd>
-                    @Html.Label(invitation.User.Name, new { id = "declinedlabel" })
-                </dd>
-            }
-        }
-        @if (Model.NotInvitedUsers.Count > 0 && Model.Creator.Id == Model.CurrentUserId)
-        {
-            <dt>
-                @Html.Label("Invite colleagues")
-            </dt>
-        }
-    </dl>
-    <div class="meetingdiv">
-        @if (Model.Creator.Id == Model.CurrentUserId)
-        {
-            using (Html.BeginForm("AddNewInvitation", "Meeting"))
-            {
-                @Html.HiddenFor(model => model.MeetingId)
-                if (Model.NotInvitedUsers.Count > 0)
                 {
-                    <div class="innermeetingdiv">
-                        @Html.DropDownListFor(model => model.UserId, Model.NotInvitedUsers, htmlAttributes: null)
-
-                        <br />
-                        <input id="Submit" type="submit" value="Invite" />
-                    </div>
+                    <dd>
+                        @Html.Label(invitation.User.Name, new { id = "acceptedlabel" })
+                    </dd>
                 }
             }
         }
-        @if (Model.Creator.Id != Model.CurrentUserId && Model.Invited && Model.CurrentUsersInvitation.Status == 0)
+        else
         {
-            @Html.ActionLink("Decline invite", "DeclineInvitation", new { id = Model.MeetingId })
-        }
-    </div>
+            <dd>
 
-</div>
+            </dd>
+        }
+
+        <dt>
+            @Html.Label("Declined")
+        </dt>
+        @if (Model.StatusTwo.Count > 0)
+        {
+            foreach (Invitation invitation in Model.StatusTwo)
+            {
+                {
+                    <dd>
+                        @Html.Label(invitation.User.Name, new { id = "declinedlabel" })
+                    </dd>
+                }
+            }
+        }
+        else
+        {
+            <dd>
+
+            </dd>
+        }
+
+
+        <dd>
+            @if (Model.Creator.Id == Model.CurrentUserId)
+            {
+                if (Model.NotInvitedUsers.Count > 0)
+                {
+                <dt>
+                    @Html.Label("Invite colleagues")
+                </dt>
+                }
+                using (Html.BeginForm("AddNewInvitation", "Meeting"))
+                {
+                    @Html.HiddenFor(model => model.MeetingId)
+                    if (Model.NotInvitedUsers.Count > 0)
+                    {
+                        <input id="Submit" type="submit" value="Invite" class="btn btn-default" />
+                        <div class="col-md-3">
+                            @Html.DropDownListFor(model => model.UserId, Model.NotInvitedUsers, new { @class = "form-control" })
+                        </div>
+                    }
+                }
+            }
+            @if (Model.Creator.Id != Model.CurrentUserId && Model.Invited && Model.CurrentUsersInvitation.Status == 0)
+            {
+                @Html.ActionLink("Decline invite", "DeclineInvitation", new { id = Model.MeetingId }, new { @class = "btn btn-default" })
+            }
+        </dl>
+    </div>

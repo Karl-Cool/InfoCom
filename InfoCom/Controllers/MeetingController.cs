@@ -48,6 +48,9 @@ namespace InfoCom.Controllers
                     }
                 }
                 List<int> alreadyInvitedUserIds = new List<int>();
+                List<Invitation> StatusZero = new List<Invitation>();
+                List<Invitation> StatusOne = new List<Invitation>();
+                List<Invitation> StatusTwo = new List<Invitation>();
                 List<Invitation> invitations = InvitationRepository.GetMeeting(id2);
                 if (invitations.Count > 0)
                 {
@@ -58,6 +61,18 @@ namespace InfoCom.Controllers
                         if (invitation.User.Id == Convert.ToInt32(User.Identity.GetUserId()))
                         {
                             model.CurrentUsersInvitation = invitation;
+                        }
+                        if (invitation.Status == 0)
+                        {
+                            StatusZero.Add(invitation);
+                        }
+                        if (invitation.Status == 1)
+                        {
+                            StatusOne.Add(invitation);
+                        }
+                        if (invitation.Status == 2)
+                        {
+                            StatusTwo.Add(invitation);
                         }
                     }
                 }
@@ -105,6 +120,9 @@ namespace InfoCom.Controllers
                 model.Creator = meeting.Creator;
                 model.Title = meeting.Title;
                 model.Description = meeting.Description;
+                model.StatusZero = StatusZero;
+                model.StatusOne = StatusOne;
+                model.StatusTwo = StatusTwo;
                 return View(model);
             }
             catch (Exception ex)
