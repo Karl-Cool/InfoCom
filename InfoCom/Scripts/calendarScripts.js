@@ -58,7 +58,9 @@
                                     '</a> <br />');
                                 i++;
                             }
-                        } 
+                        } else {
+                            html = "";
+                        }
                         $("#event-content").html(html);
 
                     }
