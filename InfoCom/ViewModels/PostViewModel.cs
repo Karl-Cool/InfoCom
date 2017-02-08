@@ -1,6 +1,7 @@
 ﻿using DataAccess.Models;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
 namespace InfoCom.ViewModels
@@ -17,7 +18,7 @@ namespace InfoCom.ViewModels
         public virtual bool Formal { get; set; }
         public virtual List<Comment> Comments { get; set; }
         public virtual List<PostFile> Files { get; set; }
-        public virtual List<Post> PostList {get; set; }
+        public virtual List<Post> PostList { get; set; }
         public virtual List<PostFile> FileList { get; set; }
         public virtual ICollection<Category> CategoryList { get; set; }
         public virtual IEnumerable<SelectListItem> Categories { get; set; }
@@ -25,6 +26,7 @@ namespace InfoCom.ViewModels
         {
             Categories = new List<SelectListItem>();
         }
+    
+        }
 
     }
-}

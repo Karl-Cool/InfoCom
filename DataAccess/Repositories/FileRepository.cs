@@ -96,5 +96,29 @@ namespace DataAccess.Repositories
             }
             return response;
         }
+        public static bool AddThree(List<PostFile> fil)
+        {
+            var response = false;
+
+
+            try
+            {
+                using (var session = DbConnect.SessionFactory.OpenSession())
+                {
+                    foreach(var file1 in fil)
+                    {
+                        session.Save(file1);
+                    }
+                    
+                    response = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+
+            }
+            return response;
+        }
     }
 }

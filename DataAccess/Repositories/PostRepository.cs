@@ -44,6 +44,7 @@ namespace DataAccess.Repositories
                     var post = session.Query<Post>()
                         .Where(x => x.Category.Id == id)
                         .Fetch(x => x.Author)
+                        .Fetch(x => x.Files)
                         
                         .OrderByDescending(x => x.CreatedAt).ToList();
                     return post;

@@ -74,12 +74,27 @@
         <hr>
         @if (Model.FileList != null)
         {
-            foreach (var item2 in item.Files)
+            foreach (var file in item.Files)
             {
-                if (item2.Post.Id == item.Id)
+                if (file.Post.Id == item.Id)
                 {
-                    <img src= "@Url.Content(@item2.FilePath)" alt="">
-                    
+                    <img class="img-responsive" src= "@Url.Content(@file.FilePath)" alt="">
+
+
+
+                }
+                if (file.FilePath.EndsWith(".rtf")
+                       || file.FilePath.EndsWith(".pdf")
+                       || file.FilePath.EndsWith(".docx")
+                       || file.FilePath.EndsWith(".doc")
+                       || file.FilePath.EndsWith(".txt")
+                       || file.FilePath.EndsWith(".ppt")
+                       || file.FilePath.EndsWith(".xls")
+                       || file.FilePath.EndsWith(".xlsx") && file.Post.Id == item.Id)
+
+                {
+                   
+                    <a href="@Url.Content(@file.FilePath)">@file.FilePath.Substring(12)</a>
                 }
 
             }
