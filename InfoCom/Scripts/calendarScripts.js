@@ -62,7 +62,6 @@
                             html = "";
                         }
                         $("#event-content").html(html);
-
                     }
                 });
             });
