@@ -51,6 +51,10 @@
                     {
                         <img src="~/Content/Crystal_Clear_app_clean_dark.png" alt="You've attended this time" height="20" width="20" />
                     }
+                    else if (Model.Invited && Model.Creator.Id != Model.CurrentUserId && Model.CurrentUsersInvitation.Status == 2)
+                    {
+                        <img src="~/Content/button_decline.png" alt="You've declined this meeting" height="17" width="17" />
+                    }
                     else if (Model.Creator.Id == Model.CurrentUserId)
                     {
                         @Html.ActionLink("Finalize time ", "AddConfirmedTime", new { id = time.Id })
@@ -129,34 +133,32 @@
 
             </dd>
         }
-        @if (Model.NotInvitedUsers.Count > 0 && Model.Creator.Id == Model.CurrentUserId)
-        {
-            <dt>
-                @Html.Label("Invite colleagues")
-            </dt>
-        }
-    </dl>
-    <div class="meetingdiv">
-        @if (Model.Creator.Id == Model.CurrentUserId)
-        {
-            using (Html.BeginForm("AddNewInvitation", "Meeting"))
+
+
+        <dd>
+            @if (Model.Creator.Id == Model.CurrentUserId)
             {
-                @Html.HiddenFor(model => model.MeetingId)
                 if (Model.NotInvitedUsers.Count > 0)
                 {
-                    <div class="innermeetingdiv">
-                        @Html.DropDownListFor(model => model.UserId, Model.NotInvitedUsers, htmlAttributes: null)
-
-                        <br />
-                        <input id="Submit" type="submit" value="Invite" />
-                    </div>
+                    <dt>
+                        @Html.Label("Invite colleagues")
+                    </dt>
+                }
+                using (Html.BeginForm("AddNewInvitation", "Meeting"))
+                {
+                    @Html.HiddenFor(model => model.MeetingId)
+                    if (Model.NotInvitedUsers.Count > 0)
+                    {
+                        <input id="Submit" type="submit" value="Invite" class="btn btn-default" />
+                        <div class="col-md-3">
+                            @Html.DropDownListFor(model => model.UserId, Model.NotInvitedUsers, new { @class = "form-control" })
+                        </div>
+                    }
                 }
             }
-        }
-        @if (Model.Creator.Id != Model.CurrentUserId && Model.Invited && Model.CurrentUsersInvitation.Status == 0)
-        {
-            @Html.ActionLink("Decline invite", "DeclineInvitation", new { id = Model.MeetingId })
-        }
-    </div>
-
+            @if (Model.Creator.Id != Model.CurrentUserId && Model.Invited && Model.CurrentUsersInvitation.Status == 0)
+            {
+                @Html.ActionLink("Decline invite", "DeclineInvitation", new { id = Model.MeetingId })
+            }
+    </dl>
 </div>
