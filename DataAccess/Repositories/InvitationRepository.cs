@@ -99,5 +99,36 @@ namespace DataAccess.Repositories
             }
             return status;
         }
+        public static bool Update(Invitation invitation)
+        {
+            var success = false;
+
+            try
+            {
+
+                using (var session = DbConnect.SessionFactory.OpenSession())
+                {
+                    var invt = session.Query<Invitation>().FirstOrDefault(x => x.Id == invitation.Id);
+                    using (var transaction = session.BeginTransaction())
+                    {
+                        if (invt != null)
+                        {
+                            invt.Meeting = invitation.Meeting;
+                            invt.Notified = invitation.Notified;
+                            invt.Status = invitation.Status;
+                            invt.User = invt.User;
+                            session.Update(invt);
+                        }
+                        transaction.Commit();
+                    }
+                    success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            return success;
+        }
     }
 }
