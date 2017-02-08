@@ -59,6 +59,7 @@
         @if (item.Formal)
                 {
             <h1>@item.Title (Formal)</h1>
+
         }
         else
         {
@@ -77,7 +78,8 @@
             {
                 if (item2.Post.Id == item.Id)
                 {
-                    <img class="img-responsive" src="@item2.FilePath" alt="">
+                    <img src= "@Url.Content(@item2.FilePath)" alt="">
+                    
                 }
 
             }

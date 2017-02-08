@@ -122,7 +122,7 @@ namespace InfoCom.Controllers
             newInvitation.User = UserRepository.Get(model.UserId);
             newInvitation.Status = 0;
             InvitationRepository.Add(newInvitation);
-            return RedirectToAction("Index", new { id = model.MeetingId });
+            return RedirectToAction("Profile", new { id = model.MeetingId });
         }
         public ActionResult AddNewTimeChoice(int id)
         {
@@ -135,14 +135,14 @@ namespace InfoCom.Controllers
             TimeChoiceRepository.Add(newTimeChoice);
             updateInvitationStatus(currentUser, timeChosen.Meeting.Id, 1);
 
-            return RedirectToAction("Index", new { id = newTimeChoice.Meeting.Id });
+            return RedirectToAction("Profile", new { id = newTimeChoice.Meeting.Id });
         }
 
         public ActionResult DeclineInvitation(int id)
         {
             User currentUser = UserRepository.Get(Convert.ToInt32(User.Identity.GetUserId()));
             updateInvitationStatus(currentUser, id, 2);
-            return RedirectToAction("Index", new { id = id });
+            return RedirectToAction("Profile", new { id = id });
         }
 
         private void updateInvitationStatus(User currentUser, int meetingId, int newStatus)
@@ -165,7 +165,7 @@ namespace InfoCom.Controllers
             meeting.ConfirmedTime = timeChosen.Date;
             MeetingRepository.Update(meeting);
             await sendMeetingUpdateMail(meeting);
-            return RedirectToAction("Index", new { id = meeting.Id });
+            return RedirectToAction("Profile", new { id = meeting.Id });
         }
 
         private async Task sendMeetingUpdateMail(Meeting meeting)

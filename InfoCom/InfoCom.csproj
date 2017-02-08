@@ -493,6 +493,7 @@
     <Content Include="Views\Meeting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Uploads\" />
     <Folder Include="ApiControllers\" />
     <Folder Include="App_Data\uploads\" />
     <Folder Include="Views\CalendarApi\" />
