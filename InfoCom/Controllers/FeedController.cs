@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 
 namespace InfoCom.Controllers
@@ -17,19 +18,29 @@ namespace InfoCom.Controllers
         // GET: Feed
         public ActionResult Index()
         {
+            try
+            {
+                var model = new PostViewModel();
+                model.PostList = PostRepository.Get();
+                model.Categories = CategoryRepository.Get().Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                });
+                model.FileList = FileRepository.Get();
+
+                return View(model);
+            }
             // var model = new FeedViewModel() {
             //     PostList = PostRepository.get()
             //};
-
-            var model = new PostViewModel();
-            model.PostList = PostRepository.Get();
-            model.Categories = CategoryRepository.Get().Select(x => new SelectListItem
+            catch(Exception ex)
             {
-                Text = x.Name,
-                Value = x.Id.ToString()
-            });
+                Debug.WriteLine(ex.Message);
+                return HttpNotFound();
+            }
+
             
-            return View(model);
         }
 
 
@@ -84,7 +95,8 @@ namespace InfoCom.Controllers
                     // extract only the filename
                     var fileName = Path.GetFileName(file.FileName);
                     // store the file inside ~/App_Data/uploads folder
-                    var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                    var path = Path.Combine(Server.MapPath("/Uploads/"),
+                                      post.Author.Id + fileName);
                     fileObj.FilePath = path;
                     
                     file.SaveAs(path);
