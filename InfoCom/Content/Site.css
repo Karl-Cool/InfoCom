@@ -160,3 +160,9 @@ textarea
 #votelabel{
     color:crimson;
 }
+#acceptedlabel{
+    color:azure;
+}
+#declinedlabel{
+    color:lavenderblush;
+}
