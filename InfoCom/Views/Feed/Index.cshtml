@@ -76,9 +76,10 @@
         {
             foreach (var file in item.Files)
             {
-                if (file.Post.Id == item.Id)
+                if (file.Post.Id == item.Id && file.FilePath.EndsWith(".jpg") || file.FilePath.EndsWith(".png") || file.FilePath.EndsWith(".GIF"))
                 {
-                    <img class="img-responsive" src= "@Url.Content(@file.FilePath)" alt="">
+                    
+                    <img class="img-responsive" src= "@Url.Content(file.FilePath)" alt="@file.Id">
 
 
 
