@@ -56,7 +56,14 @@
 {
     foreach (var item in Model.PostList)
     {
-        <div class="col-lg-8">
+        var divClass = "col-lg-8";
+        if (item.Inactive)
+        {
+            divClass = "col-lg-8 alert-danger";
+        }
+
+        <div class="@divClass">
+
             @if (item.Formal)
             {
                 <h1>@item.Title (Formal)</h1>
@@ -114,9 +121,17 @@
             <button class="btn btn-primary">Read more</button>
             @if (item.Author.Id == Convert.ToInt32(User.Identity.GetUserId()) || User.IsInRole("Admin"))
             {
-                <button class="btn btn-danger">Hide this post</button>
+                if (!item.Inactive)
+                {
+                    <button class="btn btn-danger">Hide this post</button>
+                }
+                else
+                {
+                    <button class="btn btn-success">Show this post</button>
+                }
+
             }
-            <hr/>
+            <hr />
         </div>
     }
 }
