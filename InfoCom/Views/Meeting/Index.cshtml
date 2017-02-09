@@ -8,6 +8,10 @@
 
 <h2>Meetings</h2>
 
+<div class="btn-toolbar">
+    <a href="@Url.Action("Create")" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Create Meeting</a>
+</div>
+<hr/>
 
 @if (TempData["Message"] != null)
 {
@@ -26,7 +30,7 @@
                         <tr>
                             <td>@x.Meeting.Title</td>
                             <td class="text-right">
-                                @Html.ActionLink("View", "Profile", new { id = x.Meeting.Id}, "Meeting")
+                                @Html.ActionLink("View", "Profile", new { id = x.Meeting.Id}, new { @class = "btn btn-xs btn-success" })
                             </td>
                         </tr>
                     }
@@ -51,7 +55,7 @@ else
                         <tr>
                             <td>@x.Title</td>
                             <td class="text-right">
-                                @Html.ActionLink("View", "Profile", new { id = x.Id }, "Meeting") | <a href="#" class="btn btn-xs btn-danger" onClick="deactivateMeetingModal(@x.Id)" data-toggle="modal" data-target="#confirmMeetingModal"><span class="glyphicon glyphicon-remove"></span> Deactivate</a>
+                                @Html.ActionLink("View", "Profile", new { id = x.Id }, new { @class = "btn btn-xs btn-success" }) | <a href="#" class="btn btn-xs btn-danger" onClick="deactivateMeetingModal(@x.Id)" data-toggle="modal" data-target="#confirmMeetingModal"><span class="glyphicon glyphicon-remove"></span> Deactivate</a>
                             </td>
                         </tr>
                     }
