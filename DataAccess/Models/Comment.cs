@@ -14,5 +14,6 @@ namespace DataAccess.Models
         public virtual string Content { get; set; }
         public virtual bool Inactive { get; set; }
         public virtual DateTime CreatedAt { get; set; }
+        public virtual bool Inactive { get; set; }
     }
 }

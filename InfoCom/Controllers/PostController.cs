@@ -39,7 +39,7 @@ namespace InfoCom.Controllers
                 var post = new Post();
                 var currentuser = UserRepository.Get(Convert.ToInt32(User.Identity.GetUserId()));
                 post.Author = currentuser;
-               var allPosts = PostRepository.Get();
+                var allPosts = PostRepository.Get();
                 int numberOfPosts = allPosts.Count;
                 post.Category = CategoryRepository.Get(model.CategoryId);
                 if (model.Category.Name != null)
@@ -100,16 +100,16 @@ namespace InfoCom.Controllers
 
                 post.Content = model.Content;
                 post.CreatedAt = DateTime.Now;
-                
-                if(model.Formal == "Formal")
+
+                if (model.Formal == "Formal")
                 {
                     post.Formal = true;
                 }
-                else if(model.Formal == "Informal")
+                else if (model.Formal == "Informal")
                 {
                     post.Formal = false;
                 }
-                
+
                 post.Title = model.Title;
 
                 PostRepository.Add(post);
