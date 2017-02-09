@@ -1,6 +1,7 @@
 ﻿using DataAccess.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
@@ -12,7 +13,10 @@ namespace InfoCom.ViewModels
         public virtual User Author { get; set; }
         public virtual Category Category { get; set; }
         public int CategoryId { get; set; }
+        [Required(ErrorMessage ="Title is required")]
+        [StringLength(30, ErrorMessage ="The title can't be longer than 30 chars.")]
         public virtual string Title { get; set; }
+        [Required(ErrorMessage ="You have to write something.")]
         public virtual string Content { get; set; }
         public virtual DateTime CreatedAt { get; set; }
         public virtual string Formal { get; set; }

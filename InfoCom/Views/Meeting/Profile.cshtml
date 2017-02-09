@@ -5,6 +5,14 @@
     ViewBag.Title = "Profile";
 }
 
+<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+
+<div id="loadingScreen">
+    <div id="innerLoadingScreen">
+
+    </div>
+</div>
+
 <div class="jumbotron">
     <div style="padding-left:75px">
         <h1 style="display:inline-block; padding-right:15px; font-family:Helvetica;">@Model.Title <div><small><h5 style="display:inline-block">Created by:</h5> <h3 style="display:inline-block">@Model.Creator.Name</h3></small></div></h1>
@@ -46,7 +54,7 @@
                     }
                     else if (Model.Creator.Id == Model.CurrentUserId)
                     {
-                        @Html.ActionLink("Finalize time ", "AddConfirmedTime", new { id = time.Id }, new { @class = "btn btn-primary btn-xs", style = "margin-top:2px; margin-bottom:10px;" })
+                        @Html.ActionLink("Finalize time ", "AddConfirmedTime", new { id = time.Id }, new { id = "finalTimeButton", @class = "btn btn-primary btn-xs", style = "margin-top:2px; margin-bottom:10px;" })
                         @Html.Label("Votes: " + Model.VoteArray[i].ToString(), new { id = "votelabel", style = "padding-right:10px; padding-left:10px;" })
                     }
                 </dd>
@@ -158,6 +166,7 @@
             }
         </dl>
     </div>
+
     <script>
         $(document).ready(function () {
             var text = $('#textAreaDesc').val();
@@ -165,11 +174,15 @@
             var count = lines.length;
             if (count < 5) {
                 $('#textAreaDesc').attr("rows", 4);
-            } else if(count < 10) {
+            } else if (count < 10) {
                 $('#textAreaDesc').attr("rows", count);
             }
             else {
                 $('#textAreaDesc').attr("rows", 12);
             }
-        })
+        });
+
+        $('#finalTimeButton').click(function () {
+            $("#loadingScreen").show();
+        });
     </script>
