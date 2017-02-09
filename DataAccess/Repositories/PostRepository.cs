@@ -35,7 +35,7 @@ namespace DataAccess.Repositories
             }
             return null;
         }
-        public static List<Post> GetCat(int id, string formal)
+        public static List<Post> GetCat(int id, string formal, bool showHidden)
         {
             try
             {
@@ -55,6 +55,11 @@ namespace DataAccess.Repositories
                     else if (formal == "Informal")
                     {
                         post = post.Where(x => x.Formal == false);
+                    }
+
+                    if (!showHidden)
+                    {
+                        post = post.Where(x => x.Inactive == false);
                     }
 
                     return post.Fetch(x => x.Author).Fetch(x => x.Files).OrderByDescending(x => x.CreatedAt).ToList();
