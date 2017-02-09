@@ -5,54 +5,68 @@
 }
 
 <h2>Post</h2>
-<div class="post-area">
+@using (Html.BeginForm("Post", "Post", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="col-lg-4 pull-left">
 
-    <div class="post-Text">
-        @using (Html.BeginForm("Post", "Post", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
+        <div class="well">
+
             @Html.AntiForgeryToken()
-            <span class="title-separ">
+            <div class="form-group">
                 @Html.LabelFor(model => model.Title, "Title") <br />
-                @Html.TextBoxFor(model => model.Title)
-                @Html.DropDownListFor(model => model.CategoryId, Model.Categories, htmlAttributes: new { @class = "form-control", @id = "selected-category" })
-                @Html.TextBoxFor(model => model.Category.Name)
-            </span>
-            <div class="col-lg-11">
-                <input type="submit" value="Add category" class="btn-info" />
-            </div>
+                @Html.TextBoxFor(model => model.Title) <br /> <br />
+                <h4>Post-Formality</h4>
+
+                <label class="radio-inline">
+                    @Html.ValidationMessageFor(model => model.Formal)
+                    @Html.RadioButtonFor(model => model.Formal, "Formal", new { @checked = "checked" }) Formal
+
+                </label> <br />
+                <label class="radio-inline">
+                    @Html.RadioButtonFor(model => model.Formal, "Informal") Informal
+                </label>
                 <br />
-                <span class="radio-bottom-style">
-                    @Html.Label("Formal post")
-                    @Html.RadioButtonFor(model => model.Formal, true) <br />
-                    @Html.Label("Informal post")
-                    @Html.RadioButtonFor(model => model.Formal, false)  <br />
-
-                </span>
-                <div class="file-btn">
-                    <input type="file" name="file" />
-                    <input type="file" name="file2" />
-                    <input type="file" name="file3" />
+                <br />
 
 
-                </div>
+                @Html.LabelFor(model => model.Category, "Choose a category")  <br />
+                @Html.DropDownListFor(model => model.CategoryId, Model.Categories, htmlAttributes: new { @class = "form-control", @id = "selected-category" }) <br />
+                @Html.LabelFor(model => model.Category, "Add a new category") <br />
+                @Html.TextBoxFor(model => model.Category.Name) <br /> <br />
+                <input type="submit" value="Add" class="btn btn-primary" />
 
-                <div class="col-lg-11">
-                    <input type="submit" value="Upload" class="btn-info" />
-                </div>
+            </div>
+
+            <br />
+            <div class="file-btn btn-group-justified well form-group">
+                @Html.Label("Attach Files")
+                <p>(Doc formats: rtf, docx, doc, txt, ppt, xls, xlsx.)</p>
+                <p>(Img formats: jpg, png, gif.)</p>
+                <input type="file" name="file" /> <br />
+                <input type="file" name="file2" /> <br />
+                <input type="file" name="file3" /> <br />
 
 
-                @*@Html.TextAreaFor(model => model.Content, new {@class= "textarea1" })*@
-                @Html.TextAreaFor(model => model.Content, new { @class = "postText" })
+            </div>
 
 
-        }
 
+
+
+
+
+
+        </div>
 
 
 
     </div>
 
+    <div class="col-md-8 pull-right">
 
-
-</div>
-
+        @Html.TextAreaFor(model => model.Content, new { @class = "postText" })
+        <div class="col-md-3 pull-right">
+            <input type="submit" value="Upload" class="btn btn-block btn-primary" />
+        </div>
+    </div>
+}
