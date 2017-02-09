@@ -1,6 +1,8 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    height: 100%;
+    width: 100%;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -28,113 +30,110 @@
 /* Set width on the form input elements s%ince they're 100% wide by default */
 input,
 select,
-textarea 
-{
+textarea {
     max-width: 100%;
 }
-.textarea1
-{
-    max-width: 90%!important;
+
+.textarea1 {
+    max-width: 90% !important;
     width: 80%;
     margin-top: 2%;
-    max-height: 60%!important;
+    max-height: 60% !important;
     height: 40%;
 }
+
 .border1 {
-    
     padding: 10px;
     margin: 20px;
     color: black;
 }
+
 .btn-feedpost {
     width: 10%;
     height: 10%;
     float: left;
     text-align: center;
 }
+
 .postarea1 {
     margin-top: 10%;
 }
-#postBtn 
-{
-  
-  width: 200px;
-  height: 50px;
+
+#postBtn {
+    width: 200px;
+    height: 50px;
 }
-.buttonMenu
-{
-    
-    text-align:center;
+
+.buttonMenu {
+    text-align: center;
     margin-bottom: 5%;
 }
-.post-Text
-{
-    height: 200px!important;
+
+.post-Text {
+    height: 200px !important;
 }
-.post-area 
-{
-    float:left; 
+
+.post-area {
+    float: left;
     width: 100%;
     height: 100%;
-    text-align:center;  
+    text-align: center;
 }
+
 .postText {
-    float:left; 
+    float: left;
     max-width: 100%;
     width: 120%;
     height: 500px;
     margin: 40px;
 }
-.btn-info 
-{
-    float:left;
+
+.btn-info {
+    float: left;
     margin-bottom: 10px;
-    
 }
-.text-post2 
-{
-    color:black;
+
+.text-post2 {
+    color: black;
     font-size: x-large;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-.text-title1 
-{
-    font-size:large;
-    font-family:'Times New Roman', Times, serif;
-    font-style:italic;
+
+.text-title1 {
+    font-size: large;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
     padding-bottom: 10px;
-         
 }
 
-.date-separator
-{
+.date-separator {
     margin-top: 10px;
-    font-size:x-small   ;
-    
+    font-size: x-small;
 }
-.radio-bottom-style
-{
+
+.radio-bottom-style {
     padding: 5px;
 }
-.Formal
-{
+
+.Formal {
     border: 2px solid black;
-    background-color:lightgrey;
+    background-color: lightgrey;
     margin: 5px;
 }
+
 .Informal {
     border: 2px solid black;
-    margin: 5px;    
-    background-color:Highlight;
+    margin: 5px;
+    background-color: Highlight;
     -ms-opacity: 0.9;
     opacity: 0.9;
 }
 
 .sandbg {
-    background: url('./Img/sand.jpg') no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
+    background: url('./Img/sand.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
     -ms-background-size: cover;
     background-size: cover;
 }
@@ -150,19 +149,72 @@ textarea
 .body-content {
     margin-top: 20px;
 }
-.meetingdiv{
-    width:500px; 
-    float:left; 
+
+.meetingdiv {
+    width: 500px;
+    float: left;
 }
-.innermeetingdiv{
-    padding-left:20px;
+
+.innermeetingdiv {
+    padding-left: 20px;
 }
-#votelabel{
-    color:crimson;
+
+#votelabel {
+    color: crimson;
 }
-#acceptedlabel{
-    color:#6ab820;
+
+#acceptedlabel {
+    color: #6ab820;
 }
-#declinedlabel{
-    color:#bd261b;
+
+#declinedlabel {
+    color: #bd261b;
+}
+
+#loadingScreen {
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.75);
+    display: none;
+    text-align: center;
+}
+
+#innerLoadingScreen {
+    width:30%;
+    height:30%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    background: url('loading.gif') no-repeat;
+    background-size: 100%;
+}
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position:absolute;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
