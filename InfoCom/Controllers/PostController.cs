@@ -31,102 +31,124 @@ namespace InfoCom.Controllers
         {
             try
             {
-
-
-                var fileObj = new PostFile();
-                var fileObj2 = new PostFile();
-                var fileObj3 = new PostFile();
-                var post = new Post();
-                var currentuser = UserRepository.Get(Convert.ToInt32(User.Identity.GetUserId()));
-                post.Author = currentuser;
-                var allPosts = PostRepository.Get();
-                int numberOfPosts = allPosts.Count;
-                post.Category = CategoryRepository.Get(model.CategoryId);
-                if (model.Category.Name != null)
+                model.Categories = CategoryRepository.Get().Select(x => new SelectListItem
                 {
-                    var categorymodel = new Category();
-                    categorymodel.Name = model.Category.Name;
-                    CategoryRepository.Add(categorymodel);
-                    return RedirectToAction("Index");
-                }
-                if (file != null && file.ContentLength > 0)
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                });
+                if (ModelState.IsValid)
                 {
 
-                    // extract only the filename
-                    var fileName = Path.GetFileName(file.FileName);
-                    // store the file inside ~/App_Data/uploads folder
-                    var path = Path.Combine("~/Uploads/",
-                                      numberOfPosts + fileName);
-                    fileObj.FilePath = path;
+                    var fileObj = new PostFile();
+                    var fileObj2 = new PostFile();
+                    var fileObj3 = new PostFile();
+                    var post = new Post();
+                    var currentuser = UserRepository.Get(Convert.ToInt32(User.Identity.GetUserId()));
+                    post.Author = currentuser;
+                    
+                    var allPosts = PostRepository.Get();
+                    int numberOfPosts = allPosts.Count;
+                    post.Category = CategoryRepository.Get(model.CategoryId);
+                    if (model.Category.Name != null)
+                    {
+                        var categorymodel = new Category();
+                        categorymodel.Name = model.Category.Name;
+                        CategoryRepository.Add(categorymodel);
+                        return RedirectToAction("Index");
+                    }
+                    if (file != null && file.ContentLength > 0)
+                    {
 
-                    file.SaveAs(Server.MapPath(path));
+                        // extract only the filename
+                        var fileName = Path.GetFileName(file.FileName);
+                        // store the file inside ~/App_Data/uploads folder
+                        var path = Path.Combine("~/Uploads/",
+                                          numberOfPosts + fileName);
+                        fileObj.FilePath = path;
 
-                    post.Files.Add(fileObj);
+                        file.SaveAs(Server.MapPath(path));
+
+                        post.Files.Add(fileObj);
 
 
+                    }
+                    if (file2 != null && file2.ContentLength > 0)
+                    {
+
+                        // extract only the filename
+                        var fileName = Path.GetFileName(file2.FileName);
+                        // store the file inside ~/App_Data/uploads folder
+                        var path = Path.Combine("~/Uploads/",
+                                          numberOfPosts + fileName);
+                        fileObj2.FilePath = path;
+
+                        file2.SaveAs(Server.MapPath(path));
+
+                        post.Files.Add(fileObj2);
+
+
+                    }
+                    if (file3 != null && file3.ContentLength > 0)
+                    {
+
+                        // extract only the filename
+                        var fileName = Path.GetFileName(file3.FileName);
+                        // store the file inside ~/App_Data/uploads folder
+                        var path = Path.Combine("~/Uploads/",
+                                          numberOfPosts + fileName);
+                        fileObj3.FilePath = path;
+
+                        file3.SaveAs(Server.MapPath(path));
+
+                        post.Files.Add(fileObj3);
+
+
+                    }
+
+                    post.Content = model.Content;
+                    post.CreatedAt = DateTime.Now;
+
+                    if (model.Formal == "Formal")
+                    {
+                        post.Formal = true;
+                    }
+                    else if (model.Formal == "Informal")
+                    {
+                        post.Formal = false;
+                    }
+                    
+                    post.Title = model.Title;
+                    if (!post.Equals(null))
+                    {
+                        PostRepository.Add(post);
+                    }
+                    
+                    List<PostFile> listOfNewPost = new List<PostFile>();
+                    fileObj.Post = post;
+                    fileObj2.Post = post;
+                    fileObj3.Post = post;
+                    listOfNewPost.Add(fileObj);
+                    listOfNewPost.Add(fileObj2);
+                    listOfNewPost.Add(fileObj3);
+                    if(listOfNewPost != null || listOfNewPost.Count > 0)
+                    {
+                        FileRepository.AddThree(listOfNewPost);
+                    }
+                    
+                    
+                    return RedirectToAction("Index", "Feed");
+
+                  
                 }
-                if (file2 != null && file2.ContentLength > 0)
+                else
                 {
-
-                    // extract only the filename
-                    var fileName = Path.GetFileName(file2.FileName);
-                    // store the file inside ~/App_Data/uploads folder
-                    var path = Path.Combine("~/Uploads/",
-                                      numberOfPosts + fileName);
-                    fileObj2.FilePath = path;
-
-                    file2.SaveAs(Server.MapPath(path));
-
-                    post.Files.Add(fileObj2);
-
-
+                    return View("Index", model);
                 }
-                if (file3 != null && file3.ContentLength > 0)
-                {
-
-                    // extract only the filename
-                    var fileName = Path.GetFileName(file3.FileName);
-                    // store the file inside ~/App_Data/uploads folder
-                    var path = Path.Combine("~/Uploads/",
-                                      numberOfPosts + fileName);
-                    fileObj3.FilePath = path;
-
-                    file3.SaveAs(Server.MapPath(path));
-
-                    post.Files.Add(fileObj3);
-
-
-                }
-
-                post.Content = model.Content;
-                post.CreatedAt = DateTime.Now;
-
-                if (model.Formal == "Formal")
-                {
-                    post.Formal = true;
-                }
-                else if (model.Formal == "Informal")
-                {
-                    post.Formal = false;
-                }
-
-                post.Title = model.Title;
-
-                PostRepository.Add(post);
-                List<PostFile> listOfNewPost = new List<PostFile>();
-                fileObj.Post = post;
-                fileObj2.Post = post;
-                fileObj3.Post = post;
-                listOfNewPost.Add(fileObj);
-                listOfNewPost.Add(fileObj2);
-                listOfNewPost.Add(fileObj3);
-                FileRepository.AddThree(listOfNewPost);
-                return RedirectToAction("Index", "Feed");
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                return HttpNotFound();
+                return RedirectToAction("Index");
             }
 
         }
