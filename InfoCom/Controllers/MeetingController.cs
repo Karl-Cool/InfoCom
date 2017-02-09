@@ -19,7 +19,9 @@ namespace InfoCom.Controllers
         {
             int userId = Convert.ToInt32(User.Identity.GetUserId());
             var meetings = MeetingsRepository.Get(userId);
+            meetings.Reverse();
             var invitations = InvitationRepository.Get(userId);
+            invitations.Reverse();
             if (invitations != null)
             {
                 InvitationRepository.UpdateNotified(userId);
@@ -79,7 +81,7 @@ namespace InfoCom.Controllers
                 ICollection<User> allUsers = UserRepository.Get();
                 foreach (User user in allUsers)
                 {
-                    if (!alreadyInvitedUserIds.Contains(user.Id) && user.Id != meeting.Creator.Id && allUsers.Count > 0)
+                    if (!alreadyInvitedUserIds.Contains(user.Id) && user.Id != meeting.Creator.Id && allUsers.Count > 0 && !user.Username.ToLower().Equals("admin"))
                     {
                         model.NotInvitedUsers.Add(new SelectListItem
                         {
@@ -128,7 +130,7 @@ namespace InfoCom.Controllers
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Index");
             }
         }
         [HttpPost]
