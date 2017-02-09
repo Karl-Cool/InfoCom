@@ -39,7 +39,8 @@ namespace InfoCom.Controllers
                 var post = new Post();
                 var currentuser = UserRepository.Get(Convert.ToInt32(User.Identity.GetUserId()));
                 post.Author = currentuser;
-
+               var allPosts = PostRepository.Get();
+                int numberOfPosts = allPosts.Count;
                 post.Category = CategoryRepository.Get(model.CategoryId);
                 if (model.Category.Name != null)
                 {
@@ -55,7 +56,7 @@ namespace InfoCom.Controllers
                     var fileName = Path.GetFileName(file.FileName);
                     // store the file inside ~/App_Data/uploads folder
                     var path = Path.Combine("~/Uploads/",
-                                      post.Id + fileName);
+                                      numberOfPosts + fileName);
                     fileObj.FilePath = path;
 
                     file.SaveAs(Server.MapPath(path));
@@ -71,7 +72,7 @@ namespace InfoCom.Controllers
                     var fileName = Path.GetFileName(file2.FileName);
                     // store the file inside ~/App_Data/uploads folder
                     var path = Path.Combine("~/Uploads/",
-                                      post.Id + fileName);
+                                      numberOfPosts + fileName);
                     fileObj2.FilePath = path;
 
                     file.SaveAs(Server.MapPath(path));
@@ -87,7 +88,7 @@ namespace InfoCom.Controllers
                     var fileName = Path.GetFileName(file3.FileName);
                     // store the file inside ~/App_Data/uploads folder
                     var path = Path.Combine("~/Uploads/",
-                                      post.Id + fileName);
+                                      numberOfPosts + fileName);
                     fileObj3.FilePath = path;
 
                     file.SaveAs(Server.MapPath(path));
@@ -99,7 +100,16 @@ namespace InfoCom.Controllers
 
                 post.Content = model.Content;
                 post.CreatedAt = DateTime.Now;
-                post.Formal = model.Formal;
+                
+                if(model.Formal == "Formal")
+                {
+                    post.Formal = true;
+                }
+                else if(model.Formal == "Informal")
+                {
+                    post.Formal = false;
+                }
+                
                 post.Title = model.Title;
 
                 PostRepository.Add(post);

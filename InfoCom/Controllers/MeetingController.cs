@@ -19,7 +19,9 @@ namespace InfoCom.Controllers
         {
             int userId = Convert.ToInt32(User.Identity.GetUserId());
             var meetings = MeetingsRepository.Get(userId);
+            meetings.Reverse();
             var invitations = InvitationRepository.Get(userId);
+            invitations.Reverse();
             if (invitations != null)
             {
                 InvitationRepository.UpdateNotified(userId);
@@ -128,7 +130,7 @@ namespace InfoCom.Controllers
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Index");
             }
         }
         [HttpPost]
