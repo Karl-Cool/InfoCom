@@ -75,7 +75,7 @@ namespace InfoCom.Controllers
                                       numberOfPosts + fileName);
                     fileObj2.FilePath = path;
 
-                    file.SaveAs(Server.MapPath(path));
+                    file2.SaveAs(Server.MapPath(path));
 
                     post.Files.Add(fileObj2);
 
@@ -91,7 +91,7 @@ namespace InfoCom.Controllers
                                       numberOfPosts + fileName);
                     fileObj3.FilePath = path;
 
-                    file.SaveAs(Server.MapPath(path));
+                    file3.SaveAs(Server.MapPath(path));
 
                     post.Files.Add(fileObj3);
 
