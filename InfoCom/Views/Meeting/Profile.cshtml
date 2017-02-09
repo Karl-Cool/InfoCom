@@ -8,16 +8,12 @@
 <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
 
 <div id="loadingScreen">
-    @*<div class="loader">
-
-        </div>*@
     <div id="innerLoadingScreen">
 
     </div>
 </div>
 
 <div class="jumbotron">
-
     <div style="padding-left:75px">
         <h1 style="display:inline-block; padding-right:15px; font-family:Helvetica;">@Model.Title <div><small><h5 style="display:inline-block">Created by:</h5> <h3 style="display:inline-block">@Model.Creator.Name</h3></small></div></h1>
     </div>
@@ -170,6 +166,7 @@
             }
         </dl>
     </div>
+
     <script>
         $(document).ready(function () {
             var text = $('#textAreaDesc').val();
