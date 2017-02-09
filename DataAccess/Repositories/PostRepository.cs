@@ -41,8 +41,12 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var post = session.Query<Post>()
-                        .Where(x => x.Category.Id == id);
+                    var post = session.Query<Post>();
+                    if (id != 0)
+                    {
+                        post = post.Where(x => x.Category.Id == id);
+                    }
+                        
 
                     if (formal == "Formal")
                     {
