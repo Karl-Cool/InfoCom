@@ -6,13 +6,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Meetings</h2>
-
-<div class="btn-toolbar">
-    <a href="@Url.Action("Create")" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Create Meeting</a>
-</div>
+<h2>Meetings</h2> 
 <hr/>
-
 @if (TempData["Message"] != null)
 {
     <div class="alert @TempData["Type"]" role="alert">@TempData["Message"]</div>
