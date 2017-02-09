@@ -17,6 +17,7 @@ namespace DataAccess.Mappings
             Id(m => m.Id).Column("Id").GeneratedBy.Identity();
             Map(m => m.Content, "Content");
             Map(m => m.CreatedAt, "CreatedAt");
+            Map(m => m.Inactive, "Inactive");
 
             References(x => x.Author).Class<User>().Columns("UserId");
             References(x => x.Post).Class<Post>().Columns("PostId");

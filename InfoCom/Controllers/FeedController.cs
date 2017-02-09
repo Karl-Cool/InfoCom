@@ -1,14 +1,9 @@
 ﻿using DataAccess.Models;
 using DataAccess.Repositories;
 using InfoCom.ViewModels;
-using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Web;
-using System.Web.Hosting;
 using System.Web.Mvc;
 
 namespace InfoCom.Controllers
@@ -57,7 +52,7 @@ namespace InfoCom.Controllers
         public ActionResult Index(PostViewModel model)
         {
             model.FileList = FileRepository.Get();
-            model.PostList = PostRepository.GetCat(model.CategoryId, model.Formal);
+            model.PostList = PostRepository.GetCat(model.CategoryId, model.Formal, model.ShowHidden);
             var categoryList = CategoryRepository.Get().ToList();
             var all = new Category
             {

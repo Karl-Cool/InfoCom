@@ -207,6 +207,21 @@ textarea {
     bottom: 0;
     margin: auto;
     position:absolute;
+
+.innermeetingdiv {
+    padding-left: 20px;
+}
+
+#votelabel {
+    color: crimson;
+}
+
+#acceptedlabel {
+    color: #6ab820;
+}
+
+#declinedlabel {
+    color: #bd261b;
 }
 
 @keyframes spin {
