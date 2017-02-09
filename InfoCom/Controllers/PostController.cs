@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FluentNHibernate.Utils;
 
 namespace InfoCom.Controllers
 {
@@ -151,6 +152,16 @@ namespace InfoCom.Controllers
                 return RedirectToAction("Index");
             }
 
+        }
+
+        public ActionResult Read(int id)
+        {
+            var model = new ReadViewModel
+            {
+                Post = PostRepository.Get(id)
+            };
+
+            return View(model);
         }
 
     }

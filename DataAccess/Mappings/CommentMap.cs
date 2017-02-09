@@ -1,10 +1,5 @@
 ﻿using DataAccess.Models;
 using FluentNHibernate.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Mappings
 {
@@ -15,7 +10,7 @@ namespace DataAccess.Mappings
 
             Table("Comments");
             Id(m => m.Id).Column("Id").GeneratedBy.Identity();
-            Map(m => m.Content, "Content");
+            Map(m => m.Content, "Comment");
             Map(m => m.CreatedAt, "CreatedAt");
             Map(m => m.Inactive, "Inactive");
 
