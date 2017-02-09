@@ -28,5 +28,26 @@ namespace DataAccess.Repositories
             return null;
 
         }
+
+        public static bool Create(Comment comment)
+        {
+            var response = false;
+
+
+            try
+            {
+                using (var session = DbConnect.SessionFactory.OpenSession())
+                {
+                    session.Save(comment);
+                    response = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+
+            }
+            return response;
+        }
     }
 }
