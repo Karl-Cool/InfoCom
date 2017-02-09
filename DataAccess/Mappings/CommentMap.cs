@@ -16,6 +16,7 @@ namespace DataAccess.Mappings
             Table("Comments");
             Id(m => m.Id).Column("Id").GeneratedBy.Identity();
             Map(m => m.Content, "Content");
+            Map(m => m.Inactive, "Inactive");
             Map(m => m.CreatedAt, "CreatedAt");
 
             References(x => x.Author).Class<User>().Columns("UserId");
