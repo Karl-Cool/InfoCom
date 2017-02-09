@@ -232,7 +232,12 @@ textarea {
     }
 }
 
-#filterMenueRight {
+.sidebarMenue {
     position: fixed;
-    width:95%;
+    display: block;
+    top: 23%;
+    right: 10px;
+    margin: -100px 0 0 0;
+    height: 200px;
+    width: 30%;
 }

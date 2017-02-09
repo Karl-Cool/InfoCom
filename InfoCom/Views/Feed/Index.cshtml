@@ -8,9 +8,8 @@
 
 <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
 
-@* HÄR *@
-<div id="filterMenueRight">
-    <div class="col-lg-4 pull-right">
+<div class="col-xs-4 pull-right">
+    <div class="sidebar-nav-fixed sidebarMenue">
         <div class="well">
             <a href="@Url.Action("Index", "Post")" class="btn btn-block btn-primary"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Write new blog post</a>
         </div>
@@ -56,14 +55,12 @@
         </div>
     </div>
 </div>
-@* HÄR *@
-
 
 @if (Model.PostList.Any())
 {
     foreach (var item in Model.PostList)
     {
-        var divClass = "col-lg-8";
+        var divClass = "col-xs-8";
         if (item.Inactive)
         {
             divClass = "col-lg-8 alert-danger";
@@ -146,6 +143,9 @@ else
 {
     <h4>No posts found :(</h4>
 }
+
+
+
 @section Scripts {
     @Scripts.Render("~/Scripts/jquery-ui-1.12.1.js")
     @Scripts.Render("~/Scripts/calendarScripts.js")
