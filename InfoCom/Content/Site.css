@@ -183,8 +183,8 @@ textarea {
 }
 
 #innerLoadingScreen {
-    width:30%;
-    height:30%;
+    width: 30%;
+    height: 30%;
     left: 0;
     right: 0;
     top: 0;
@@ -207,10 +207,7 @@ textarea {
     top: 0;
     bottom: 0;
     margin: auto;
-    position:absolute;
-
-.innermeetingdiv {
-    padding-left: 20px;
+    position: absolute;
 }
 
 #votelabel {
@@ -233,4 +230,9 @@ textarea {
     100% {
         transform: rotate(360deg);
     }
+}
+
+#filterMenueRight {
+    position: fixed;
+    width:95%;
 }
