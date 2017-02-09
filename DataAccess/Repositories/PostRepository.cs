@@ -17,7 +17,7 @@ namespace DataAccess.Repositories
                 {
 
                     var postList = session.Query<Post>()
-                        .Where(x => x.Author.Inactive == false)
+                        .Where(x => x.Author.Inactive == false && x.Inactive == false)
                         .Fetch(x => x.Author)
                         .Fetch(x => x.Files)
                         .OrderByDescending(x => x.CreatedAt)
