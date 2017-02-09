@@ -77,7 +77,7 @@
             <p class="lead">
                 by @item.Author.Username
             </p>
-            <p><span class="glyphicon glyphicon-time"></span> Posted on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Month, @item.CreatedAt.Year at @item.CreatedAt.ToString("HH:mm tt")</p>
+            <p><span class="glyphicon glyphicon-time"></span> Posted on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Day, @item.CreatedAt.Year at @item.CreatedAt.ToString("HH:mm tt")</p>
 
             <hr>
             @if (Model.FileList != null)

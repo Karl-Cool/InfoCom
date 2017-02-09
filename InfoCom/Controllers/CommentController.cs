@@ -6,20 +6,10 @@ namespace InfoCom.Controllers
     [Authorize]
     public class CommentController : Controller
     {
-        // GET: Comment
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         [HttpPost]
         public ActionResult Create(CommentViewModel model)
         {
+
             return View(model);
         }
 
