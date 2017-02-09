@@ -35,6 +35,8 @@ namespace DataAccess.Repositories
             }
             return null;
         }
+
+
         public static List<Post> GetCat(int id, string formal, bool showHidden)
         {
             try
@@ -79,14 +81,19 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var post = session.Query<Post>().FirstOrDefault(x => x.Author.Id == id);
+                    var post = session.Query<Post>()
+                        .Fetch(x => x.Author)
+                        .Fetch(x => x.Files)
+                        .FetchMany(x => x.Comments)
+                        .ThenFetch(x => x.Author)
+                        .Single(x => x.Id == id);
+
                     return post;
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                Console.WriteLine(ex.Message);
 
             }
             return null;

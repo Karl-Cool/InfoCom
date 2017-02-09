@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
+using DataAccess.Models;
+using DataAccess.Repositories;
 using InfoCom.ViewModels;
 
 namespace InfoCom.Controllers
@@ -9,23 +12,22 @@ namespace InfoCom.Controllers
         [HttpPost]
         public ActionResult Create(CommentViewModel model)
         {
-
-            return View(model);
+            var comment = new Comment
+            {
+                Author = model.Author,
+                Content = model.Content,
+                CreatedAt = DateTime.Now,
+                Post = model.Post,
+                Inactive = false
+            };
+            CommentRepository.Create(comment);
+            return RedirectToAction("Read/" + model.Post.Id, "Post");
         }
 
         public ActionResult Delete(int id)
         {
+            CommentRepository.Deactivate(id);
             return View();
-        }
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Edit(CommentViewModel model)
-        {
-            return View(model);
         }
     }
 }

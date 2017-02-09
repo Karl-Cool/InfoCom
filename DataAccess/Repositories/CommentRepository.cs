@@ -49,5 +49,31 @@ namespace DataAccess.Repositories
             }
             return response;
         }
+
+        public static bool Deactivate(int id)
+        {
+            {
+                var response = false;
+                try
+                {
+                    using (var session = DbConnect.SessionFactory.OpenSession())
+                    {
+                        var comment = session.Query<Comment>().Single(x => x.Id == id);
+                        using (var transaction = session.BeginTransaction())
+                        {
+                            comment.Inactive = true;
+                            session.Update(comment);
+                            transaction.Commit();
+                        }
+                        response = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+                return response;
+            }
+        }
     }
 }
