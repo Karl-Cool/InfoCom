@@ -28,6 +28,10 @@ namespace InfoCom.ViewModels
         [Display(Name = "Email")]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "Email is required.")]
+        [Display(Name = "Title")]
+        public string Title { get; set; }
+
         [RegularExpression("^([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*$", ErrorMessage = "Password must at least contain one letter and one number, no other characters allowed.")]
         [Required(ErrorMessage = "Password is required.")]
         [DataType(DataType.Password)]

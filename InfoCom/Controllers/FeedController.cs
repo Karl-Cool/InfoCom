@@ -48,9 +48,8 @@ namespace InfoCom.Controllers
         [HttpPost]
         public ActionResult Index(PostViewModel model)
         {
-            var category = model.CategoryId;
             model.FileList = FileRepository.Get();
-            model.PostList = PostRepository.GetCat(category);
+            model.PostList = PostRepository.GetCat(model.CategoryId, model.Formal);
             model.Categories = CategoryRepository.Get().Select(x => new SelectListItem
             {
                 Text = x.Name,

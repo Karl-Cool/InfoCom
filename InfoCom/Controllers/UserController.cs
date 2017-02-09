@@ -48,7 +48,8 @@ namespace InfoCom.Controllers
                     Password = passwordHash,
                     Email = model.Email,
                     Username = model.Username,
-                    Name = model.Name
+                    Name = model.Name,
+                    Title = model.Title
                 };
                 UserRepository.Add(user);
 

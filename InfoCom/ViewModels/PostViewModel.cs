@@ -15,7 +15,7 @@ namespace InfoCom.ViewModels
         public virtual string Title { get; set; }
         public virtual string Content { get; set; }
         public virtual DateTime CreatedAt { get; set; }
-        public virtual bool Formal { get; set; }
+        public virtual string Formal { get; set; }
         public virtual List<Comment> Comments { get; set; }
         public virtual List<PostFile> Files { get; set; }
         public virtual List<Post> PostList { get; set; }
