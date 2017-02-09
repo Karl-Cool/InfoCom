@@ -81,7 +81,7 @@ namespace InfoCom.Controllers
                 ICollection<User> allUsers = UserRepository.Get();
                 foreach (User user in allUsers)
                 {
-                    if (!alreadyInvitedUserIds.Contains(user.Id) && user.Id != meeting.Creator.Id && allUsers.Count > 0)
+                    if (!alreadyInvitedUserIds.Contains(user.Id) && user.Id != meeting.Creator.Id && allUsers.Count > 0 && !user.Username.ToLower().Equals("admin"))
                     {
                         model.NotInvitedUsers.Add(new SelectListItem
                         {

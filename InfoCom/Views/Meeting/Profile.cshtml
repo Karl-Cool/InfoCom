@@ -7,7 +7,7 @@
 
 <div class="jumbotron">
     <div style="padding-left:75px">
-        <h1 style="display:inline-block; padding-right:15px; font-family:Helvetica;">@Model.Title <small><h5 style="display:inline-block">Created by:</h5> <h3 style="display:inline-block">@Model.Creator.Name</h3></small></h1>
+        <h1 style="display:inline-block; padding-right:15px; font-family:Helvetica;">@Model.Title <div><small><h5 style="display:inline-block">Created by:</h5> <h3 style="display:inline-block">@Model.Creator.Name</h3></small></div></h1>
     </div>
     <hr style="padding:0px;" />
     <dl class="dl-horizontal">
@@ -16,7 +16,9 @@
         </dt>
 
         <dd>
-            <p style="font-size:18px; padding-top:0px;">@Html.DisplayFor(model => model.Description)</p>
+            <div class="col-md-5" style="padding-left:0px;">
+                <p style="font-size:18px; padding-top:0px;">@Html.TextAreaFor(model => model.Description, new { id = "textAreaDesc", @readonly = "readonly", @class = "form-control", style = "resize: none; margin-left:0px;" })</p>
+            </div>
         </dd>
         @if (Model.ConfirmedTime == null)
         {
@@ -149,3 +151,12 @@
             }
         </dl>
     </div>
+<script>
+    $(document).ready(function () {
+        var text = $('#textAreaDesc').val();
+        var lines = text.split("\n");
+        var count = lines.length;
+
+        $('#textAreaDesc').attr("rows", count);
+    })
+</script>
