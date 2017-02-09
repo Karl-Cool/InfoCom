@@ -16,7 +16,7 @@
             <div class="form-group">
 
                 <label class="radio-inline">
-                    @Html.RadioButtonFor(m => m.Formal, "All") All
+                    @Html.RadioButtonFor(m => m.Formal, "All", new { @checked = "checked" }) All
                 </label>
 
                 <label class="radio-inline">
@@ -34,7 +34,7 @@
             if (User.IsInRole("Admin"))
             {
                 <div class="checkbox">
-                    <label><input type="checkbox" value="" checked="checked">Show hidden posts</label>
+                    <label>@Html.CheckBoxFor(m => m.ShowHidden)Show hidden posts</label>
                 </div>
             }
             <input class="btn btn-block btn-primary" type="submit" value="Save" />
@@ -52,154 +52,94 @@
 
 
 </div>
-
-@foreach (var item in Model.PostList)
+@if (Model.PostList.Any())
 {
-    <div class="col-lg-8">
-        @if (item.Formal)
-                {
-            <h1>@item.Title (Formal)</h1>
-
-        }
-        else
+    foreach (var item in Model.PostList)
+    {
+        var divClass = "col-lg-8";
+        if (item.Inactive)
         {
-            <h1>@item.Title (Informal)</h1>
+            divClass = "col-lg-8 alert-danger";
         }
 
-        <p class="lead">
-            by @item.Author.Username
-        </p>
-        <p><span class="glyphicon glyphicon-time"></span> Posted on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Month, @item.CreatedAt.Year at @item.CreatedAt.ToString("HH:mm tt")</p>
-       
-        <hr>
-        @if (Model.FileList != null)
-        {
-            foreach (var file in item.Files)
+        <div class="@divClass">
+
+            @if (item.Formal)
             {
-                if (file.Post.Id == item.Id && file.FilePath.EndsWith(".jpg") || file.FilePath.EndsWith(".png") || file.FilePath.EndsWith(".GIF"))
+                <h1>@item.Title (Formal)</h1>
+
+            }
+            else
+            {
+                <h1>@item.Title (Informal)</h1>
+            }
+
+            <p class="lead">
+                by @item.Author.Username
+            </p>
+            <p><span class="glyphicon glyphicon-time"></span> Posted on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Month, @item.CreatedAt.Year at @item.CreatedAt.ToString("HH:mm tt")</p>
+
+            <hr>
+            @if (Model.FileList != null)
+            {
+                foreach (var file in item.Files)
                 {
-                    
-                    <img class="img-responsive" src= "@Url.Content(file.FilePath)" alt="@file.Id">
+                    if (file.Post.Id == item.Id && file.FilePath.EndsWith(".jpg") || file.FilePath.EndsWith(".png") || file.FilePath.EndsWith(".GIF"))
+                    {
+
+                        <img class="img-responsive" src="@Url.Content(file.FilePath)" alt="@file.Id">
 
 
+
+                    }
+                    if (file.FilePath.EndsWith(".rtf")
+                        || file.FilePath.EndsWith(".pdf")
+                        || file.FilePath.EndsWith(".docx")
+                        || file.FilePath.EndsWith(".doc")
+                        || file.FilePath.EndsWith(".txt")
+                        || file.FilePath.EndsWith(".ppt")
+                        || file.FilePath.EndsWith(".xls")
+                        || file.FilePath.EndsWith(".xlsx") && file.Post.Id == item.Id)
+
+                    {
+
+                        <a href="@Url.Content(@file.FilePath)">@file.FilePath.Substring(12)</a>
+                    }
 
                 }
-                if (file.FilePath.EndsWith(".rtf")
-                       || file.FilePath.EndsWith(".pdf")
-                       || file.FilePath.EndsWith(".docx")
-                       || file.FilePath.EndsWith(".doc")
-                       || file.FilePath.EndsWith(".txt")
-                       || file.FilePath.EndsWith(".ppt")
-                       || file.FilePath.EndsWith(".xls")
-                       || file.FilePath.EndsWith(".xlsx") && file.Post.Id == item.Id)
+            }
 
+
+
+            <hr>
+
+            <p>
+                @(item.Content.Length > 200 ? item.Content.Substring(0, 300) + "..." : item.Content)
+            </p>
+
+            <hr>
+            <button class="btn btn-primary">Read more</button>
+            @if (item.Author.Id == Convert.ToInt32(User.Identity.GetUserId()) || User.IsInRole("Admin"))
+            {
+                if (!item.Inactive)
                 {
-                   
-                    <a href="@Url.Content(@file.FilePath)">@file.FilePath.Substring(12)</a>
+                    <button class="btn btn-danger">Hide this post</button>
+                }
+                else
+                {
+                    <button class="btn btn-success">Show this post</button>
                 }
 
             }
-        }
-        
-        
-
-        <hr>
-
-        <p>
-            @(item.Content.Length > 200 ? item.Content.Substring(0, 300) + "..." : item.Content)
-        </p>
-
-        <hr>
-        <button class="btn btn-primary">Read more</button>
-        @if (item.Author.Id == Convert.ToInt32(User.Identity.GetUserId()) || User.IsInRole("Admin"))
-                {
-            <button class="btn btn-danger">Hide this post</button>
-        }
-        <hr />
-    </div>
+            <hr />
+        </div>
+    }
+}
+else
+{
+    <h4>No posts found :(</h4>
 }
 @section Scripts {
     @Scripts.Render("~/Scripts/jquery-ui-1.12.1.js")
     @Scripts.Render("~/Scripts/calendarScripts.js")
 }
-
-@*<div class="postcontainer" padding="30">
-        <div class="buttonMenu">
-            <input type="button" value="New post" id="postBtn" class="btn-primary" onclick="@("window.location.href='" + @Url.Action("Post", "Feed") + "'");" />
-        </div>
-        <div class="feed">
-
-            @foreach (var item in Model.PostList)
-            {
-
-            if (item.Formal == true)
-            {
-                <div class="Formal">
-                    <div class="text-center, border1">
-                        <span class="text-post2">
-                            @Html.DisplayFor(modelItem => item.Title) <br />
-                        </span>
-                        <div class="text-title1">
-                            Posted by:  @Html.DisplayFor(modelItem => item.Author.Name)<br />
-                        </div>
-
-
-                        <div>
-                            @Html.DisplayFor(modelItem => item.Content) <br />
-                        </div>
-
-                        <div class="date-separator">
-                            @Html.DisplayFor(modelItem => item.CreatedAt)
-                        </div>
-
-
-
-
-
-                    </div>
-                </div>
-
-            }
-            else
-            {
-                <div class="Informal">
-                    <div class="text-center, border1">
-                        <span class="text-post2">
-                            @Html.DisplayFor(modelItem => item.Title) <br />
-                        </span>
-                        <div class="text-title1">
-                            Posted by:  @Html.DisplayFor(modelItem => item.Author.Name)<br />
-                        </div>
-
-
-                        <div>
-                            @Html.DisplayFor(modelItem => item.Content) <br />
-                        </div>
-
-                        <div class="date-separator">
-                            @Html.DisplayFor(modelItem => item.CreatedAt)
-                        </div>
-
-
-
-
-
-                    </div>
-                </div>
-
-                }
-
-
-
-            }
-        </div>
-    </div>
-
-    <script type="text/javascript" src="~/Scripts/jHtmlArea-0.8.js">
-        $(document).ready(function () {
-            $('textarea').htmlarea();
-        });
-
-    </script>
-
-            }*@

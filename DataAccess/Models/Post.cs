@@ -17,6 +17,7 @@ namespace DataAccess.Models
         public virtual bool Formal { get; set; }
         public virtual ISet<Comment> Comments { get; set; }
         public virtual ISet<PostFile> Files { get; set; }
+        public virtual bool Inactive { get; set; }
         public Post()
         {
             Comments = new HashSet<Comment>();
