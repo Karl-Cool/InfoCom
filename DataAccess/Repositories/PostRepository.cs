@@ -35,19 +35,25 @@ namespace DataAccess.Repositories
             }
             return null;
         }
-        public static List<Post> GetCat(int id)
+        public static List<Post> GetCat(int id, string formal)
         {
             try
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
                     var post = session.Query<Post>()
-                        .Where(x => x.Category.Id == id)
-                        .Fetch(x => x.Author)
-                        .Fetch(x => x.Files)
-                        
-                        .OrderByDescending(x => x.CreatedAt).ToList();
-                    return post;
+                        .Where(x => x.Category.Id == id);
+
+                    if (formal == "Formal")
+                    {
+                        post = post.Where(x => x.Formal);
+                    }
+                    else if (formal == "Informal")
+                    {
+                        post = post.Where(x => x.Formal == false);
+                    }
+
+                    return post.Fetch(x => x.Author).Fetch(x => x.Files).OrderByDescending(x => x.CreatedAt).ToList();
                 }
             }
             catch (Exception ex)
