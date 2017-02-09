@@ -51,7 +51,7 @@
                             html = "<h4>Scheduled events</h4>";
                             while (i < selectedEvents.length) {
                                 html += (selectedEvents[i].Time +
-                                    ' - <a href="/meeting/index/' +
+                                    ' - <a href="/meeting/profile/' +
                                     selectedEvents[i].Id +
                                     '">' +
                                     selectedEvents[i].Title +

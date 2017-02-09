@@ -22,7 +22,7 @@ namespace DataAccess.Repositories
                         .Fetch(x => x.Files)
                         .OrderByDescending(x => x.CreatedAt)
                         .ToList();
-                        
+
                     return postList;
 
                 }
