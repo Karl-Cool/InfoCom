@@ -16,7 +16,7 @@ namespace DataAccess.Repositories
             {
                 using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    var categories = session.Query<Category>().ToList();
+                    var categories = session.Query<Category>().OrderBy(s => s.Name).ToList();
                     return categories;
                 }
             }
