@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Meetings</h2> 
+<h2>Meetings <a href="@Url.Action("Create")" class="btn btn-primary btn-sm pull-right"><span class="glyphicon glyphicon-plus"></span> Create Meeting</a></h2>
 <hr/>
 @if (TempData["Message"] != null)
 {
