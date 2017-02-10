@@ -13,6 +13,7 @@ using FluentNHibernate.Utils;
 
 namespace InfoCom.Controllers
 {
+    [Authorize]
     public class PostController : Controller
     {
         // GET: Post
@@ -172,5 +173,38 @@ namespace InfoCom.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult Read(ReadViewModel model)
+        {
+            var comment = new Comment
+            {
+                Post = PostRepository.Get(model.Id),
+                Author = UserRepository.Get(Convert.ToInt32(User.Identity.GetUserId())),
+                Content = model.Content,
+                CreatedAt = DateTime.Now
+            };
+
+            CommentRepository.Create(comment);
+            return RedirectToAction("Read/"+model.Id, "Post");
+        }
+
+
+        public ActionResult ToggleVisibility(int id)
+        {
+            var post = PostRepository.Get(id);
+            if (post.Author.Username == User.Identity.Name || User.IsInRole("Admin"))
+            {
+                if (!post.Inactive)
+                {
+                    PostRepository.Deactivate(id);
+                }
+                else if (post.Inactive)
+                {
+                    PostRepository.Activate(id);
+                }
+            }
+            
+            return RedirectToAction("Index", "Feed");
+        }
     }
 }

@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "Feed";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Count = 0;
 
 }
 
@@ -71,12 +70,23 @@
 
             @if (item.Formal)
             {
-                <h1>@item.Title (Formal)</h1>
+                <h1>@item.Title</h1>
+                <h5>
+                    <span class="label label-info">Formal</span>
+                    <span class="label label-warning">@item.Category.Name</span>
+                </h5>
+                <p><span class="glyphicon glyphicon-time"></span> Posted by <em>@item.Author.Name</em> on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Day, @item.CreatedAt.Year at @item.CreatedAt.ToString("HH:mm tt")</p>
 
             }
             else
             {
-                <h1>@item.Title (Informal)</h1>
+                <h1>@item.Title</h1>
+                <h5>
+                    <span class="label label-info">Informal</span>
+                    <span class="label label-warning">@item.Category.Name</span>
+                </h5>
+                <p><span class="glyphicon glyphicon-time"></span> Posted by <em>@item.Author.Name</em> on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Day, @item.CreatedAt.Year at @item.CreatedAt.ToString("HH:mm tt")</p>
+
             }
 
             <p class="lead">
@@ -105,15 +115,15 @@
             {
                 foreach (var file in item.Files)
                 {
-                    if (ViewBag.Count == 0 && file.Post.Id == item.Id && file.FilePath.EndsWith(".jpg") || file.FilePath.EndsWith(".png") || file.FilePath.EndsWith(".GIF"))
+                    if (file.Post.Id == item.Id && file.FilePath.EndsWith(".jpg") || file.FilePath.EndsWith(".png") || file.FilePath.EndsWith(".GIF"))
                     {
 
                         <img class="img-responsive" src="@Url.Content(file.FilePath)" alt="@file.Id">
 
-                        ViewBag.Count = 1;
+
 
                     }
-                    if (ViewBag.Count == 0 && file.FilePath.EndsWith(".rtf")
+                    if (file.FilePath.EndsWith(".rtf")
                         || file.FilePath.EndsWith(".pdf")
                         || file.FilePath.EndsWith(".docx")
                         || file.FilePath.EndsWith(".doc")
@@ -134,18 +144,18 @@
                     @(item.Content.Length > 200 ? item.Content.Substring(0, 300) + "..." : item.Content)
                 </p>
 
-                <div>
-                    @Html.ActionLink("Read more", "Read", "Post", new { id = item.Id }, new { @class = "btn btn-primary" })
-                    @if (item.Author.Id == Convert.ToInt32(User.Identity.GetUserId()) || User.IsInRole("Admin"))
-                    {
-                        if (!item.Inactive)
-                        {
-                            <button class="btn btn-danger">Hide this post</button>
-                        }
-                        else
-                        {
-                            <button class="btn btn-success">Show this post</button>
-                        }
+            <hr>
+            @Html.ActionLink("Read more", "Read", "Post", new { id = item.Id }, new { @class = "btn btn-primary" })
+            @if (item.Author.Id == Convert.ToInt32(User.Identity.GetUserId()) || User.IsInRole("Admin"))
+            {
+                if (!item.Inactive)
+                {
+                    @Html.ActionLink("Hide this post", "ToggleVisibility", "Post", new { id = item.Id }, new { @class = "btn btn-danger" })
+                }
+                else
+                {
+                    @Html.ActionLink("Show this post", "ToggleVisibility", "Post", new { id = item.Id }, new { @class = "btn btn-success" })
+                }
 
                     }
                     <hr />

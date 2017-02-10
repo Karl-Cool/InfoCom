@@ -3,14 +3,13 @@
     ViewBag.Title = "Users";
 }
 
-<h2>Users</h2>
+<h2>Users <a href="@Url.Action("Register")" class="btn btn-primary btn-sm pull-right"><span class="glyphicon glyphicon-plus"></span> Register User</a></h2>
+
+
 @if (TempData["Message"] != null)
 {
     <div class="alert @TempData["Type"]" role="alert">@TempData["Message"]</div>
 }
-<div class="btn-toolbar">
-    <a href="@Url.Action("Register")" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Create User</a>
-</div>
 
 <table class="table table-hover">
     <thead>
@@ -19,7 +18,9 @@
             <th>Username</th>
             <th>Name</th>
             <th>Email</th>
-            <th class="text-right">Actions</th>
+            <th>Edit</th>
+            <th>Password</th>
+            <th>Deactivate</th>
         </tr>
     </thead>
 
@@ -31,22 +32,21 @@
                 <td>@user.Username</td>
                 <td>@user.Name</td>
                 <td>@user.Email</td>
-                <td class="text-right">
-                    <div class="btn-group">
-
-
-
-                        <a href="@Url.Action("/Edit/" + user.Id)" class="btn btn-xs btn-primary">
-                            <span class="glyphicon glyphicon-edit"></span>Edit
-                        </a>
-                        <a href="@Url.Action("/ResetPassword/" + user.Id)" class="btn btn-xs btn-default">
-                            <span class="glyphicon glyphicon-lock"></span> Reset Password
-                        </a>
-                        @if (!user.Username.Equals("Admin"))
-                        {
-                            <a href="#" class="btn btn-xs btn-danger" onClick="deactivateUserModal(@user.Id)" data-toggle="modal" data-target="#confirmUserModal"><span class="glyphicon glyphicon-remove"></span> Deactivate</a>
-                        }
-                    </div>
+                <td>
+                    <a href="@Url.Action("/Edit/" + user.Id)" class="btn btn-xs btn-primary">
+                        <span class="glyphicon glyphicon-edit"></span> Edit
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("/ResetPassword/" + user.Id)" class="btn btn-xs btn-default">
+                        <span class="glyphicon glyphicon-lock"></span> Reset
+                    </a>
+                </td>
+                <td>
+                    @if (!user.Username.Equals("Admin"))
+                    {
+                        <a href="#" class="btn btn-xs btn-danger" onClick="deactivateUserModal(@user.Id)" data-toggle="modal" data-target="#confirmUserModal"><span class="glyphicon glyphicon-remove"></span> Deactivate</a>
+                    }
                 </td>
             </tr>
         }

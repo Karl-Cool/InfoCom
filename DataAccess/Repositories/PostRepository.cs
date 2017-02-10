@@ -20,6 +20,7 @@ namespace DataAccess.Repositories
                         .Where(x => x.Author.Inactive == false && x.Inactive == false)
                         .Fetch(x => x.Author)
                         .Fetch(x => x.Files)
+                        .Fetch(x => x.Category)
                         .OrderByDescending(x => x.CreatedAt)
                         .ToList();
 
@@ -64,7 +65,7 @@ namespace DataAccess.Repositories
                         post = post.Where(x => x.Inactive == false);
                     }
 
-                    return post.Fetch(x => x.Author).Fetch(x => x.Files).OrderByDescending(x => x.CreatedAt).ToList();
+                    return post.Fetch(x => x.Author).Fetch(x => x.Files).Fetch(x => x.Category).OrderByDescending(x => x.CreatedAt).ToList();
                 }
             }
             catch (Exception ex)
@@ -84,6 +85,7 @@ namespace DataAccess.Repositories
                     var post = session.Query<Post>()
                         .Fetch(x => x.Author)
                         .Fetch(x => x.Files)
+                        .Fetch(x => x.Category)
                         .FetchMany(x => x.Comments)
                         .ThenFetch(x => x.Author)
                         .Single(x => x.Id == id);
@@ -114,6 +116,53 @@ namespace DataAccess.Repositories
             {
                 Debug.WriteLine(ex.Message);
 
+            }
+            return response;
+        }
+
+        public static bool Deactivate(int id)
+        {
+            var response = false;
+            try
+            {
+                using (var session = DbConnect.SessionFactory.OpenSession())
+                {
+                    var post  = session.Query<Post>().Single(x => x.Id == id);
+                    using (var transaction = session.BeginTransaction())
+                    {
+                        post.Inactive = true;
+                        session.Update(post);
+                        transaction.Commit();
+                    }
+                    response = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            return response;
+        }
+        public static bool Activate(int id)
+        {
+            var response = false;
+            try
+            {
+                using (var session = DbConnect.SessionFactory.OpenSession())
+                {
+                    var post = session.Query<Post>().Single(x => x.Id == id);
+                    using (var transaction = session.BeginTransaction())
+                    {
+                        post.Inactive = false;
+                        session.Update(post);
+                        transaction.Commit();
+                    }
+                    response = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
             return response;
         }
