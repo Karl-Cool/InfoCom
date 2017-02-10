@@ -5,7 +5,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Create meeting</h4>
+        <h2>Create meeting</h2>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -66,7 +66,8 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="button" value="Add time" class="btn btn-default" id="addNewTimeBtn" />
                 <input type="button" value="Remove time" class="btn btn-default" id="removeTimeBtn" />
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a href="@Url.Action("index")" class="btn btn-danger">Cancel</a>
             </div>
         </div>
 
@@ -108,9 +109,6 @@
     });
 
 </script>
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
