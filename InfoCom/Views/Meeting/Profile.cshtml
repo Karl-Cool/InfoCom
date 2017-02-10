@@ -69,7 +69,7 @@
                 <img src="~/Content/Crystal_Clear_app_clean_dark.png" alt="This is the decided date and time" height="20" width="20" />
                 @foreach (Time time in Model.Times)
                 {
-                    if (!Model.AlreadySelectedTimes.Contains(time.Id) && Model.Invited && Model.CurrentUsersInvitation.Status != 2)
+                    if (!Model.AlreadySelectedTimes.Contains(time.Id) && Model.Invited && Model.CurrentUsersInvitation.Status != 2 && Model.ConfirmedTime.Equals(time.Date))
                     {
                         @Html.ActionLink("Attend", "AddNewTimeChoice", new { id = time.Id }, new { @class = "btn btn-primary btn-xs" })
                     }
