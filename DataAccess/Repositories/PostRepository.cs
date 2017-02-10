@@ -85,6 +85,7 @@ namespace DataAccess.Repositories
                     var post = session.Query<Post>()
                         .Fetch(x => x.Author)
                         .Fetch(x => x.Files)
+                        .Fetch(x => x.Category)
                         .FetchMany(x => x.Comments)
                         .ThenFetch(x => x.Author)
                         .Single(x => x.Id == id);
