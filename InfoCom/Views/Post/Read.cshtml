@@ -64,27 +64,28 @@
         <h4>Comments</h4>
         <div class="well well-sm">
             <div class="form-group">
-                @Html.TextAreaFor(m => m.Content, new { @class = "form-control", @rows ="5", @id = "comment-content" })
+                @Html.TextAreaFor(m => m.Content, new { @class = "form-control", @rows = "5", @id = "comment-content" })
             </div>
             <button type="submit" class="btn btn-primary btn-block">Save comment</button>
         </div>
     }
-    @if (Model.Post.Comments.Any())
-    {
-        foreach (var comment in Model.Post.Comments)
-        {
-            <h4>@comment.Author.Username</h4> 
-            @comment.CreatedAt
-            <br/>
-            @comment.Content
+            @if (Model.Post.Comments.Any())
+            {
+                foreach (var comment in Model.Post.Comments)
+                {
+                    <h4>@comment.Author.Username</h4>
+                    @comment.CreatedAt
+                    <br />
+                    @comment.Content
+                    <hr />
+                }
+            }
+            else
+            {
+                <h4>This post has no comments :(</h4>
+            }
+        </div>
+        @section Scripts {
+            @Scripts.Render("~/Scripts/jquery-ui-1.12.1.js")
+            @Scripts.Render("~/Scripts/calendarScripts.js")
         }
-    }
-    else
-    {
-        <h4>This post has no comments :(</h4>
-        }
-</div>
-@section Scripts {
-    @Scripts.Render("~/Scripts/jquery-ui-1.12.1.js")
-    @Scripts.Render("~/Scripts/calendarScripts.js")
-}
