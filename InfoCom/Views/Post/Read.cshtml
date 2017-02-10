@@ -61,9 +61,11 @@
     <hr />
     @using (Html.BeginForm())
     {
-        <div clss="well well-sm">
-            <label>Write a comment</label>
-            @Html.TextAreaFor(m => m.Content)
+        <h4>Comments</h4>
+        <div class="well well-sm">
+            <div class="form-group">
+                @Html.TextAreaFor(m => m.Content, new { @class = "form-control", @rows ="5", @id = "comment-content" })
+            </div>
             <button type="submit" class="btn btn-primary btn-block">Save comment</button>
         </div>
     }
