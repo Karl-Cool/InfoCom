@@ -39,42 +39,46 @@
     <p><span class="glyphicon glyphicon-time"></span> Posted on @Model.Post.CreatedAt.DayOfWeek.ToString() @Model.Post.CreatedAt.ToString("MMM") @Model.Post.CreatedAt.Month, @Model.Post.CreatedAt.Year at @Model.Post.CreatedAt.ToString("HH:mm tt")</p>
     @foreach (var file in Model.Post.Files)
     {
-    if (file.Post.Id == Model.Post.Id && file.FilePath.EndsWith(".jpg") || file.FilePath.EndsWith(".png") || file.FilePath.EndsWith(".GIF"))
-    {
+        if (file.Post.Id == Model.Post.Id && file.FilePath.EndsWith(".jpg") || file.FilePath.EndsWith(".png") || file.FilePath.EndsWith(".GIF"))
+        {
 
-    <img class="img-responsive" src="@Url.Content(file.FilePath)" alt="@file.Id">
+            <img class="img-responsive" src="@Url.Content(file.FilePath)" alt="@file.Id">
 
- 
 
+
+        }
     }
-    if (file.FilePath.EndsWith(".rtf")
-    || file.FilePath.EndsWith(".pdf")
-    || file.FilePath.EndsWith(".docx")
-    || file.FilePath.EndsWith(".doc")
-    || file.FilePath.EndsWith(".txt")
-    || file.FilePath.EndsWith(".ppt")
-    || file.FilePath.EndsWith(".xls")
-    || file.FilePath.EndsWith(".xlsx") && file.Post.Id ==Model.Id)
-
-    {
-
-    <a href="@Url.Content(@file.FilePath)">@file.FilePath.Substring(12)</a>
-    }
-
-    }
-    
     <hr>
-    <hr>
+    <div>
+        <p>
+            @Model.Post.Content
+        </p>
+        <div style="margin-top: 30px;margin-bottom:-20px;">
+            @Html.Label("Uploaded files:")
+            @foreach (var file in Model.Post.Files)
+            {
+                if (file.FilePath.EndsWith(".rtf")
+        || file.FilePath.EndsWith(".pdf")
+        || file.FilePath.EndsWith(".docx")
+        || file.FilePath.EndsWith(".doc")
+        || file.FilePath.EndsWith(".txt")
+        || file.FilePath.EndsWith(".ppt")
+        || file.FilePath.EndsWith(".xls")
+        || file.FilePath.EndsWith(".xlsx") && file.Post.Id == Model.Id)
 
-    <p>
-        @Model.Post.Content
-    </p>
-
+                {
+                    <div>
+                       <a href="@Url.Content(@file.FilePath)">@file.FilePath.Substring(12)</a>
+                    </div>
+                }
+            }
+        </div>
+    </div>
     <hr>
     @if (Model.Post.Author.Id == Convert.ToInt32(User.Identity.GetUserId()) || User.IsInRole("Admin"))
-            {
-                if (!Model.Post.Inactive)
-                {
+    {
+        if (!Model.Post.Inactive)
+        {
             @Html.ActionLink("Hide this post", "ToggleVisibility", "Post", new { id = Model.Post.Id }, new { @class = "btn btn-danger" })
         }
         else
@@ -106,9 +110,9 @@
 
                 if (User.IsInRole("Admin") || comment.Author.Id == Convert.ToInt32(User.Identity.GetUserId()))
                 {
-                    @Html.ActionLink("Delete", "Delete", "Comment", new {id = comment.Id, postId = Model.Post.Id}, new {@class = "btn-xs btn-danger"})
+                    @Html.ActionLink("Delete", "Delete", "Comment", new { id = comment.Id, postId = Model.Post.Id }, new { @class = "btn-xs btn-danger" })
                 }
-                <hr/>
+                <hr />
             }
         }
     }
