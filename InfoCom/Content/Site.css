@@ -231,13 +231,3 @@ textarea {
         transform: rotate(360deg);
     }
 }
-
-.sidebarMenue {
-    position: fixed;
-    display: block;
-    top: 23%;
-    right: 10px;
-    margin: -110px 0 0 0;
-    height: 80%;
-    width: 30%;
-}
