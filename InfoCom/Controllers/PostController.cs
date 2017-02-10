@@ -165,6 +165,21 @@ namespace InfoCom.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult Read(ReadViewModel model)
+        {
+            var comment = new Comment
+            {
+                Post = PostRepository.Get(model.Id),
+                Author = UserRepository.Get(Convert.ToInt32(User.Identity.GetUserId())),
+                Content = model.Content,
+                CreatedAt = DateTime.Now
+            };
+
+            CommentRepository.Create(comment);
+            return RedirectToAction("Read/"+model.Id, "Post");
+        }
+
 
         public ActionResult ToggleVisibility(int id)
         {
