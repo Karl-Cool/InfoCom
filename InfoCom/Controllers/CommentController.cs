@@ -24,10 +24,10 @@ namespace InfoCom.Controllers
             return RedirectToAction("Read/" + model.Post.Id, "Post");
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, int postId)
         {
             CommentRepository.Deactivate(id);
-            return View();
+            return RedirectToAction("Read", "Post", new { id = postId});
         }
     }
 }
