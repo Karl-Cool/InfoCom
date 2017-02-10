@@ -65,7 +65,7 @@ namespace DataAccess.Repositories
                         post = post.Where(x => x.Inactive == false);
                     }
 
-                    return post.Fetch(x => x.Author).Fetch(x => x.Files).OrderByDescending(x => x.CreatedAt).ToList();
+                    return post.Fetch(x => x.Author).Fetch(x => x.Files).Fetch(x => x.Category).OrderByDescending(x => x.CreatedAt).ToList();
                 }
             }
             catch (Exception ex)
