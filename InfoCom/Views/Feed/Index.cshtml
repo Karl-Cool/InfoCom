@@ -70,19 +70,26 @@
 
             @if (item.Formal)
             {
-                <h1>@item.Title (Formal)</h1>
+                <h1>@item.Title</h1>
+                <h5>
+                    <span class="label label-info">Formal</span>
+                    <span class="label label-warning">@item.Category.Name</span>
+                </h5>
+                <p><span class="glyphicon glyphicon-time"></span> Posted by <em>@item.Author.Name</em> on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Day, @item.CreatedAt.Year at @item.CreatedAt.ToString("HH:mm tt")</p>
 
             }
             else
             {
-                <h1>@item.Title (Informal)</h1>
+                <h1>@item.Title</h1>
+                <h5>
+                    <span class="label label-info">Informal</span>
+                    <span class="label label-warning">@item.Category.Name</span>
+                </h5>
+                <p><span class="glyphicon glyphicon-time"></span> Posted by <em>@item.Author.Name</em> on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Day, @item.CreatedAt.Year at @item.CreatedAt.ToString("HH:mm tt")</p>
+
             }
 
-            <p class="lead">
-                by @item.Author.Username
-            </p>
-            <p><span class="glyphicon glyphicon-time"></span> Posted on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Day, @item.CreatedAt.Year at @item.CreatedAt.ToString("HH:mm tt")</p>
-
+           
             <hr>
             @if (Model.FileList != null)
             {
