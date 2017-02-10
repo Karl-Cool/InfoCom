@@ -47,14 +47,14 @@
 
     <hr>
     @if (Model.Post.Author.Id == Convert.ToInt32(User.Identity.GetUserId()) || User.IsInRole("Admin"))
-    {
-        if (!Model.Post.Inactive)
-        {
-            <button class="btn btn-danger">Hide this post</button>
+            {
+                if (!Model.Post.Inactive)
+                {
+            @Html.ActionLink("Hide this post", "ToggleVisibility", "Post", new { id = Model.Post.Id }, new { @class = "btn btn-danger" })
         }
         else
         {
-            <button class="btn btn-success">Show this post</button>
+            @Html.ActionLink("Show this post", "ToggleVisibility", "Post", new { id = Model.Post.Id }, new { @class = "btn btn-success" })
         }
 
     }
