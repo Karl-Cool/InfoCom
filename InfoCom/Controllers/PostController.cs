@@ -184,14 +184,18 @@ namespace InfoCom.Controllers
         public ActionResult ToggleVisibility(int id)
         {
             var post = PostRepository.Get(id);
-            if (!post.Inactive)
+            if (post.Author.Username == User.Identity.Name || User.IsInRole("Admin"))
             {
-                PostRepository.Deactivate(id);
+                if (!post.Inactive)
+                {
+                    PostRepository.Deactivate(id);
+                }
+                else if (post.Inactive)
+                {
+                    PostRepository.Activate(id);
+                }
             }
-            else if (post.Inactive)
-            {
-                PostRepository.Activate(id);
-            }
+            
             return RedirectToAction("Index", "Feed");
         }
     }
