@@ -20,6 +20,7 @@ namespace DataAccess.Repositories
                         .Where(x => x.Author.Inactive == false && x.Inactive == false)
                         .Fetch(x => x.Author)
                         .Fetch(x => x.Files)
+                        .Fetch(x => x.Category)
                         .OrderByDescending(x => x.CreatedAt)
                         .ToList();
 
