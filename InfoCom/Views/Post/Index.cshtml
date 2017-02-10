@@ -6,6 +6,32 @@
 
 <h2>Post</h2>
 @ViewBag.Message
+
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Add category</h4>
+            </div>
+            <div class="modal-body">
+               @using (Html.BeginForm("AddCategory","Post"))
+                { 
+                @Html.EditorFor(model => model.NewCategory, new { @class = "form-control", placeholder = "Enter category" })
+                <input id="Submit1" type="submit" value="Add" />
+
+
+    }
+       
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @using (Html.BeginForm("Post", "Post", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="col-lg-4 pull-left">
@@ -32,12 +58,14 @@
                 <br />
 
 
-                @Html.LabelFor(model => model.Category, "Choose a category")  <br />
-               @Html.DropDownListFor(model => model.CategoryId, Model.Categories, htmlAttributes: new { @class = "form-control", @id = "selected-category" }) <br />
-                @Html.LabelFor(model => model.Category, "Add a new category") <br />
-                @Html.TextBoxFor(model => model.Category.Name) <br /> <br />
-                <input type="submit" value="Add" class="btn btn-primary" />
-
+                @Html.LabelFor(model => model.Category, "Choose a category")
+                
+               @Html.DropDownListFor(model => model.CategoryId, Model.Categories, htmlAttributes: new { @class = "form-control", @id = "selected-category" }) 
+                <button style="margin-top:3px" type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
+                    Add Category
+                </button> 
+                <!-- Button trigger modal -->
+               
             </div>
 
             <br />
@@ -74,4 +102,19 @@
         </div>
         
     </div>
+   
 }
+<script>
+    $("#myModal").modal()
+</script>
+@*<script>
+    $('.myLink').click(function () {
+        var newCategory = $('#newCategoryTextBox').val(); // get the textbox value
+        $('id').attr(newCategory);
+        //var url = $(this).attr('href') + 'id=' + newCategory; // build new url
+        location.href = url; // redirect
+        return false; // cancel default redirect
+    });
+
+</script>*@
+

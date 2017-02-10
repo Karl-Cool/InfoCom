@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Feed";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Count = 0;
 
 }
 
@@ -30,10 +31,10 @@
                     @Html.RadioButtonFor(m => m.Formal, "Informal") Informal
                 </label>
             </div>
-                <div class="form-group">
-                    <label>Category</label>
-                    @Html.DropDownListFor(model => model.CategoryId, Model.Categories, htmlAttributes: new { @class = "form-control", @id = "selected-category" })
-                </div>
+            <div class="form-group">
+                <label>Category</label>
+                @Html.DropDownListFor(model => model.CategoryId, Model.Categories, htmlAttributes: new { @class = "form-control", @id = "selected-category" })
+            </div>
 
             if (User.IsInRole("Admin"))
             {
@@ -81,22 +82,38 @@
             <p class="lead">
                 by @item.Author.Username
             </p>
-            <p><span class="glyphicon glyphicon-time"></span> Posted on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Day, @item.CreatedAt.Year at @item.CreatedAt.ToString("HH:mm tt")</p>
+            <div>
 
-            <hr>
-            @if (Model.FileList != null)
+
+                @foreach (var file in item.Files)
+                {
+                    if (file.Post.Id == item.Id && file.FilePath.EndsWith(".jpg") || file.FilePath.EndsWith(".png") || file.FilePath.EndsWith(".GIF"))
+                    {
+                        <div class="post-thumbnail">
+                            <img class="img-responsive" src="@Url.Content(file.FilePath)">
+                        </div>
+                    }
+
+                }
+            </div>
+            <br />
+            <div class="post-100">
+                <p><span class="glyphicon glyphicon-time"></span> Posted on @item.CreatedAt.DayOfWeek.ToString() @item.CreatedAt.ToString("MMM") @item.CreatedAt.Day, @item.CreatedAt.Year at @item.CreatedAt.ToString("HH:mm tt")</p>
+
+                <hr>
+                @*@if (Model.FileList != null)
             {
                 foreach (var file in item.Files)
                 {
-                    if (file.Post.Id == item.Id && file.FilePath.EndsWith(".jpg") || file.FilePath.EndsWith(".png") || file.FilePath.EndsWith(".GIF"))
+                    if (ViewBag.Count == 0 && file.Post.Id == item.Id && file.FilePath.EndsWith(".jpg") || file.FilePath.EndsWith(".png") || file.FilePath.EndsWith(".GIF"))
                     {
 
                         <img class="img-responsive" src="@Url.Content(file.FilePath)" alt="@file.Id">
 
-
+                        ViewBag.Count = 1;
 
                     }
-                    if (file.FilePath.EndsWith(".rtf")
+                    if (ViewBag.Count == 0 && file.FilePath.EndsWith(".rtf")
                         || file.FilePath.EndsWith(".pdf")
                         || file.FilePath.EndsWith(".docx")
                         || file.FilePath.EndsWith(".doc")
@@ -111,31 +128,29 @@
                     }
 
                 }
-            }
+            }*@
 
+                <p>
+                    @(item.Content.Length > 200 ? item.Content.Substring(0, 300) + "..." : item.Content)
+                </p>
 
+                <div>
+                    @Html.ActionLink("Read more", "Read", "Post", new { id = item.Id }, new { @class = "btn btn-primary" })
+                    @if (item.Author.Id == Convert.ToInt32(User.Identity.GetUserId()) || User.IsInRole("Admin"))
+                    {
+                        if (!item.Inactive)
+                        {
+                            <button class="btn btn-danger">Hide this post</button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-success">Show this post</button>
+                        }
 
-            <hr>
-
-            <p>
-                @(item.Content.Length > 200 ? item.Content.Substring(0, 300) + "..." : item.Content)
-            </p>
-
-            <hr>
-            @Html.ActionLink("Read more", "Read", "Post", new { id = item.Id }, new { @class = "btn btn-primary" })
-            @if (item.Author.Id == Convert.ToInt32(User.Identity.GetUserId()) || User.IsInRole("Admin"))
-            {
-                if (!item.Inactive)
-                {
-                    <button class="btn btn-danger">Hide this post</button>
-                }
-                else
-                {
-                    <button class="btn btn-success">Show this post</button>
-                }
-
-            }
-            <hr />
+                    }
+                    <hr />
+                </div>
+            </div>
         </div>
     }
 }

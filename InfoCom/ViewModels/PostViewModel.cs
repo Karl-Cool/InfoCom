@@ -27,6 +27,7 @@ namespace InfoCom.ViewModels
         public virtual List<PostFile> FileList { get; set; }
         public virtual ICollection<Category> CategoryList { get; set; }
         public virtual IEnumerable<SelectListItem> Categories { get; set; }
+        public virtual string NewCategory { get; set; }
         public PostViewModel()
         {
             Categories = new List<SelectListItem>();

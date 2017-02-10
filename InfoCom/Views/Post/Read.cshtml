@@ -37,7 +37,32 @@
         by @Model.Post.Author.Username
     </p>
     <p><span class="glyphicon glyphicon-time"></span> Posted on @Model.Post.CreatedAt.DayOfWeek.ToString() @Model.Post.CreatedAt.ToString("MMM") @Model.Post.CreatedAt.Month, @Model.Post.CreatedAt.Year at @Model.Post.CreatedAt.ToString("HH:mm tt")</p>
+    @foreach (var file in Model.Post.Files)
+    {
+    if (file.Post.Id == Model.Post.Id && file.FilePath.EndsWith(".jpg") || file.FilePath.EndsWith(".png") || file.FilePath.EndsWith(".GIF"))
+    {
 
+    <img class="img-responsive" src="@Url.Content(file.FilePath)" alt="@file.Id">
+
+ 
+
+    }
+    if (file.FilePath.EndsWith(".rtf")
+    || file.FilePath.EndsWith(".pdf")
+    || file.FilePath.EndsWith(".docx")
+    || file.FilePath.EndsWith(".doc")
+    || file.FilePath.EndsWith(".txt")
+    || file.FilePath.EndsWith(".ppt")
+    || file.FilePath.EndsWith(".xls")
+    || file.FilePath.EndsWith(".xlsx") && file.Post.Id ==Model.Id)
+
+    {
+
+    <a href="@Url.Content(@file.FilePath)">@file.FilePath.Substring(12)</a>
+    }
+
+    }
+    
     <hr>
     <hr>
 

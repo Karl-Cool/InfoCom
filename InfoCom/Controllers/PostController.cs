@@ -26,7 +26,20 @@ namespace InfoCom.Controllers
             });
             return View(model);
         }
-
+        public ActionResult AddCategory(PostViewModel model)
+        {
+            if (model.NewCategory != "" || model.NewCategory != null)
+            {
+                var categorymodel = new Category();
+                categorymodel.Name = model.NewCategory;
+                CategoryRepository.Add(categorymodel);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
         [HttpPost]
         public ActionResult Post(PostViewModel model, HttpPostedFileBase file, HttpPostedFileBase file2, HttpPostedFileBase file3)
         {
@@ -50,13 +63,7 @@ namespace InfoCom.Controllers
                     var allPosts = PostRepository.Get();
                     int numberOfPosts = allPosts.Count;
                     post.Category = CategoryRepository.Get(model.CategoryId);
-                    if (model.Category.Name != null)
-                    {
-                        var categorymodel = new Category();
-                        categorymodel.Name = model.Category.Name;
-                        CategoryRepository.Add(categorymodel);
-                        return RedirectToAction("Index");
-                    }
+                    
                     if (file != null && file.ContentLength > 0)
                     {
 
@@ -159,6 +166,7 @@ namespace InfoCom.Controllers
             var model = new ReadViewModel
             {
                 Post = PostRepository.Get(id)
+               
             };
 
             return View(model);

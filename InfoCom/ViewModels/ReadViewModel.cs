@@ -1,4 +1,5 @@
 ﻿using DataAccess.Models;
+using System.Collections.Generic;
 
 namespace InfoCom.ViewModels
 {
@@ -8,5 +9,6 @@ namespace InfoCom.ViewModels
         public Post Post { get; set; }
         public User Author { get; set; }
         public string Content  { get; set; }
+       
     }
 }
