@@ -34,7 +34,7 @@
     }
 
     <p class="lead">
-        by @Model.Post.Author.Username
+        by @Model.Post.Author.Name
     </p>
     <p><span class="glyphicon glyphicon-time"></span> Posted on @Model.Post.CreatedAt.DayOfWeek.ToString() @Model.Post.CreatedAt.ToString("MMM") @Model.Post.CreatedAt.Month, @Model.Post.CreatedAt.Year at @Model.Post.CreatedAt.ToString("HH:mm tt")</p>
 
@@ -59,6 +59,16 @@
 
     }
     <hr />
+    @using (Html.BeginForm())
+    {
+        <h4>Comments</h4>
+        <div class="well well-sm">
+            <div class="form-group">
+                @Html.TextAreaFor(m => m.Content, new { @class = "form-control", @rows ="5", @id = "comment-content" })
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Save comment</button>
+        </div>
+    }
     @if (Model.Post.Comments.Any())
     {
         foreach (var comment in Model.Post.Comments)
@@ -72,7 +82,7 @@
     else
     {
         <h4>This post has no comments :(</h4>
-    }
+        }
 </div>
 @section Scripts {
     @Scripts.Render("~/Scripts/jquery-ui-1.12.1.js")
