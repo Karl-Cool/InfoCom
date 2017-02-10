@@ -24,20 +24,29 @@
 <div class="col-lg-8">
 
     @if (Model.Post.Formal)
-            {
-        <h1>@Model.Post.Title (Formal)</h1>
+    {
+
+        <h1>@Model.Post.Title</h1>
+        <h5>
+            <span class="label label-info">Formal</span>
+            <span class="label label-warning">@Model.Post.Category.Name</span>
+        </h5>
+                <p><span class="glyphicon glyphicon-time"></span> Posted by <em>@Model.Post.Author.Name</em> on @Model.Post.CreatedAt.DayOfWeek.ToString() @Model.Post.CreatedAt.ToString("MMM") @Model.Post.CreatedAt.Day, @Model.Post.CreatedAt.Year at @Model.Post.CreatedAt.ToString("HH:mm tt")</p>
+
 
     }
     else
     {
-        <h1>@Model.Post.Title (Informal)</h1>
+        <h1>@Model.Post.Title</h1>
+                <h5>
+                    <span class="label label-info">Informal</span>
+                    <span class="label label-warning">@Model.Post.Category.Name</span>
+                </h5>
+                <p><span class="glyphicon glyphicon-time"></span> Posted by <em>@Model.Post.Author.Name</em> on @Model.Post.CreatedAt.DayOfWeek.ToString() @Model.Post.CreatedAt.ToString("MMM") @Model.Post.CreatedAt.Day, @Model.Post.CreatedAt.Year at @Model.Post.CreatedAt.ToString("HH:mm tt")</p>
+
     }
 
-    <p class="lead">
-        by @Model.Post.Author.Name
-    </p>
-    <p><span class="glyphicon glyphicon-time"></span> Posted on @Model.Post.CreatedAt.DayOfWeek.ToString() @Model.Post.CreatedAt.ToString("MMM") @Model.Post.CreatedAt.Month, @Model.Post.CreatedAt.Year at @Model.Post.CreatedAt.ToString("HH:mm tt")</p>
-    @foreach (var file in Model.Post.Files)
+       @foreach (var file in Model.Post.Files)
     {
         if (file.Post.Id == Model.Post.Id && file.FilePath.EndsWith(".jpg") || file.FilePath.EndsWith(".png") || file.FilePath.EndsWith(".GIF"))
         {
@@ -68,7 +77,7 @@
 
                 {
                     <div>
-                       <a href="@Url.Content(@file.FilePath)">@file.FilePath.Substring(12)</a>
+                        <a href="@Url.Content(@file.FilePath)">@file.FilePath.Substring(12)</a>
                     </div>
                 }
             }

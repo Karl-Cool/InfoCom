@@ -70,7 +70,7 @@
 
             @if (item.Formal)
             {
-                <h1>@item.Title</h1>
+                <h1>@Html.ActionLink(item.Title, "Read", "Post", new { id = item.Id }, null)</h1>
                 <h5>
                     <span class="label label-info">Formal</span>
                     <span class="label label-warning">@item.Category.Name</span>
@@ -80,7 +80,7 @@
             }
             else
             {
-                <h1>@item.Title</h1>
+                <h1>@Html.ActionLink(item.Title, "Read", "Post", new { id = item.Id }, null)</h1>
                 <h5>
                     <span class="label label-info">Informal</span>
                     <span class="label label-warning">@item.Category.Name</span>
