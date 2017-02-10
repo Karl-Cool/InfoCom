@@ -127,7 +127,7 @@
             {
                 if (!item.Inactive)
                 {
-                    <button class="btn btn-danger">Hide this post</button>
+                    @Html.ActionLink("Hide this post", "Deactivate", "Post", new { id = item.Id }, new { @class = "btn btn-danger" })
                 }
                 else
                 {

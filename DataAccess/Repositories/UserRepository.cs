@@ -51,28 +51,26 @@ namespace DataAccess.Repositories
 
         public static bool Deactivate(int id)
         {
+            var response = false;
+            try
             {
-                var response = false;
-                try
+                using (var session = DbConnect.SessionFactory.OpenSession())
                 {
-                    using (var session = DbConnect.SessionFactory.OpenSession())
+                    var user = session.Query<User>().Single(x => x.Id == id);
+                    using (var transaction = session.BeginTransaction())
                     {
-                        var user = session.Query<User>().Single(x => x.Id == id);
-                        using (var transaction = session.BeginTransaction())
-                        {
-                            user.Inactive = true;
-                            session.Update(user);
-                            transaction.Commit();
-                        }
-                        response = true;
+                        user.Inactive = true;
+                        session.Update(user);
+                        transaction.Commit();
                     }
+                    response = true;
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
-                return response;
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            return response;
         }
 
         public static bool Add(User user)

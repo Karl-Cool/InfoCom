@@ -13,6 +13,7 @@ using FluentNHibernate.Utils;
 
 namespace InfoCom.Controllers
 {
+    [Authorize]
     public class PostController : Controller
     {
         // GET: Post
@@ -164,5 +165,11 @@ namespace InfoCom.Controllers
             return View(model);
         }
 
+
+        public ActionResult Deactivate(int id)
+        {
+            PostRepository.Deactivate(id);
+            return RedirectToAction("Index", "Feed");
+        }
     }
 }
