@@ -231,12 +231,7 @@ textarea {
         transform: rotate(360deg);
     }
 }
-.post-thumbnail{
 
-    height:25%;
-    width:25%;
-    float:left;
-}
 .post-100{
 width:100%;
 margin-top:20px;
